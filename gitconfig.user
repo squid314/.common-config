@@ -1,0 +1,8 @@
+[user]
+	name = squid314
+	email = squid314@users.noreply.github.com
+
+[url "git@bitbucket.com:squid314"]
+	insteadOf = bb:
+[url "git@github.com:squid314"]
+	insteadOf = gh:

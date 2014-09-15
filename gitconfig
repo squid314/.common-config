@@ -1,0 +1,45 @@
+[alias]
+	# really simple shortenings
+	br = branch
+	co = checkout
+	ci = commit
+	st = status
+	cp = cherry-pick
+
+	# commonly used aliases
+	branchto = checkout -b
+	bt = checkout -b
+	cif = commit --fixup squash
+	cis = commit --squash squash
+	amend = commit --amend -aCHEAD
+	dwc = diff -w --color
+	stag = diff -w --color --staged
+	last = log -1
+	latest = log -5
+	one = log --oneline
+	since = log @{u}..
+	so = log --oneline @{u}..
+	smo = log --oneline origin/master..
+	sdo = log --oneline origin/develop..
+	ra = rebase --abort
+	rc = rebase --continue
+	rh = reset --hard
+	swc = show -w --color
+	fap = fetch --all --prune
+	ff = merge --ff-only
+
+	# less common but useful aliases
+	diverge-point = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
+	oldest-ancestor = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
+	root = rev-parse --show-toplevel
+[core]
+	pager = less -RS
+[merge]
+	defaultToUpstream = true
+[push]
+	default = upstream
+[branch]
+	autosetuprebase = remote
+
+[include]
+	path = gitconfig.user
