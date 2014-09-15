@@ -1,0 +1,91 @@
+# tvm.sh
+# Tomcat enVironment Manager
+# Meant to handle switching between various *installed* versions of Tomcat. Expects all Tomcat versions to live in $TOMCAT_ROOT, which defaults to ~/dev/tomcats.
+
+tvm() {
+    if [ $# != 0 ] && [ $# != 1 ] && [ $# != 2 ] ; then
+        echo "Usage: $0 [-u|--unset] | version [instance-id]" >&2
+        echo "    -u|--unset   remove the CATALINA_* variables from the environment" >&2
+        echo "    version      the [fuzzy] version of tomcat desired; or \"-\" to unset tomcat info" >&2
+        echo "    instance-id  (optional) the absolute id of a tomcat instance" >&2
+        echo "" >&2
+        echo "Updates the current environment to allow manipulation of the identified tomcat installation and instance. If the identified tomcat installation is \"-\", then all tomcat exports are removed and the environment is reset to not automatically run tomcat instances. Otherwise, the \$TOMCAT_ROOT (or ~/dev/tomcats) is searched for a directory matching the version identified. If found, the environment is configured to use that directory as the installation directory (i.e., as \$CATALINA_HOME). Additionally, if an instance identifier is specified as the second argument, then the directory \$CATALINA_HOME/insts/\$2 will be set as \$CATALINA_BASE." >&2
+        return 5
+    fi
+
+    if [ $# = 0 ] || [ $# = 1 -a \( "x$1" = "x-u" -o "x$1" = "x--unset" \) ] ; then
+        unset CATALINA_HOME CATALINA_BASE
+        # it doesn't make sense for these to be used at the start of a command line, so we have no need to echo the command
+        return 0
+    fi
+
+    local tomcat_root="${TOMCAT_ROOT:-$HOME/dev/tomcats}"
+    local tomcat_dir="$tomcat_root/$1"
+    # if the exact version specified does not exist, try to find the most recent one in that line
+    if ! [ -d "$tomcat_dir" ] ; then
+        tomcat_dir="$tomcat_root/$(ls -d $tomcat_root/$1* | sort -nk3 -t. | tail -n 1)"
+    fi
+    # could not find a usable tomcat installation
+    if ! [ -d "$tomcat_dir" ] ; then
+        echo "Unable to find a Tomcat installation for version \"$1\". Best guess was \"$tomcat_dir\"." >&2
+        return 1
+    fi
+
+    # instance config for shared installation
+    local inst_dir
+    if [ $# == 2 ] ; then
+        inst_dir="$tomcat_dir/insts/$2"
+        if ! [ -d "$inst_dir" ] ; then
+            echo "instance directory \"$inst_dir\" doesn't exist!" >&2
+            return 1
+        fi
+    fi
+
+    # export only after validating the instance info; otherwise leave the environment unchanged
+    export CATALINA_HOME="$tomcat_dir"
+    if [ "$inst_dir" ] ; then
+        export CATALINA_BASE="$inst_dir"
+    else
+        unset CATALINA_BASE
+    fi
+    # echo values for use as an inline eval for cmd lines like: `tvm 7` tc start
+    echo "CATALINA_HOME=\"$CATALINA_HOME\"${CATALINA_BASE:+ CATALINA_BASE=\"}$CATALINA_BASE${CATALINA_BASE:+\"}"
+}
+
+# TODO pull all tc commands into this as part of another function
+# thoughts on impl: enumerate my additional commands (clean, purge, log, logs) and fall through to catalina.sh for any other commands
+tc() {
+    case $1 in
+        clean) # delete any exploded webapps (don't touch non-war applications)
+            # do this in a subshell so that we don't affect the PWD
+            bash -c 'cd "${CATALINA_BASE}/webapps" && for war in *.war ; do rm -rf "${war%.war}" || break ; done'
+            ;;
+        purge) # delete any exploded webapps and the war file backing them (don't touch non-war applications)
+            # do this in a subshell so that we don't affect the PWD
+            bash -c 'cd "${CATALINA_BASE}/webapps" && for war in *.war ; do rm -rf "${war}" "${war%.war}" || break ; done'
+            ;;
+        log) # less +F for catalina.out with highlighting on "Server startup"
+            # look at catalina.out if there are no arguments
+            if [ "$#" = 1 ] ; then
+                less -S +F +'/Server startup
+' "${CATALINA_BASE}/logs/catalina.out"
+
+            # if there is exactly 1 argument, then we expand it onto the CATALINA_BASE path
+            elif [ "$#" = 2 ] ; then
+                if [ -f "${CATALINA_BASE}/logs/$2" ] ; then
+                    less -S +G "${CATALINA_BASE}/logs/$2"
+                else
+                    echo "Cannot find \"${CATALINA_BASE}/logs/$2\"" >&2
+                    return 1
+                fi
+            fi
+            ;;
+        logs) # go to the logs directory
+            cd "${CATALINA_BASE}/logs"
+            ls -l
+            ;;
+        *) # anything else just falls through to catalina.sh
+            "${CATALINA_HOME}/bin/catalina.sh" "$@"
+            ;;
+    esac
+}
