@@ -21,6 +21,7 @@
 	so = log --oneline @{u}..
 	smo = log --oneline origin/master..
 	sdo = log --oneline origin/develop..
+	ri = rebase --interactive
 	ra = rebase --abort
 	rc = rebase --continue
 	rh = reset --hard
@@ -28,8 +29,10 @@
 	fap = fetch --all --prune
 	ff = merge --ff-only
 	pff = pull --ff-only
+	amend = commit --amend -aCHEAD
 
 	# less common but useful aliases
+	sswc = stash show -w --color
 	diverge-point = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
 	oldest-ancestor = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
 	root = rev-parse --show-toplevel
