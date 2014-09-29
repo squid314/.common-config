@@ -27,6 +27,7 @@
 	swc = show -w --color
 	fap = fetch --all --prune
 	ff = merge --ff-only
+	pff = pull --ff-only
 
 	# less common but useful aliases
 	diverge-point = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
