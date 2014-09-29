@@ -1,0 +1,7 @@
+# .inputrc
+
+# simply copy this file to your home directory
+
+$include ~/.common-config/inputrc
+
+# add any override values here
