@@ -1,0 +1,8 @@
+# .gitconfig
+
+# simply copy this file to your home directory
+
+[include]
+	path = .common-config/gitconfig
+
+# add any simple override values here
