@@ -1,2 +1,11 @@
 # ignore vim temporary files
 *.sw[op]
+
+# ignore JetBrains project files
+*.iml
+*.ipr
+*.iws
+.idea
+
+# ignore mac shit
+*.DS_Store
