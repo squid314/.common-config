@@ -47,3 +47,7 @@
 
 [include]
 	path = gitconfig.user
+
+# this path is not relative to the current config file and therefore must be absolute. that is annoying.
+[core]
+    excludesfile = ~/.common-config/gitignore

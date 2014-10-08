@@ -1,0 +1,2 @@
+# ignore vim temporary files
+*.sw[op]
