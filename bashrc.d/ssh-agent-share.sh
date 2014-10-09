@@ -18,11 +18,28 @@ function agent {
             new_agent=`mktemp /tmp/agent.XXXXXXXX`
             [ $? != 0 ] && echo Unable to create a temp file. >&2 && return 1
             ssh-agent | head -n 2 > $new_agent
+
+            # if an info file exists, then we assume that it is extraneous and due to an unclean exit of a shell (possibly during shutdown) and just clean
+            # everything up
+            if [ -f $AGENT_INFO_FILE ] ; then
+                bash -c "
+# pull the old info in
+source $AGENT_INFO_FILE
+# ask the agent to quit
+ssh-agent -k
+# if it is still alive, force kill it
+ps -ef | awk '{print \$2}' | grep \"\$SSH_AGENT_PID\" >&/dev/null && ( sleep 2 ; kill -9 \"\$SSH_AGENT_PID\" )
+# clean up any shell registrations
+rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
+" >&/dev/null
+            fi
+
             mv $new_agent $AGENT_INFO_FILE
             ;;
-        attach) # load info into current shell, and add current shell to list of attached shells
-            source $AGENT_INFO_FILE >&/dev/null && touch $AGENT_INFO_DIR/sh-$$
-            return $?
+        attach) # load info into current shell, test the new connection, and add current shell to list of attached shells
+            source $AGENT_INFO_FILE >&/dev/null && ssh-add -l >&/dev/null
+            # ssh-add -l returns 0 if there are identities and 1 if there are none, but returns 2 if the connection fails; so we look explicitly for 2
+            [ $? != 2 ] && touch $AGENT_INFO_DIR/sh-$$
             ;;
         detach) # remove current shell from attached shells and clean up agent if no remaining attached shells
             rm $AGENT_INFO_DIR/sh-$$
@@ -33,11 +50,21 @@ function agent {
             fi
             ;;
         verify) # verify that an agent exists and the current shell is attached; if not, attach, creating if necessary
-            # test if the current info is usable and the shell is registered with the agent-info dir
+            # tests:
+            # - have PID data?
+            # - have socket data?
+            # - current data matches data in info file?
+            # - socket is valid?
+            # - PID is alive? (note that we don't check if it is the right process)
+            # - can connect to agent?
+            # - current shell is registered?
+            # TODO since we now check if we can connect to the agent (ssh-add -l), do we need to check anything before that?
             if [ -z "$SSH_AGENT_PID" ] || \
                     [ -z "$SSH_AUTH_SOCK" ] || \
                     [ ! -S $SSH_AUTH_SOCK ] || \
+                    bash -c "source $AGENT_INFO_FILE && [ \"\$SSH_AGENT_PID\" = \"$SSH_AGENT_PID\" ] && [ \"\$SSH_AUTH_SOCK\" = \"$SSH_AUTH_SOCK\" ]" || \
                     ! ps -ef | awk '{print $2}' | grep "$SSH_AGENT_PID" >&/dev/null || \
+                    ! bash -c "ssh-add -l ; [ \$? = 2 ] && exit 1 || exit 0" >&/dev/null || \
                     [ ! -f "$AGENT_INFO_DIR/sh-$$" ]
             then
                 # first, attempt to just attach. failing that, create and then attach
