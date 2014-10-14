@@ -34,7 +34,7 @@ tvm() {
     # instance config for shared installation
     local inst_dir
     if [ $# == 2 ] ; then
-        inst_dir="$tomcat_dir/insts/$2"
+        inst_dir="${tomcat_dir}insts/$2"
         if ! [ -d "$inst_dir" ] ; then
             echo "instance directory \"$inst_dir\" doesn't exist!" >&2
             return 1
