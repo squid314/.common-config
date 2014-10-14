@@ -23,7 +23,7 @@ tvm() {
     local tomcat_dir="$tomcat_root/$1"
     # if the exact version specified does not exist, try to find the most recent one in that line
     if ! [ -d "$tomcat_dir" ] ; then
-        tomcat_dir="$(ls -d $tomcat_root/$1* | sort -nk3 -t. | tail -n 1)"
+        tomcat_dir="$(ls -dt $tomcat_root/$1* | head -n 1)"
     fi
     # could not find a usable tomcat installation
     if ! [ -d "$tomcat_dir" ] ; then
@@ -56,6 +56,11 @@ tvm() {
 # thoughts on impl: enumerate my additional commands (clean, purge, log, logs) and fall through to catalina.sh for any other commands
 tc() {
     case $1 in
+        # simple cds
+        home) cd "${CATALINA_HOME}" ;;
+        base) cd "${CATALINA_BASE}" ;;
+
+        # simple content management
         put) # add a war file to the instance (or update a war file)
             shift
             cp "$@" "${CATALINA_BASE}/webapps"
@@ -68,9 +73,12 @@ tc() {
             # do this in a subshell so that we don't affect the PWD
             bash -c 'cd "${CATALINA_BASE}/webapps" && for war in *.war ; do rm -rf "${war}" "${war%.war}" || break ; done'
             ;;
+
+        # simple logification
         log) # less +F for catalina.out with highlighting on "Server startup"
             # look at catalina.out if there are no arguments
             if [ "$#" = 1 ] ; then
+                # +F does "tail -f" and +/Server... highlights the note when the server finishes starting up
                 less -S +F +'/Server startup
 ' "${CATALINA_BASE}/logs/catalina.out"
 
