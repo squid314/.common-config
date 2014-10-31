@@ -9,7 +9,7 @@ tvm() {
         echo "    version      the [fuzzy] version of tomcat desired; or \"-\" to unset tomcat info" >&2
         echo "    instance-id  (optional) the absolute id of a tomcat instance" >&2
         echo "" >&2
-        echo "Updates the current environment to allow manipulation of the identified tomcat installation and instance. If the identified tomcat installation is \"-\", then all tomcat exports are removed and the environment is reset to not automatically run tomcat instances. Otherwise, the \$TOMCAT_ROOT (or ~/dev/tomcats) is searched for a directory matching the version identified. If found, the environment is configured to use that directory as the installation directory (i.e., as \$CATALINA_HOME). Additionally, if an instance identifier is specified as the second argument, then the directory \$CATALINA_HOME/insts/\$2 will be set as \$CATALINA_BASE." >&2
+        echo "Updates the current environment to allow manipulation of the identified tomcat installation and instance. If the identified tomcat installation is \"-\", then all tomcat exports are removed and the environment is reset to not automatically run tomcat instances. Otherwise, the \$TOMCAT_ROOT (or ~/dev/tomcats) is searched for a directory matching the version identified. If found, the environment is configured to use that directory as the installation directory (i.e., as \$CATALINA_HOME). Additionally, if an instance identifier is specified as the second argument, then the directory \$CATALINA_HOME/insts/\$2 will be set as \$CATALINA_BASE" >&2
         return 5
     fi
 
@@ -55,6 +55,20 @@ tvm() {
 # TODO pull all tc commands into this as part of another function
 # thoughts on impl: enumerate my additional commands (clean, purge, log, logs) and fall through to catalina.sh for any other commands
 tc() {
+    if [ $# = 0 ] ; then
+        cat >&2 <<USAGE
+Usage: tc (home|base|put|clean|purge|log|logs|<any catalina.sh command>) <other args>...
+    home:  cd to CATALINA_HOME
+    base:  cd to CATALINA_BASE
+    put:   add war(s) to webapps/
+    clean: rm -rf directories corresponding to wars in webapps/
+    purge: rm -rf directories and corresponding wars in webapps/ and rm -rf tmp/* work/*
+    log:   less +F catalina.out or other log file in logs/
+    logs:  cd to logs/
+    *:     fall through to catalina.sh
+USAGE
+        exit 42
+    fi
     case $1 in
         # simple cds
         home) cd "${CATALINA_HOME}" ;;
@@ -63,7 +77,7 @@ tc() {
         # simple content management
         put) # add a war file to the instance (or update a war file)
             shift
-            cp "$@" "${CATALINA_BASE}/webapps"
+            cp "$@" "${CATALINA_BASE:+${CATALINA_HOME}}/webapps"
             ;;
         clean) # delete any exploded webapps (don't touch non-war applications)
             # do this in a subshell so that we don't affect the PWD
@@ -80,20 +94,20 @@ tc() {
             if [ "$#" = 1 ] ; then
                 # +F does "tail -f" and +/Server... highlights the note when the server finishes starting up
                 less -S +F +'/Server startup
-' "${CATALINA_BASE}/logs/catalina.out"
+' "${CATALINA_BASE:+${CATALINA_HOME}}/logs/catalina.out"
 
             # if there is exactly 1 argument, then we expand it onto the CATALINA_BASE path
             elif [ "$#" = 2 ] ; then
-                if [ -f "${CATALINA_BASE}/logs/$2" ] ; then
-                    less -S +G "${CATALINA_BASE}/logs/$2"
+                if [ -f "${CATALINA_BASE:+${CATALINA_HOME}}/logs/$2" ] ; then
+                    less -S +G "${CATALINA_BASE:+${CATALINA_HOME}}/logs/$2"
                 else
-                    echo "Cannot find \"${CATALINA_BASE}/logs/$2\"" >&2
+                    echo "Cannot find \"${CATALINA_BASE:+${CATALINA_HOME}}/logs/$2\"" >&2
                     return 1
                 fi
             fi
             ;;
         logs) # go to the logs directory
-            cd "${CATALINA_BASE}/logs"
+            cd "${CATALINA_BASE:+${CATALINA_HOME}}/logs"
             ls -l
             ;;
         *) # anything else just falls through to catalina.sh
