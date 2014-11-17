@@ -3,7 +3,7 @@
 # virtualenvwrapper directory
 export WORKON_HOME=~/dev/venvs
 # load the wrapper
-source /usr/local/bin/virtualenvwrapper_lazy.sh
+source /usr/local/bin/virtualenvwrapper.sh
 
 # virtualenv aliases
 # http://blog.doughellmann.com/2010/01/virtualenvwrapper-tips-and-tricks.html (with modifications)
