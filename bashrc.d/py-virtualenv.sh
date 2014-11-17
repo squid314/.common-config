@@ -10,6 +10,7 @@ source /usr/local/bin/virtualenvwrapper_lazy.sh
 alias v='workon'
 alias v.d='deactivate'
 #alias v.deactivate='deactivate'
+alias v.ls='lsvirtualenv'
 alias v.mk='mkvirtualenv'
 alias v.rm='rmvirtualenv'
 alias v.tmp='mktmpenv'
