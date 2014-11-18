@@ -3,7 +3,13 @@
 # gvm/nvm/rvm-style version switcher for the jdk. operates by updating the JAVA_HOME environment variable.
 
 jvm() {
-    # note, i only support 6, 7, 8
+    # no args will simply display the current version (should we select a "default" version?)
+    if [ $# = 0 ] ; then
+        echo JAVA_HOME=\""$JAVA_HOME"\"
+        return 0
+    fi
+
+    # note, i only support 6, 7, 8, 9
     case "$1" in
         6|1.6) export JAVA_HOME="`/usr/libexec/java_home -v 1.6`" ;;
         7|1.7) export JAVA_HOME="`/usr/libexec/java_home -v 1.7`" ;;
