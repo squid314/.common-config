@@ -52,8 +52,6 @@ tvm() {
     echo "CATALINA_HOME=\"$CATALINA_HOME\"${CATALINA_BASE:+ CATALINA_BASE=\"}$CATALINA_BASE${CATALINA_BASE:+\"}"
 }
 
-# TODO pull all tc commands into this as part of another function
-# thoughts on impl: enumerate my additional commands (clean, purge, log, logs) and fall through to catalina.sh for any other commands
 tc() {
     if [ $# = 0 ] ; then
         cat >&2 <<USAGE
@@ -67,7 +65,7 @@ Usage: tc (home|base|put|clean|purge|log|logs|<any catalina.sh command>) <other 
     logs:  cd to logs/
     *:     fall through to catalina.sh
 USAGE
-        exit 42
+        return 42
     fi
     case $1 in
         # simple cds
