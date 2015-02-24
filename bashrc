@@ -79,6 +79,7 @@ PS1='\[\e]0;\w$MY_GIT_PS1\007\e[0;1;34m\]\u \[\e[32m\]\w$MY_GIT_PS1 `[ $? -eq 0 
 # this is done in bash_profile, so it should not be needed here
 #pathmunge "$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
+if [[ -r ~/.nvm/nvm.sh ]] ; then source ~/.nvm/nvm.sh ; fi
 # TODO why does GVM think it must be at the end? and does it really need to be at the end?
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[ -s "${HOME}/.gvm/bin/gvm-init.sh" ] && source "${HOME}/.gvm/bin/gvm-init.sh"
+if [[ -r "${HOME}/.gvm/bin/gvm-init.sh" ]] ; then source "${HOME}/.gvm/bin/gvm-init.sh" ; fi
