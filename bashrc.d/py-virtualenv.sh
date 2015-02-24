@@ -1,7 +1,8 @@
 # python virtualenv and virtualenvwrapper stuff
 
-# virtualenvwrapper directory
+# virtualenvwrapper directories
 export WORKON_HOME=~/dev/venvs
+export PROJECT_HOME=~/dev
 # load the wrapper
 source /usr/local/bin/virtualenvwrapper.sh
 
