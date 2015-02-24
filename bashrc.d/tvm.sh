@@ -56,13 +56,20 @@ tc() {
     if [ $# = 0 ] ; then
         cat >&2 <<USAGE
 Usage: tc (home|base|put|clean|purge|log|logs|<any catalina.sh command>) <other args>...
+  cd commands:
     home:  cd to CATALINA_HOME
     base:  cd to CATALINA_BASE
+  content management:
     put:   add war(s) to webapps/
     clean: rm -rf directories corresponding to wars in webapps/
     purge: rm -rf directories and corresponding wars in webapps/ and rm -rf tmp/* work/*
+  logification:
     log:   less +F catalina.out or other log file in logs/
     logs:  cd to logs/
+  edit files:
+    props: edit \$home/conf/catalina.properties
+    env:   edit \$base/bin/setenv.sh
+
     *:     fall through to catalina.sh
 USAGE
         return 42
@@ -75,7 +82,7 @@ USAGE
         # simple content management
         put) # add a war file to the instance (or update a war file)
             shift
-            cp "$@" "${CATALINA_BASE:+${CATALINA_HOME}}/webapps"
+            cp "$@" "${CATALINA_BASE:-${CATALINA_HOME}}/webapps"
             ;;
         clean) # delete any exploded webapps (don't touch non-war applications)
             # do this in a subshell so that we don't affect the PWD
@@ -92,22 +99,31 @@ USAGE
             if [ "$#" = 1 ] ; then
                 # +F does "tail -f" and +/Server... highlights the note when the server finishes starting up
                 less -S +F +'/Server startup
-' "${CATALINA_BASE:+${CATALINA_HOME}}/logs/catalina.out"
+' "${CATALINA_BASE:-${CATALINA_HOME}}/logs/catalina.out"
 
             # if there is exactly 1 argument, then we expand it onto the CATALINA_BASE path
             elif [ "$#" = 2 ] ; then
-                if [ -f "${CATALINA_BASE:+${CATALINA_HOME}}/logs/$2" ] ; then
-                    less -S +G "${CATALINA_BASE:+${CATALINA_HOME}}/logs/$2"
+                if [ -f "${CATALINA_BASE:-${CATALINA_HOME}}/logs/$2" ] ; then
+                    less -S +G "${CATALINA_BASE:-${CATALINA_HOME}}/logs/$2"
                 else
-                    echo "Cannot find \"${CATALINA_BASE:+${CATALINA_HOME}}/logs/$2\"" >&2
+                    echo "Cannot find \"${CATALINA_BASE:-${CATALINA_HOME}}/logs/$2\"" >&2
                     return 1
                 fi
             fi
             ;;
         logs) # go to the logs directory
-            cd "${CATALINA_BASE:+${CATALINA_HOME}}/logs"
+            cd "${CATALINA_BASE:-${CATALINA_HOME}}/logs"
             ls -l
             ;;
+
+        # edit some specific files
+        props)
+            ${EDITOR:-vim} "${CATALINA_HOME}/conf/catalina.properties"
+            ;;
+        env)
+            ${EDITOR:-vim} "${CATALINA_BASE}/bin/setenv.sh"
+            ;;
+
         *) # anything else just falls through to catalina.sh
             "${CATALINA_HOME}/bin/catalina.sh" "$@"
             ;;
