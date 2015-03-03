@@ -22,11 +22,13 @@ tvm() {
     local tomcat_root="${TOMCAT_ROOT:-$HOME/dev/tomcats}"
     local tomcat_dir="$tomcat_root/$1"
     # if the exact version specified does not exist, try to find the most recent one in that line
-    if ! [ -d "$tomcat_dir" ] ; then
+    if ! [[ -d "$tomcat_dir" ]] ; then
         tomcat_dir="$(ls -dt $tomcat_root/$1* | head -n 1)"
     fi
+    # strip a final slash, just in case, because it looks ugly
+    tomcat_dir="${tomcat_dir%%/}"
     # could not find a usable tomcat installation
-    if ! [ -d "$tomcat_dir" ] ; then
+    if ! [[ -d "$tomcat_dir" ]] ; then
         echo "Unable to find a Tomcat installation for version \"$1\". Best guess was \"$tomcat_dir\"." >&2
         return 1
     fi
@@ -34,7 +36,8 @@ tvm() {
     # instance config for shared installation
     local inst_dir
     if [ $# == 2 ] ; then
-        inst_dir="${tomcat_dir}insts/$2"
+        # strip trailing slash from instance name
+        inst_dir="${tomcat_dir}/insts/${2%%/}"
         if ! [ -d "$inst_dir" ] ; then
             echo "instance directory \"$inst_dir\" doesn't exist!" >&2
             return 1
