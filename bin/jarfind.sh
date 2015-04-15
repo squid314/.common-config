@@ -24,7 +24,7 @@ while [ "$#" -gt 0 ] ; do
             RESULT="$(unzip -l "$1" 2>/dev/null | grep --color=always "$SEARCH" 2>/dev/null)"
             # grep success: found a result
             if [ $? = 0 ] ; then
-                echo -e "In \e[1;31m$(ls -lashi "$1")\e[0m\n$RESULT"
+                printf "In \e[1;33m$(ls -lashi "$1")\e[0m\n$RESULT\n"
             fi
         # otherwise, we can't handle it
         else
