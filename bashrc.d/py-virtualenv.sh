@@ -1,5 +1,7 @@
 # python virtualenv and virtualenvwrapper stuff
 
+if [ ! -r /usr/local/bin/virtualenvwrapper.sh ] ; then return ; fi
+
 # virtualenvwrapper directories
 export WORKON_HOME=~/dev/venvs
 export PROJECT_HOME=~/dev

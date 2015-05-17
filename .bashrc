@@ -5,5 +5,5 @@
 source ~/.common-config/bashrc
 
 # for any uncommon aliases
-[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+if [ -f ~/.bash_aliases ] ; then . ~/.bash_aliases ; fi
 # add any additional or override values here

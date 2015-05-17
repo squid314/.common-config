@@ -28,7 +28,7 @@ pathmunge() {
 }
 
 # any completions you add in ~/.bash_completion are sourced last
-[ -f /etc/bash_completion ] && . /etc/bash_completion
+if [ -f /etc/bash_completion ] ; then . /etc/bash_completion ; fi
 
 # don't put spaced or duped lines in the history
 HISTCONTROL=ignoreboth
@@ -51,14 +51,14 @@ export GIT_PS1_SHOWDIRTYSTATE=true GIT_PS1_SHOWSTASHSTATE=true GIT_PS1_SHOWUPSTR
 # prefered programs
 export PAGER=less VISUAL=vim EDITOR=vim
 # add grep colors option
-export GREP_OPTIONS="$GREP_OPTIONS --color=auto"
+alias grep="grep --color=auto"
 # shell should glob on C locale, but let others use system locale. this means that [a-z]* doesn't glob files like Makefile, README, etc.
 LC_COLLATE=C
 
 # pull in .sh files from bashrc.d (allowing extra support files to be present in bashrc.d if desired)
 if [ -d "$CONFIG_ROOT/bashrc.d" ] ; then
     for scr in "$CONFIG_ROOT"/bashrc.d/*.sh ; do
-        [ -r "$scr" ] && source "$scr"
+        if [ -r "$scr" ] ; then source "$scr" ; fi
     done
     unset scr
 fi
