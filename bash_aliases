@@ -21,6 +21,7 @@ alias fr='find . -type d \( -name target -o -name .git \) -prune -false -o -ireg
 
 # maven build stuff
 alias m='mvn -f `git rev-parse --show-cdup`pom.xml'
+alias mp='m package'
 alias mcp='m clean package'
 
 alias pyjson="python -m json.tool"
