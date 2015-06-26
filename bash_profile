@@ -41,5 +41,8 @@ fi
 # load GVM also
 if [[ -r "$HOME/.gvm/bin/gvm-init.sh" ]] ; then source "$HOME/.gvm/bin/gvm-init.sh" ; fi
 
+# set go path for building and running go applications
+export GOPATH="${HOME}/.go"
+
 # source the users bashrc if it exists
 if [[ -r "$HOME/.bashrc" ]] ; then source "$HOME/.bashrc" ; fi
