@@ -1,57 +1,57 @@
 [alias]
-	# really simple shortenings
-	br = branch
-	co = checkout
-	ci = commit
-	st = status
-	cp = cherry-pick
+    # really simple shortenings
+    br = branch
+    co = checkout
+    ci = commit
+    st = status
+    cp = cherry-pick
 
-	# commonly used aliases
+    # commonly used aliases
     # new branch
-	branchto = checkout -b
-	bt = checkout -b
+    branchto = checkout -b
+    bt = checkout -b
     # common commits
-	cif = commit --fixup squash
-	cis = commit --squash squash
-	amend = commit --amend -aCHEAD
+    cif = commit --fixup squash
+    cis = commit --squash squash
+    amend = commit --amend -aCHEAD
     # diffs (always colored) ignoring whitespace
-	dwc = diff -w -M --color
-	stag = diff -w -M --color --staged
+    dwc = diff -w -M --color
+    stag = diff -w -M --color --staged
     # logs
-	last = log -1
-	latest = log -5
-	one = log --oneline
-	since = log @{u}..
-	so = log --oneline @{u}..
-	smo = log --oneline origin/master..
-	sdo = log --oneline origin/develop..
+    last = log -1
+    latest = log -5
+    one = log --oneline
+    since = log @{u}..
+    so = log --oneline @{u}..
+    smo = log --oneline origin/master..
+    sdo = log --oneline origin/develop..
     # rebases
-	ri = rebase --interactive
-	ra = rebase --abort
-	rc = rebase --continue
+    ri = rebase --interactive
+    ra = rebase --abort
+    rc = rebase --continue
 
-	rh = reset --hard
-	swc = show -w -M --color
-	sswc = stash show -w -M --color
-	fap = fetch --all --prune
-	ff = merge --ff-only
-	pff = pull --ff-only
+    rh = reset --hard
+    swc = show -w -M --color
+    sswc = stash show -w -M --color
+    fap = fetch --all --prune
+    ff = merge --ff-only
+    pff = pull --ff-only
 
-	# less common but useful aliases
-	diverge-point = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
-	oldest-ancestor = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
-	root = rev-parse --show-toplevel
+    # less common but useful aliases
+    diverge-point = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
+    oldest-ancestor = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
+    root = rev-parse --show-toplevel
 [core]
-	pager = less -RS
+    pager = less -RS
 [merge]
-	defaultToUpstream = true
+    defaultToUpstream = true
 [push]
-	default = upstream
+    default = upstream
 [branch]
-	autosetuprebase = remote
+    autosetuprebase = remote
 
 [include]
-	path = gitconfig.user
+    path = gitconfig.user
 
 # this path is not relative to the current config file and therefore must be absolute. that is annoying.
 [core]
