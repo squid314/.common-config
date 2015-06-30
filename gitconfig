@@ -25,6 +25,7 @@
     so = log --oneline @{u}..
     smo = log --oneline origin/master..
     sdo = log --oneline origin/develop..
+	mine = !git log --author=`git config --get user.email`
     # rebases
     ri = rebase --interactive
     ra = rebase --abort
@@ -40,7 +41,6 @@
     # less common but useful aliases
     diverge-point = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
     oldest-ancestor = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
-    root = rev-parse --show-toplevel
 [core]
     pager = less -RS
 [merge]
