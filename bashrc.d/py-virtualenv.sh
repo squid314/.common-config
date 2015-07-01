@@ -1,12 +1,14 @@
 # python virtualenv and virtualenvwrapper stuff
 
-if [ ! -r /usr/local/bin/virtualenvwrapper.sh ] ; then return ; fi
+# allow explicit configuration of where the script is but fallback to searching the path
+_virtualenvwrapper_script="${_VIRTUALENVWRAPPER_SCRIPT:-`which virtualenvwrapper.sh`}"
+if [ ! -r $_virtualenvwrapper_script ] ; then
 
 # virtualenvwrapper directories
 export WORKON_HOME=~/dev/venvs
 export PROJECT_HOME=~/dev
 # load the wrapper
-source /usr/local/bin/virtualenvwrapper.sh
+source $_virtualenvwrapper_script
 
 # virtualenv aliases
 # http://blog.doughellmann.com/2010/01/virtualenvwrapper-tips-and-tricks.html (with modifications)
@@ -26,3 +28,6 @@ alias v.cds='cdsitepackages'
 #alias v.cdsitepackages='cdsitepackages'
 alias v.lss='lssitepackages'
 #alias v.lssitepackages='lssitepackages'
+
+fi
+unset _virtualenvwrapper_script
