@@ -74,7 +74,7 @@ if [ "$(type -t __git_ps1)" = "function" ] ; then
     PROMPT_COMMAND="${PROMPT_COMMAND}"' ; MY_GIT_PS1="$(__git_ps1)"' # no good reason for both quotes, but vim didn't like highlighting the right stuff
 fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
-PS1='\[\e]0;\w$MY_GIT_PS1\007\e[0;1;34m\]\u \[\e[32m\]\w$MY_GIT_PS1 `[ $? -eq 0 ]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0;31m\] \$\[\e[0m\] '
+PS1='\[\e]0;\w$MY_GIT_PS1\007\e[0;1;34m\]\u \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\e[0;35m\]$_MY_VIRTUAL_ENV\[\e[1;32m\]$MY_GIT_PS1 `[ $? -eq 0 ]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0;31m\] \$\[\e[0m\] '
 
 # this is done in bash_profile, so it should not be needed here
 #pathmunge "$HOME/.rvm/bin" # Add RVM to PATH for scripting
