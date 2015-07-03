@@ -38,9 +38,6 @@ HISTSIZE=100000
 # common aliases
 if [ -f "$CONFIG_ROOT/bash_aliases" ] ; then source "$CONFIG_ROOT/bash_aliases" ; fi
 
-# if ~/bin exists, then add it to the PATH
-[ -d "${HOME}/bin" ] && pathmunge "${HOME}/bin"
-
 # git stuff
 if [ -f ~/.git-completion.bash ] ; then . ~/.git-completion.bash ; fi
 if [ -f ~/.git-prompt.sh ] ; then . ~/.git-prompt.sh ; fi
@@ -73,9 +70,6 @@ if [ "$(type -t __git_ps1)" = "function" ] ; then
 fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
 PS1='\[\e]0;\w$MY_GIT_PS1\007\e[0;1;34m\]\u \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\e[0;35m\]$_MY_VIRTUAL_ENV\[\e[1;32m\]$MY_GIT_PS1 `[ $? -eq 0 ]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0;31m\] \$\[\e[0m\] '
-
-# this is done in bash_profile, so it should not be needed here
-#pathmunge "$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 if [[ -r ~/.nvm/nvm.sh ]] ; then source ~/.nvm/nvm.sh ; fi
 # TODO why does GVM think it must be at the end? and does it really need to be at the end?
