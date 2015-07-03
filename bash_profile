@@ -30,16 +30,6 @@ pathmunge -m /usr/local/bin
 
 # add user's bin to the path if it exists
 if [[ -d "${HOME}/bin" ]] ; then pathmunge "$HOME/bin" ; fi
-# TODO could move these to bashrc.d files
-# load RVM
-if [[ -r "$HOME/.rvm/scripts/rvm" ]] ; then
-    source "$HOME/.rvm/scripts/rvm"
-    if [[ -d "$HOME/.rvm/bin" ]] ; then
-        pathmunge "$HOME/.rvm/bin" after # Add RVM to PATH for scripting
-    fi
-fi
-# load GVM also
-if [[ -r "$HOME/.gvm/bin/gvm-init.sh" ]] ; then source "$HOME/.gvm/bin/gvm-init.sh" ; fi
 
 # set go path for building and running go applications
 export GOPATH="${HOME}/.go"

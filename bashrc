@@ -72,7 +72,7 @@ fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
 PS1='\[\e]0;\w$MY_GIT_PS1\007\e[0;1;34m\]\u \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\e[0;35m\]$_MY_VIRTUAL_ENV\[\e[1;32m\]$MY_GIT_PS1 `[ $? -eq 0 ]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0;31m\] \$\[\e[0m\] '
 
-if [[ -r ~/.nvm/nvm.sh ]] ; then source ~/.nvm/nvm.sh ; fi
-# TODO why does GVM think it must be at the end? and does it really need to be at the end?
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-if [[ -r "${HOME}/.gvm/bin/gvm-init.sh" ]] ; then source "${HOME}/.gvm/bin/gvm-init.sh" ; fi
+# load various version/environment managers
+if [[ -r "$HOME/.rvm/scripts/rvm"     ]] ; then source "$HOME/.rvm/scripts/rvm"     ; fi
+if [[ -r "$HOME/.nvm/nvm.sh"          ]] ; then source "$HOME/.nvm/nvm.sh"          ; fi
+if [[ -r "$HOME/.gvm/bin/gvm-init.sh" ]] ; then source "$HOME/.gvm/bin/gvm-init.sh" ; fi
