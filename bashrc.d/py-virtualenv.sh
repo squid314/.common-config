@@ -2,7 +2,7 @@
 
 # allow explicit configuration of where the script is but fallback to searching the path
 _virtualenvwrapper_script="${_VIRTUALENVWRAPPER_SCRIPT:-`which virtualenvwrapper.sh`}"
-if [ -r $_virtualenvwrapper_script ] ; then
+if [ -r "$_virtualenvwrapper_script" ] ; then
 
 # virtualenvwrapper directories
 export WORKON_HOME=~/dev/venvs
