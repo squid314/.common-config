@@ -6,26 +6,27 @@
 # set up the config root directory since lots of files are based there
 CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 # make sure pathmunge is available
-[ "$(type -t pathmunge)" != "function" ] &&
-pathmunge() {
-    # allow a value to be moved. done simply by removing the value from the path (if it exists) and then letting it be added normally.
-    if [ "x$1" = "x-m" ] && echo "$PATH" | egrep "(^|:)$2($|:)" >&/dev/null ; then
-        PATH="$(echo $PATH | sed -E 's;(^|:)'"$2"'($|:);\
+if ! declare -f pathmunge > /dev/null ; then
+    pathmunge() {
+        # allow a value to be moved. done simply by removing the value from the path (if it exists) and then letting it be added normally.
+        if [ "x$1" = "x-m" ] && echo "$PATH" | egrep "(^|:)$2($|:)" >&/dev/null ; then
+            PATH="$(echo $PATH | sed -E 's;(^|:)'"$2"'($|:);\
 ;g' | sed '/^$/d' | tr \\n :)"
-        shift
-    fi
-
-    if ! echo $PATH | egrep "(^|:)$1($|:)" >&/dev/null ; then
-        if [ "$2" = after ] ; then
-            PATH="$PATH:$1"
-        else
-            PATH="$1:$PATH"
+            shift
         fi
-    fi
 
-    # clean up the path of extraneous blank entries
-    PATH="$(echo $PATH | sed -E 's/::+/:/g;s/^:|:$//g')"
-}
+        if ! echo $PATH | egrep "(^|:)$1($|:)" >&/dev/null ; then
+            if [ "$2" = after ] ; then
+                PATH="$PATH:$1"
+            else
+                PATH="$1:$PATH"
+            fi
+        fi
+
+        # clean up the path of extraneous blank entries
+        PATH="$(echo $PATH | sed -E 's/::+/:/g;s/^:|:$//g')"
+    }
+fi
 
 # any completions you add in ~/.bash_completion are sourced last
 if [ -f /etc/bash_completion ] ; then . /etc/bash_completion ; fi
@@ -61,11 +62,11 @@ fi
 # immediately update the .bash_history file
 PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND} ; }history -a"
 # if using ssh-agent helper, add it to the prompt command
-if [ "$(type -t agent)" = "function" ] ; then
+if declare -f agent > /dev/null ; then
     PROMPT_COMMAND="${PROMPT_COMMAND} ; agent verify"
 fi
 # if using git stuff, add eval for git info
-if [ "$(type -t __git_ps1)" = "function" ] ; then
+if declare -f __git_ps1 > /dev/null ; then
     PROMPT_COMMAND="${PROMPT_COMMAND}"' ; MY_GIT_PS1="$(__git_ps1)"' # no good reason for both quotes, but vim didn't like highlighting the right stuff
 fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
