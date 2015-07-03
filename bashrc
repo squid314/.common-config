@@ -9,7 +9,7 @@ CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 if ! declare -f pathmunge > /dev/null ; then . "$CONFIG_ROOT/pathmunge.sh" ; fi
 
 # any completions you add in ~/.bash_completion are sourced last
-if [ -f /etc/bash_completion ] ; then . /etc/bash_completion ; fi
+if [[ -f /etc/bash_completion ]] ; then . /etc/bash_completion ; fi
 
 # don't put spaced or duped lines in the history
 HISTCONTROL=ignoreboth
@@ -17,14 +17,14 @@ HISTCONTROL=ignoreboth
 HISTSIZE=100000
 
 # common aliases
-if [ -f "$CONFIG_ROOT/bash_aliases" ] ; then source "$CONFIG_ROOT/bash_aliases" ; fi
+if [[ -f "$CONFIG_ROOT/bash_aliases" ]] ; then source "$CONFIG_ROOT/bash_aliases" ; fi
 
 # git stuff
-if [ -f ~/.git-completion.bash ] ; then . ~/.git-completion.bash ; fi
-if [ -f ~/.git-prompt.sh ] ; then . ~/.git-prompt.sh ; fi
+if [[ -f ~/.git-completion.bash ]] ; then . ~/.git-completion.bash ; fi
+if [[ -f ~/.git-prompt.sh ]] ; then . ~/.git-prompt.sh ; fi
 export GIT_PS1_SHOWDIRTYSTATE=true GIT_PS1_SHOWSTASHSTATE=true GIT_PS1_SHOWUPSTREAM=auto
 # spring boot
-[ -f ~/.gvm/springboot/current/shell-completion/bash/spring ] && source ~/.gvm/springboot/current/shell-completion/bash/spring
+if [[ -f ~/.gvm/springboot/current/shell-completion/bash/spring ]] ; then source ~/.gvm/springboot/current/shell-completion/bash/spring ; fi
 
 # prefered programs
 export PAGER=less VISUAL=vim EDITOR=vim
@@ -32,9 +32,9 @@ export PAGER=less VISUAL=vim EDITOR=vim
 LC_COLLATE=C
 
 # pull in .sh files from bashrc.d (allowing extra support files to be present in bashrc.d if desired)
-if [ -d "$CONFIG_ROOT/bashrc.d" ] ; then
+if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
     for scr in "$CONFIG_ROOT"/bashrc.d/*.sh ; do
-        if [ -r "$scr" ] ; then source "$scr" ; fi
+        if [[ -r "$scr" ]] ; then source "$scr" ; fi
     done
     unset scr
 fi
