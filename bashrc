@@ -50,8 +50,6 @@ export GIT_PS1_SHOWDIRTYSTATE=true GIT_PS1_SHOWSTASHSTATE=true GIT_PS1_SHOWUPSTR
 
 # prefered programs
 export PAGER=less VISUAL=vim EDITOR=vim
-# add grep colors option
-alias grep="grep --color=auto"
 # shell should glob on C locale, but let others use system locale. this means that [a-z]* doesn't glob files like Makefile, README, etc.
 LC_COLLATE=C
 

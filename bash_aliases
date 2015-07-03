@@ -1,5 +1,8 @@
 # .bash_aliases
 
+# add grep colors option
+alias grep="grep --color=auto"
+
 # better ls(1)
 alias ls='ls --color=auto'
 alias li='ls -lashi'
