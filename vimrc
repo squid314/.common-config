@@ -15,6 +15,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 " statusline
-Plugin 'bling/vim.airline'
+"Plugin 'bling/vim.airline'
 call vundle#end()
 filetype plugin indent on
