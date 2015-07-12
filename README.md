@@ -5,10 +5,7 @@ Default config files exist here (.vimrc, .tmux.conf, etc.) which source in file(
 
     git clone https://github.com/squid314/.common-config.git
     cp .common-config/.{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc} .
-
-For vim setup, run the following to initially set up vundle:
-
-    git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim # initially set up vundle
 
 ## TODOs
 
