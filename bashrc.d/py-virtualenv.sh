@@ -1,7 +1,7 @@
 # python virtualenv and virtualenvwrapper stuff
 
 # allow explicit configuration of where the script is but fallback to searching the path
-_virtualenvwrapper_script="${_VIRTUALENVWRAPPER_SCRIPT:-`which virtualenvwrapper.sh`}"
+_virtualenvwrapper_script="${_VIRTUALENVWRAPPER_SCRIPT:-`which virtualenvwrapper.sh 2>&-`}"
 if [ -r "$_virtualenvwrapper_script" ] ; then
 
 # virtualenvwrapper directories
