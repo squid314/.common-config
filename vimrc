@@ -16,5 +16,8 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 " statusline
 "Plugin 'bling/vim-airline'
+" additional syntaxes
+Plugin 'puppetlabs/puppet-syntax-vim'
+Plugin 'tfnico/vim-gradle'
 call vundle#end()
 filetype plugin indent on
