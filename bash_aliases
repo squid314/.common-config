@@ -22,10 +22,26 @@ alias   gup='cd "`git rev-parse --show-cdup`"'
 alias ff='find . -type d \( -name target -o -name .git \) -prune -false -o -iname'
 alias fr='find . -type d \( -name target -o -name .git \) -prune -false -o -iregex'
 
+# function to find the closest ancestor directory (or current directory) which has the named entity
+upfind() {
+    d="`pwd`"
+    while [ "$d" != "/" ] && [ ! -r "$d/$1" ] ; do
+        d="`dirname $d`"
+    done
+    if [ -r "$d/$1" ] ; then
+        echo "$d/$1"
+    else
+        echo "failed to find $1 in pwd ancestry">&2
+        return 1
+    fi
+}
 # maven build stuff
-alias m='mvn -f `git rev-parse --show-cdup`pom.xml'
+alias m='mvn -f "`upfind pom.xml`"'
 alias mp='m package'
 alias mcp='m clean package'
+alias mci='m clean install'
+alias mcd='m clean deploy'
+alias mg='mvn -f `git rev-parse --show-cdup`pom.xml'
 
 alias pyjson="python -m json.tool"
 alias tmd="tmux new-session -As default"
