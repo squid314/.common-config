@@ -43,5 +43,13 @@ alias mci='m clean install'
 alias mcd='m clean deploy'
 alias mg='mvn -f `git rev-parse --show-cdup`pom.xml'
 
+# vagrant stuff
+alias va='vagrant'
+alias vst='va global-status'
+alias vup='va up'
+alias vhalt='va halt'
+alias vrm='va destroy'
+alias vssh='va ssh'
+
 alias pyjson="python -m json.tool"
 alias tmd="tmux new-session -As default"
