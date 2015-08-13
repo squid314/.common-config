@@ -48,7 +48,7 @@ alias va='vagrant'
 alias vst='va global-status'
 alias vup='va up'
 alias vhalt='va halt'
-alias vrm='va destroy'
+alias vrm='va destroy --force'
 alias vssh='va ssh'
 
 alias pyjson="python -m json.tool"
