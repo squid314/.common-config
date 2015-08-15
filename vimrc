@@ -19,5 +19,6 @@ Plugin 'gmarik/Vundle.vim'
 " additional syntaxes
 Plugin 'puppetlabs/puppet-syntax-vim'
 Plugin 'tfnico/vim-gradle'
+Plugin 'fatih/vim-go'
 call vundle#end()
 filetype plugin indent on
