@@ -47,11 +47,8 @@
     defaultToUpstream = true
 [push]
     default = upstream
-[branch]
-    autosetuprebase = remote
 [rebase]
     autoSquash = true
-    autoStash = true
 
 [include]
     path = gitconfig.user
