@@ -35,7 +35,12 @@ LC_COLLATE=C
 if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
     for scr in "$CONFIG_ROOT"/bashrc.d/*.sh ; do
         # check if the script has been disabled in the git config before sourcing it
-        if [[ -r "$scr" ]] && [[ "$(git --git-dir="${CONFIG_ROOT}/.git" config --get common-config.bashrc."$(basename ${scr})")" != "disabled" ]] ; then source "$scr" ; fi
+        if [[ -r "$scr" ]] && \
+            which git >&/dev/null && \
+            [[ "$(git --git-dir="${CONFIG_ROOT}/.git" config --get common-config.bashrc."$(basename ${scr})")" != "disabled" ]] \
+        then
+            source "$scr"
+        fi
     done
     unset scr
 fi
