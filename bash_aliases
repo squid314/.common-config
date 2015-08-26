@@ -51,5 +51,5 @@ alias vhalt='va halt'
 alias vrm='va destroy --force'
 alias vssh='va ssh'
 
-alias pyjson="python -m json.tool"
+alias pyjs="python -m json.tool"
 alias tmd="tmux new-session -As default"
