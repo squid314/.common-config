@@ -37,7 +37,7 @@ if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
         # check if the script has been disabled in the git config before sourcing it
         if [[ -r "$scr" ]] && \
             which git >&/dev/null && \
-            [[ "$(git --git-dir="${CONFIG_ROOT}/.git" config --get common-config.bashrc."$(basename ${scr})")" != "disabled" ]] \
+            [[ "$(git --git-dir="${CONFIG_ROOT}/.git" config --get common-config.bashrc."$(basename ${scr})")" != "disabled" ]]
         then
             source "$scr"
         fi
