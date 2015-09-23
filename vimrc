@@ -22,3 +22,6 @@ Plugin 'tfnico/vim-gradle'
 Plugin 'fatih/vim-go'
 call vundle#end()
 filetype plugin indent on
+
+" set up *.gradle files to be highlighted as groovy syntax (which they are)
+au BufNewFile,BufRead *.gradle setf groovy
