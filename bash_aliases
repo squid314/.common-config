@@ -50,6 +50,7 @@ alias vup='va up'
 alias vhalt='va halt'
 alias vrm='va destroy --force'
 alias vssh='va ssh'
+alias vs='if [[ ! -f Vagrantfile ]] ; then if [[ -f vagrant/Vagrantfile ]] ; then cd vagrant ; elif [ -f */vagrant/Vagrantfile ] ; then cd $(dirname */vagrant/Vagrantfile) ; fi ; fi ; vagrant ssh'
 
 alias pyjs="python -m json.tool"
 alias tmd="tmux new-session -As default"
