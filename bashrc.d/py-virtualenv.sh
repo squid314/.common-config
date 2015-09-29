@@ -12,7 +12,7 @@ source $_virtualenvwrapper_script
 
 # virtualenv aliases
 # http://blog.doughellmann.com/2010/01/virtualenvwrapper-tips-and-tricks.html (with modifications)
-alias v='workon'
+#alias v='workon' # removing because I don't use this much and I use vagrant more
 alias v.d='deactivate'
 #alias v.deactivate='deactivate'
 alias v.ls='lsvirtualenv'

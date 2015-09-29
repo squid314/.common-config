@@ -45,13 +45,10 @@ alias mcd='m clean deploy'
 alias mg='mvn -f `git rev-parse --show-cdup`pom.xml'
 
 # vagrant stuff
-alias va='vagrant'
-alias vst='va global-status'
-alias vup='va up'
-alias vhalt='va halt'
-alias vrm='va destroy --force'
-alias vssh='va ssh'
-alias vs='if [[ ! -f Vagrantfile ]] ; then if [[ -f vagrant/Vagrantfile ]] ; then cd vagrant ; elif [ -f */vagrant/Vagrantfile ] ; then cd $(dirname */vagrant/Vagrantfile) ; fi ; fi ; vagrant ssh'
+alias v='vagrant'
+alias vst='v global-status'
+alias vrm='v destroy --force'
+alias vs='if [[ ! -f Vagrantfile ]] ; then if [[ -f vagrant/Vagrantfile ]] ; then cd vagrant ; elif [ -f */vagrant/Vagrantfile ] ; then cd $(dirname */vagrant/Vagrantfile) ; fi ; fi ; v ssh'
 
 alias pyjs="python -m json.tool"
 alias tmd="tmux new-session -As default"
