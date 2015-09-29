@@ -61,4 +61,3 @@ PS1='\[\e]0;\w$MY_GIT_PS1\007\e[0;1;34m\]\u \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\
 # load various version/environment managers
 if [[ -r "$HOME/.rvm/scripts/rvm"     ]] ; then source "$HOME/.rvm/scripts/rvm"     ; fi
 if [[ -r "$HOME/.nvm/nvm.sh"          ]] ; then source "$HOME/.nvm/nvm.sh"          ; fi
-if [[ -r "$HOME/.gvm/bin/gvm-init.sh" ]] ; then source "$HOME/.gvm/bin/gvm-init.sh" ; fi
