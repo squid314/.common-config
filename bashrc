@@ -6,10 +6,10 @@
 # set up the config root directory since lots of files are based there
 CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 # make sure pathmunge is available
-if ! declare -f pathmunge > /dev/null ; then . "$CONFIG_ROOT/pathmunge.sh" ; fi
+if ! declare -f pathmunge > /dev/null ; then source "$CONFIG_ROOT/pathmunge.sh" ; fi
 
 # any completions you add in ~/.bash_completion are sourced last
-if [[ -f /etc/bash_completion ]] ; then . /etc/bash_completion ; fi
+if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion ; fi
 
 # don't put spaced or duped lines in the history
 HISTCONTROL=ignoreboth
@@ -36,7 +36,7 @@ if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
     for scr in "$CONFIG_ROOT"/bashrc.d/*.sh ; do
         # check if the script has been disabled in the git config before sourcing it
         if [[ -r "$scr" ]] && \
-            which git >&/dev/null && \
+            type git >&/dev/null && \
             [[ "$(git --git-dir="${CONFIG_ROOT}/.git" config --get common-config.bashrc."$(basename ${scr})")" != "disabled" ]]
         then
             source "$scr"
