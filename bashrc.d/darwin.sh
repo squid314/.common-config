@@ -7,4 +7,8 @@ if [[ "`uname`" == Darwin ]] ; then
     alias ls='ls -GF'
     # alter mac terminal colors to make directories use bright blue instead of dark blue
     export LSCOLORS=Exfxcxdxbxegedabagacad
+    # pull in homebrew installed completion files
+    for comp in /usr/local/etc/bash_completion.d/* ; do
+        source "$comp"
+    done
 fi
