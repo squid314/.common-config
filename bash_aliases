@@ -1,5 +1,12 @@
 # .bash_aliases
 
+# tmux remote
+tmr() {
+    local host="$1"
+    shift
+    ssh "$host" -t tmux attach-session "$@"
+}
+
 # add grep colors option
 alias grep="grep --color=auto"
 
