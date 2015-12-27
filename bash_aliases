@@ -4,7 +4,12 @@
 tmr() {
     local host="$1"
     shift
-    ssh "$host" -t tmux attach-session "$@"
+    # use mosh if it is available
+    if which mosh >&- 2>&- ; then
+        mosh "$host" tmux attach-session "$@"
+    else
+        ssh "$host" -t tmux attach-session "$@"
+    fi
 }
 
 # add grep colors option
