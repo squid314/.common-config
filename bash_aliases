@@ -6,8 +6,10 @@ tmr() {
     shift
     # use mosh if it is available
     if which mosh >&- 2>&- ; then
+        echo running \`mosh "$host" tmux attach-session "$@"\`
         mosh "$host" tmux attach-session "$@"
     else
+        echo running \`ssh "$host" -t tmux attach-session "$@"\`
         ssh "$host" -t tmux attach-session "$@"
     fi
 }
