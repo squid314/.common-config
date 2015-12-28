@@ -24,9 +24,11 @@ alias li='ls -lashi'
 # rebuild and install git (from the latest release tag)
 alias makegit='bash -c "cd ~/.bin/git && git fetch --verbose && git checkout \$(git log --simplify-by-decoration --decorate --oneline origin/master | sed -n \"/tag: v[0-9.]*[),]/{s/.*tag: \\(v[^),]*\\).*/\\1/;p;q}\") && make clean && make PROFILE=BUILD NO_EXPAT=YesPlease NO_TCLTK=YesPlease install || echo -e \\\\e[1\;31mum...problems?"'
 
-# navigate around a maven project
+# navigate around a maven-like project
 alias cdjav='cd `git rev-parse --show-cdup`src/main/java'
 alias    cj='cd `git rev-parse --show-cdup`src/main/java'
+alias cdsca='cd `git rev-parse --show-cdup`src/main/scala'
+alias    cs='cd `git rev-parse --show-cdup`src/main/scala'
 alias cdapp='cd `git rev-parse --show-cdup`src/main/webapp'
 alias    ca='cd `git rev-parse --show-cdup`src/main/webapp'
 # go to the top of a git repo
