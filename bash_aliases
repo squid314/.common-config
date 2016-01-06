@@ -2,15 +2,19 @@
 
 # tmux remote
 tmr() {
-    local host="$1"
-    shift
+    if [ $# == 0 ] ; then echo 'um... you need to give me a destination, e.g. "squid@blmq.us"' >&2 ; return 1 ; fi
+    local host="$1" ; shift
+    # if there are tmux args, use those, if none, fallback to "attach-session"
+    if [ $# == 0 ] ; then
+        set "attach-session"
+    fi
     # use mosh if it is available
     if which mosh >&- 2>&- ; then
-        echo running \`mosh "$host" tmux attach-session "$@"\`
-        mosh "$host" tmux attach-session "$@"
+        echo "running \`mosh $host -- tmux $@\`"
+        mosh "$host" -- tmux "$@"
     else
-        echo running \`ssh "$host" -t tmux attach-session "$@"\`
-        ssh "$host" -t tmux attach-session "$@"
+        echo "running \`ssh $host -t -- tmux $@\`"
+        ssh "$host" -t -- tmux "$@"
     fi
 }
 
