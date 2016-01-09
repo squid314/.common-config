@@ -32,3 +32,6 @@ au BufNewFile,BufRead *.gradle setf groovy
 " next to the file being edited; if not present, do the default
 set backupdir=~/.vim-tmp,.
 set directory=~/.vim-tmp,.
+
+" map 'jj' to <Esc> to keep hands on the home row more
+imap jj <Esc>
