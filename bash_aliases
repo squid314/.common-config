@@ -72,3 +72,4 @@ alias vs='if [[ ! -f Vagrantfile ]] ; then if [[ -f vagrant/Vagrantfile ]] ; the
 
 alias pyjs="python -m json.tool"
 alias tmd="tmux new-session -As default"
+alias confup='( cd ~/.common-config && git pull --ff-only ) && . ~/.bashrc'
