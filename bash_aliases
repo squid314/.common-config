@@ -73,3 +73,17 @@ alias vs='if [[ ! -f Vagrantfile ]] ; then if [[ -f vagrant/Vagrantfile ]] ; the
 alias pyjs="python -m json.tool"
 alias tmd="tmux new-session -As default"
 alias confup='( cd ~/.common-config && git pull --ff-only ) && . ~/.bashrc'
+
+# mac doesn't have the shred command, so i will just fake it the best i can
+if ! which shred >&/dev/null ; then
+    shred(){
+        # calc size of block given a count of 64 blocks, rounded up to 8 bytes
+        local s="$(python -c "print ($(wc -c $1 | awk '{print $1}')/64/8+1)*8")"
+        for i in yes blah asdf this\ is\ crap ; do
+            dd if=<(yes $i) of=$1 count=64 bs=$s
+        done
+        dd if=/dev/zero of=$1 count=64 bs=$s
+        :>$1
+        rm $1
+    }
+fi
