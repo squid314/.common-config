@@ -13,7 +13,7 @@
     # common commits
     cif = commit --fixup squash
     cis = commit --squash squash
-    amend = commit --amend -aCHEAD
+    amend = commit --amend --no-edit
     # diffs (always colored) ignoring whitespace
     dwc = diff -w -M --color
     stag = diff -w -M --color --staged
