@@ -21,11 +21,12 @@
     last = log -1
     latest = log -5
     one = log --oneline
+    lg = log --oneline --decorate --graph
     since = log @{u}..
     so = log --oneline @{u}..
     smo = log --oneline origin/master..
     sdo = log --oneline origin/develop..
-	mine = !git log --author=`git config --get user.email`
+    mine = !git log --author=`git config --get user.email`
     # rebases
     ri = rebase --interactive
     ra = rebase --abort
