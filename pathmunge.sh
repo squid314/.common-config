@@ -3,9 +3,11 @@
 # function to add an element to the user's path but prevent it from appearing multiple times
 pathmunge() {
     # allow a value to be moved. done simply by removing the value from the path (if it exists) and then letting it be added normally.
-    if [ "x$1" = "x-m" ] && echo "$PATH" | egrep "(^|:)$2($|:)" >&/dev/null ; then
-        PATH="$(echo $PATH | sed -E 's;(^|:)'"$2"'($|:);\
+    if [ "x$1" = "x-m" ] ; then
+        if echo "$PATH" | egrep "(^|:)$2($|:)" >&/dev/null ; then
+            PATH="$(echo $PATH | sed -E 's;(^|:)'"$2"'($|:);\
 ;g' | sed '/^$/d' | tr \\n :)"
+        fi
         shift
     fi
 
