@@ -11,6 +11,7 @@ pathmunge /bin
 pathmunge /usr/bin
 pathmunge /opt/local/sbin
 pathmunge /opt/local/bin
+pathmunge -m /usr/local/sbin
 pathmunge -m /usr/local/bin
 
 # add user's bin to the path if it exists
