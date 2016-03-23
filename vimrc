@@ -22,6 +22,7 @@ Plugin 'tfnico/vim-gradle'
 Plugin 'fatih/vim-go'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'tpope/vim-fugitive'
+Plugin 'restore_view.vim'
 call vundle#end()
 filetype plugin indent on
 
