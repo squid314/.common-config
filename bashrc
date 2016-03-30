@@ -14,7 +14,7 @@ if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion ; fi
 # don't put spaced or duped lines in the history
 HISTCONTROL=ignoreboth
 # store a lot of history because disk space is cheap
-HISTSIZE=100000
+HISTSIZE=10000000
 
 # common aliases
 if [[ -f "$CONFIG_ROOT/bash_aliases" ]] ; then source "$CONFIG_ROOT/bash_aliases" ; fi
