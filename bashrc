@@ -8,7 +8,7 @@ CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 
 # update common-config, if possible
 if type git >&/dev/null ; then
-    ( cd "$CONFIG_ROOT" ; git pull --ff-only ; )
+    ( cd "$CONFIG_ROOT" ; echo -n "git: $(basename "$CONFIG_ROOT"): " ; git pull --ff-only ; )
 fi
 
 # make sure pathmunge is available
