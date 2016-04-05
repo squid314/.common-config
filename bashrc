@@ -6,11 +6,6 @@
 # set up the config root directory since lots of files are based there
 CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 
-# update common-config, if possible
-if type git >&/dev/null ; then
-    ( cd "$CONFIG_ROOT" ; echo -n "git: $(basename "$CONFIG_ROOT"): " ; git pull --ff-only ; )
-fi
-
 # make sure pathmunge is available
 if ! declare -f pathmunge > /dev/null ; then source "$CONFIG_ROOT/pathmunge.sh" ; fi
 
