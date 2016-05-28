@@ -37,4 +37,3 @@ set directory=~/.vim-tmp,.
 " map 'jj','jk','kj' to <Esc> to keep hands on the home row more
 imap jj <Esc>
 imap jk <Esc>
-imap kj <Esc>
