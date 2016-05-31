@@ -74,6 +74,7 @@ alias vs='if [[ ! -f Vagrantfile ]] ; then if [[ -f vagrant/Vagrantfile ]] ; the
 
 alias pyjs="python -m json.tool"
 alias tmd="tmux new-session -As default"
+alias tsw="tmux split-window"
 alias confup='( cd ~/.common-config && git pull --ff-only ) && . ~/.bashrc'
 
 if ! which shred >&/dev/null ; then
