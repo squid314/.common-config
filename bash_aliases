@@ -77,6 +77,14 @@ alias tmd="tmux new-session -As default"
 alias tsw="tmux split-window"
 alias confup='( cd ~/.common-config && git pull --ff-only ) && . ~/.bashrc'
 
+g() {
+    if [ $# = 0 ] ; then
+        git status
+    else
+        git "$@"
+    fi
+}
+
 if ! which shred >&/dev/null ; then
     alias shred=srm
 fi
