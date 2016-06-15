@@ -8,6 +8,10 @@ syntax enable
 colorscheme evening
 " set tabs to expand default and at 4 chars
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab autoindent
+" show first search match as i type a pattern
+if has('reltime')
+    set incsearch
+endif
 
 " setup for vundle (https://github.com/gmarik/Vundle.vim)
 filetype off
