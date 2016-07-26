@@ -15,7 +15,7 @@ pathmunge -m /usr/local/sbin
 pathmunge -m /usr/local/bin
 
 # add user's bin to the path if it exists
-if [[ -d "${HOME}/bin" ]] ; then pathmunge "${HOME}/bin" ; fi
+if [[ -d "${HOME}/bin" ]] ; then pathmunge -m "${HOME}/bin" ; fi
 
 # set go path for building and running go applications
 export GOPATH="${HOME}/.go"
