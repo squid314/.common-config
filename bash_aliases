@@ -76,6 +76,7 @@ alias pyjs="python -m json.tool"
 alias tmd="tmux new-session -As default"
 alias tsw="tmux split-window"
 alias confup='( cd ~/.common-config && git pull --ff-only ) && . ~/.bashrc'
+alias pgrep='ps -ef | grep -i'
 
 g() {
     if [ $# = 0 ] ; then
