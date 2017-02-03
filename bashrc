@@ -23,7 +23,7 @@ if [[ -f "$CONFIG_ROOT/bash_aliases" ]] ; then source "$CONFIG_ROOT/bash_aliases
 # git stuff
 if [[ -f ~/.git-completion.bash ]] ; then . ~/.git-completion.bash ; fi
 if [[ -f ~/.git-prompt.sh ]] ; then . ~/.git-prompt.sh ; fi
-GIT_PS1_SHOWDIRTYSTATE=true GIT_PS1_SHOWSTASHSTATE=true GIT_PS1_SHOWUPSTREAM=auto
+GIT_PS1_SHOWDIRTYSTATE=true GIT_PS1_SHOWSTASHSTATE=true GIT_PS1_SHOWUNTRACKEDFILES=true GIT_PS1_SHOWUPSTREAM="auto git"
 # spring boot
 if [[ -f ~/.gvm/springboot/current/shell-completion/bash/spring ]] ; then source ~/.gvm/springboot/current/shell-completion/bash/spring ; fi
 
