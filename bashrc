@@ -26,6 +26,8 @@ if [[ -f ~/.git-prompt.sh ]] ; then . ~/.git-prompt.sh ; fi
 GIT_PS1_SHOWDIRTYSTATE=true GIT_PS1_SHOWSTASHSTATE=true GIT_PS1_SHOWUNTRACKEDFILES=true GIT_PS1_SHOWUPSTREAM="auto git"
 # spring boot
 if [[ -f ~/.gvm/springboot/current/shell-completion/bash/spring ]] ; then source ~/.gvm/springboot/current/shell-completion/bash/spring ; fi
+# gradle completion (https://github.com/gradle/gradle-completion)
+if [[ -f ~/.gradle-completion.bash ]] ; then . ~/.gradle-completion.bash ; complete -F _gradle gw ; fi
 
 # prefered programs
 export PAGER=less VISUAL=vim EDITOR=vim
