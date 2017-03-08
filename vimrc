@@ -28,6 +28,7 @@ Plugin 'derekwyatt/vim-scala'
 Plugin 'tpope/vim-fugitive'
 Plugin 'restore_view.vim'
 Plugin 'ktvoelker/sbt-vim'
+Plugin 'leafgarland/typescript-vim'
 call vundle#end()
 filetype plugin indent on
 
