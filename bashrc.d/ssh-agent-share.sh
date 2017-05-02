@@ -75,7 +75,7 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
             ;;
         add) # add private keys to the agent
             shift
-            local keys_to_add=(~/.ssh/*_[dr]sa)
+            local keys_to_add=(~/.ssh/*id_*sa)
             if [ $# != 0 ] ; then
                 keys_to_add=("$@")
             fi
