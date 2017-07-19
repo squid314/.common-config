@@ -89,3 +89,40 @@ g() {
 if ! type shred >&/dev/null && type srm >&/dev/null ; then
     alias shred=srm
 fi
+
+# function for math stats
+st() {
+    if [[ "x$1" = "x--no-name" ]] ; then
+        awk '{
+                 for(i=1;i<=NF;i++) {
+                     sum[i] += $i;
+                     sumsq[i] += ($i)^2
+                 }
+             }
+             END {
+                 for (i=1;i<=NF;i++) {
+                     printf "%f %f \n",
+                         sum[i]/NR,
+                         sqrt((sumsq[i]-sum[i]^2/NR)/NR)
+                 }
+             }'
+    else
+        awk '{
+                 for(i=2;i<=NF;i++) {
+                     if(i==2) count[$1] += 1
+                     sum[$1 i] += $i
+                     sumsq[$1 i] += ($i)^2
+                 }
+             }
+             END {
+                 for (i=2;i<=NF;i++) {
+                     for (n in count) {
+                         printf "%s: %f %f\n",
+                             n "$" i,
+                             sum[n i]/count[n],
+                             sqrt((sumsq[n i]-sum[n i]^2/count[n])/count[n])
+                     }
+                 }
+             }'
+    fi
+}
