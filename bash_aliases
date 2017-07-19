@@ -86,6 +86,6 @@ g() {
     fi
 }
 
-if ! which shred >&/dev/null ; then
+if ! type shred >&/dev/null && type srm >&/dev/null ; then
     alias shred=srm
 fi
