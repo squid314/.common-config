@@ -40,6 +40,6 @@ au BufNewFile,BufRead *.gradle setf groovy
 set backupdir=~/.vim-tmp,.
 set directory=~/.vim-tmp,.
 
-" map 'jj','jk','kj' to <Esc> to keep hands on the home row more
+" map 'jj','jk' to <Esc> to keep hands on the home row more
 imap jj <Esc>
 imap jk <Esc>
