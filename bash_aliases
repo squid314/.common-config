@@ -100,6 +100,7 @@ st() {
                  }
              }
              END {
+                 printf "count: %d \n", NR
                  for (i=1;i<=NF;i++) {
                      printf "%f %f \n",
                          sum[i]/NR,
@@ -115,6 +116,9 @@ st() {
                  }
              }
              END {
+                 for (n in count) {
+                     printf "%s count: %d\n", n, count[n]
+                 }
                  for (i=2;i<=NF;i++) {
                      for (n in count) {
                          printf "%s: %f %f\n",
