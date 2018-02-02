@@ -1,6 +1,7 @@
 # kube-cluster.sh
 
 # script to duplicate what kube-cluster's os_shell.command script does
+if [ -d "${HOME}/kube-cluster/bin" ] && [ -f ~/bin/corectl ] ; then
 
 pathmunge "${HOME}/kube-cluster/bin" after
 
@@ -21,3 +22,5 @@ export KUBERNETES_MASTER="http://$master_vm_ip:8080"
 
 # clean up
 unset master_vm_ip
+
+fi
