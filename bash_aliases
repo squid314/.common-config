@@ -65,6 +65,8 @@ alias mcd='m clean deploy'
 alias mg='mvn -f `git rev-parse --show-cdup`pom.xml'
 # gradle
 alias gw='./gradlew'
+# sigkill a process run by `./gradlew bootRun`
+alias bootdie='ps -ef | grep java | grep spring-boot-starter | grep -v grep | awk '"'{print \$2}'"' | xargs kill'
 
 # vagrant stuff
 alias v='vagrant'
