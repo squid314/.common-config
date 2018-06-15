@@ -39,8 +39,8 @@ alias    ca='cd `git rev-parse --show-cdup`src/main/webapp'
 alias   gup='cd "`git rev-parse --show-cdup`"'
 
 # quick file find in pwd
-alias ff='find . -type d \( -name target -o -name build -o -name .git \) -prune -false -o -iname'
-alias fr='find . -type d \( -name target -o -name build -o -name .git \) -prune -false -o -iregex'
+alias ff='find . -type d \( -name target -o -name build -o -name .git -o -name .gradle -o -name .idea \) -prune -false -o -iname'
+alias fr='find . -type d \( -name target -o -name build -o -name .git -o -name .gradle -o -name .idea \) -prune -false -o -iregex'
 
 # function to find the closest ancestor directory (or current directory) which has the named entity
 upfind() {
