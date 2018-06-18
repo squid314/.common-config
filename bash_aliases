@@ -67,6 +67,8 @@ alias mg='mvn -f `git rev-parse --show-cdup`pom.xml'
 alias gw='./gradlew'
 # sigkill a process run by `./gradlew bootRun`
 alias bootdie='ps -ef | grep java | grep spring-boot-starter | grep -v grep | awk '"'{print \$2}'"' | xargs kill'
+# i don't like global installs that don't need to be, so this relieves me of some of that for grunt
+alias gr='node node_modules/.bin/grunt'
 
 # vagrant stuff
 alias v='vagrant'
