@@ -46,7 +46,7 @@
 #set convert-meta off
 #set input-meta on
 #set output-meta on
-#$if Bash
+$if Bash
   # Don't ring bell on completion
   #set bell-style none
 
@@ -54,7 +54,7 @@
   #set bell-style visible
 
   # Filename completion/expansion
-  #set completion-ignore-case on
+  set completion-ignore-case on
   #set show-all-if-ambiguous on
 
   # Expand homedir name
@@ -71,5 +71,5 @@
   # Insert a space character then performs
   # a history expansion in the line
   #Space: magic-space
-#$endif
+$endif
 set editing-mode vi
