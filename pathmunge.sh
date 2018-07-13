@@ -5,8 +5,7 @@ pathmunge() {
     # allow a value to be moved. done simply by removing the value from the path (if it exists) and then letting it be added normally.
     if [ "x$1" = "x-m" ] ; then
         if echo "$PATH" | egrep "(^|:)$2($|:)" >&/dev/null ; then
-            PATH="$(echo $PATH | sed -E 's;(^|:)'"$2"'($|:);\
-;g' | sed '/^$/d' | tr \\n :)"
+            PATH="$(echo $PATH | tr : \\n | egrep -v "^$2$" | tr \\n :)"
         fi
         shift
     fi
@@ -20,5 +19,5 @@ pathmunge() {
     fi
 
     # clean up the path of extraneous blank entries
-    PATH="$(echo $PATH | sed -E 's/::+/:/g;s/^:|:$//g')"
+    PATH="$(echo $PATH | sed 's/:::*/:/g;s/^://;s/:$//')"
 }
