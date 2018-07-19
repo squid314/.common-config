@@ -17,6 +17,8 @@ if [[ -f /usr/local/share/bash-completion/bash_completion ]] ; then source /usr/
 HISTCONTROL=ignoreboth
 # store a lot of history because disk space is cheap
 HISTSIZE=10000000
+# always history append
+shopt -s histappend
 
 # update the window size frequently since i use tmux and have weird windows
 shopt -s checkwinsize
