@@ -18,6 +18,9 @@ HISTCONTROL=ignoreboth
 # store a lot of history because disk space is cheap
 HISTSIZE=10000000
 
+# update the window size frequently since i use tmux and have weird windows
+shopt -s checkwinsize
+
 # common aliases
 if [[ -f "$CONFIG_ROOT/bash_aliases" ]] ; then source "$CONFIG_ROOT/bash_aliases" ; fi
 
