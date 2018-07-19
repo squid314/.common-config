@@ -18,17 +18,18 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-" statusline
-"Plugin 'bling/vim-airline'
 " additional syntaxes
-Plugin 'puppetlabs/puppet-syntax-vim'
+"Plugin 'puppetlabs/puppet-syntax-vim'
 Plugin 'tfnico/vim-gradle'
 Plugin 'fatih/vim-go'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'tpope/vim-fugitive'
-Plugin 'restore_view.vim'
-Plugin 'ktvoelker/sbt-vim'
 Plugin 'leafgarland/typescript-vim'
+" scala stuff
+Plugin 'derekwyatt/vim-scala'
+"Plugin 'ktvoelker/sbt-vim'
+" git
+Plugin 'tpope/vim-fugitive'
+
+Plugin 'restore_view.vim'
 call vundle#end()
 filetype plugin indent on
 
