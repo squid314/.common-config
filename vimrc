@@ -24,6 +24,7 @@ Plugin 'tfnico/vim-gradle'
 Plugin 'fatih/vim-go'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'pangloss/vim-javascript'
+Plugin 'hashivim/vim-vagrant'
 " scala stuff
 Plugin 'derekwyatt/vim-scala'
 "Plugin 'ktvoelker/sbt-vim'
