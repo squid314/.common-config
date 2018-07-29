@@ -23,6 +23,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tfnico/vim-gradle'
 Plugin 'fatih/vim-go'
 Plugin 'leafgarland/typescript-vim'
+Plugin 'pangloss/vim-javascript'
 " scala stuff
 Plugin 'derekwyatt/vim-scala'
 "Plugin 'ktvoelker/sbt-vim'
