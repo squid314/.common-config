@@ -1,0 +1,19 @@
+# find-prunes
+
+# This file lists directories which should be pruned when using my nice find
+# tool (see bash_aliases). one item per line, comments allowed, blank lines
+# are ignored. patterns are anything recognized by find(1)'s -name test
+
+# version control repositories
+.git
+.hg
+#.bzr
+
+# compilation output directories
+target
+build
+
+# build tool/IDE tracking directories
+.gradle
+.idea
+node_modules
