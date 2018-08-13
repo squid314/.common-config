@@ -17,8 +17,5 @@ pathmunge -m /usr/local/bin
 # add user's bin to the path if it exists
 if [[ -d "${HOME}/bin" ]] ; then pathmunge -m "${HOME}/bin" ; fi
 
-# set go path for building and running go applications
-export GOPATH="${HOME}/.go"
-
 # source the users bashrc if it exists
 if [[ -r "${HOME}/.bashrc" ]] ; then source "${HOME}/.bashrc" ; fi
