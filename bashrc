@@ -46,7 +46,7 @@ if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
         # check if the script has been disabled in the git config before sourcing it
         if [[ -r "$scr" ]] && \
             type git >&/dev/null && \
-            [[ "$(git --git-dir="${CONFIG_ROOT}/.git" config --get common-config.bashrc."$(basename ${scr})")" != "disabled" ]]
+            [[ "x$(git --git-dir="${CONFIG_ROOT}/.git" config --get common-config.bashrc."$(basename ${scr})")" != "xdisabled" ]]
         then
             source "$scr"
         fi
@@ -65,7 +65,9 @@ if declare -f __git_ps1 > /dev/null ; then
     PROMPT_COMMAND="${PROMPT_COMMAND}"' ; MY_GIT_PS1="$(__git_ps1)"'
 fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
-PS1='\[\e]0;\w$_MY_VIRTUAL_ENV$MY_GIT_PS1\007\e[0;1;34m\]\u \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\e[0;35m\]$_MY_VIRTUAL_ENV\[\e[1;32m\]$MY_GIT_PS1 `[[ $? -eq 0 ]]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0;31m\] \$\[\e[0m\] '
+userhost='\u@\h'
+if [[ "x$(git --git-dir="$CONFIG_ROOT/.git" config --get common-config.bash_ps1.userhost)" = xuseronly ]] ; then userhost='\u' ; fi
+PS1='\[\e]0;\w$_MY_VIRTUAL_ENV$MY_GIT_PS1\007\e[0;1;34m\]'"$userhost"' \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\e[0;35m\]$_MY_VIRTUAL_ENV\[\e[1;32m\]$MY_GIT_PS1 `[[ $? -eq 0 ]]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0;31m\] \$\[\e[0m\] '
 
 # load various version/environment managers
 if [[ -r "$HOME/.rvm/scripts/rvm"     ]] ; then source "$HOME/.rvm/scripts/rvm"     ; fi

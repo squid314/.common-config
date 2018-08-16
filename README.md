@@ -5,7 +5,7 @@ Default config files exist here (.vimrc, .tmux.conf, etc.) which source in file(
 
     git clone https://github.com/squid314/.common-config.git &&
     git --git-dir=.common-config/.git/ config --add remote.origin.prune true &&
-    cp .common-config/.{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc} . &&
+    cp -i .common-config/.{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc} . &&
     git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim # initially set up vundle
 
 If you don't want a `bashrc.d` script to run, just add a config setting to the common-config's git config. For example,
@@ -15,3 +15,4 @@ If you don't want a `bashrc.d` script to run, just add a config setting to the c
 ## TODOs
 
 * add script to copy everything from this repo to the user's home directory and replace any mandatory absolute paths with correct ones
+* change configuration to not rely on the presence of git
