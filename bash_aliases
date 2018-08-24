@@ -89,6 +89,9 @@ g() {
         git "$@"
     fi
 }
+if declare -f __git_complete >/dev/null ; then
+    __git_complete g __git_main
+fi
 
 if ! type shred >&/dev/null && type srm >&/dev/null ; then
     alias shred=srm
