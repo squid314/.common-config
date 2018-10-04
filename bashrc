@@ -23,7 +23,7 @@ shopt -s histappend
 # update the window size frequently since i use tmux and have weird windows
 shopt -s checkwinsize
 # disable that silly legacy option to enable/disable flow control
-if which -q stty ; then stty -ixon -ixoff ; fi
+if which stty >/dev/null ; then stty -ixon -ixoff ; fi
 
 # common aliases
 if [[ -f "$CONFIG_ROOT/bash_aliases" ]] ; then source "$CONFIG_ROOT/bash_aliases" ; fi
