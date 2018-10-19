@@ -10,7 +10,8 @@ CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 if ! declare -f pathmunge > /dev/null ; then source "$CONFIG_ROOT/pathmunge.sh" ; fi
 
 # any completions you add in ~/.bash_completion are sourced last
-if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion ; fi
+if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion ;
+elif [[ -d /etc/bash_completion.d ]] ; then for s in /etc/bash_completion.d/* ; do source "$s" ; done ; fi
 if [[ -f /usr/local/share/bash-completion/bash_completion ]] ; then source /usr/local/share/bash-completion/bash_completion ; fi
 
 # don't put spaced or duped lines in the history
