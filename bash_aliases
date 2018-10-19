@@ -65,7 +65,7 @@ alias mcd='m clean deploy'
 alias mg='mvn -f `git rev-parse --show-cdup`pom.xml'
 # gradle
 alias gw='./gradlew'
-# sigkill a process run by `./gradlew bootRun`
+# sigterm a process run by `./gradlew bootRun`
 alias bootdie='ps -ef | grep java | grep spring-boot-starter | grep -v grep | awk '"'{print \$2}'"' | xargs kill'
 # i don't like global installs that don't need to be, so this relieves me of some of that for grunt
 alias gr='node node_modules/.bin/grunt'
@@ -73,12 +73,10 @@ alias gr='node node_modules/.bin/grunt'
 # vagrant stuff
 alias v='vagrant'
 alias vst='v global-status'
-alias vrm='v destroy --force'
-alias vs='if [[ ! -f Vagrantfile ]] ; then if [[ -f vagrant/Vagrantfile ]] ; then cd vagrant ; elif [ -f */vagrant/Vagrantfile ] ; then cd $(dirname */vagrant/Vagrantfile) ; fi ; fi ; v ssh'
+alias vs='if [[ ! -f Vagrantfile ]] ; then if [[ -f vagrant/Vagrantfile ]] ; then cd vagrant ; elif [[ -f */vagrant/Vagrantfile ]] ; then cd $(dirname */vagrant/Vagrantfile) ; fi ; fi ; v ssh'
 
 alias pyjs="python -m json.tool"
 alias tmd="tmux new-session -As default"
-alias tsw="tmux split-window"
 alias confup='( cd ~/.common-config && git pull --ff-only ) && . ~/.bashrc'
 alias pgrep='ps -ef | grep -i'
 
@@ -89,11 +87,11 @@ g() {
         git "$@"
     fi
 }
-if declare -f __git_complete >/dev/null ; then
+if declare -f __git_complete &>/dev/null ; then
     __git_complete g __git_main
 fi
 
-if ! type shred >&/dev/null && type srm >&/dev/null ; then
+if ! type shred &>/dev/null && type srm &>/dev/null ; then
     alias shred=srm
 fi
 
