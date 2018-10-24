@@ -28,23 +28,23 @@ source $AGENT_INFO_FILE
 # ask the agent to quit
 ssh-agent -k
 # if it is still alive, force kill it
-ps -ef | awk '{print \$2}' | grep \"\$SSH_AGENT_PID\" >&/dev/null && ( sleep 2 ; kill -9 \"\$SSH_AGENT_PID\" )
+ps -ef | awk '{print \$2}' | grep \"\$SSH_AGENT_PID\" &>/dev/null && ( sleep 2 ; kill -9 \"\$SSH_AGENT_PID\" )
 # clean up any shell registrations
 rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
-" >&/dev/null
+" &>/dev/null
             fi
 
             mv $new_agent $AGENT_INFO_FILE
             ;;
         attach) # load info into current shell, test the new connection, and add current shell to list of attached shells
-            source $AGENT_INFO_FILE >&/dev/null && ssh-add -l >&/dev/null
+            source $AGENT_INFO_FILE &>/dev/null && ssh-add -l &>/dev/null
             # ssh-add -l returns 0 if there are identities and 1 if there are none, but returns 2 if the connection fails; so we look explicitly for 2
             [ $? != 2 ] && touch $AGENT_INFO_DIR/sh-$$
             ;;
         detach) # remove current shell from attached shells and clean up agent if no remaining attached shells
             rm $AGENT_INFO_DIR/sh-$$
             # if we were the last shell listening, then clean up the agent and info file
-            if echo $AGENT_INFO_DIR/sh-* | grep '*' >&/dev/null ; then
+            if echo $AGENT_INFO_DIR/sh-* | grep '*' &>/dev/null ; then
                 ssh-agent -k
                 rm $AGENT_INFO_FILE
             fi
@@ -63,8 +63,8 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
                     [ -z "$SSH_AUTH_SOCK" ] || \
                     [ ! -S $SSH_AUTH_SOCK ] || \
                     bash -c "source $AGENT_INFO_FILE && [ \"\$SSH_AGENT_PID\" = \"$SSH_AGENT_PID\" ] && [ \"\$SSH_AUTH_SOCK\" = \"$SSH_AUTH_SOCK\" ]" || \
-                    ! ps -ef | awk '{print $2}' | grep "$SSH_AGENT_PID" >&/dev/null || \
-                    ! bash -c "ssh-add -l ; [ \$? = 2 ] && exit 1 || exit 0" >&/dev/null || \
+                    ! ps -ef | awk '{print $2}' | grep "$SSH_AGENT_PID" &>/dev/null || \
+                    ! bash -c "ssh-add -l ; [ \$? = 2 ] && exit 1 || exit 0" &>/dev/null || \
                     [ ! -f "$AGENT_INFO_DIR/sh-$$" ]
             then
                 # first, attempt to just attach. failing that, create and then attach

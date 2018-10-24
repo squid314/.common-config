@@ -1,7 +1,7 @@
 # packer.sh
 
 # don't do anything if packer is not present
-if ! which packer >&- 2>&- ; then return ; fi
+if ! which packer &>/dev/null ; then return ; fi
 
 mkdir -p "$HOME/.packer/cache"
 export PACKER_CONFIG="$HOME/.packer/config"
