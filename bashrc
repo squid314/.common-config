@@ -6,8 +6,9 @@
 # set up the config root directory since lots of files are based there
 CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 
-# make sure pathmunge is available
+# make sure pathmunge, promptcmdmunge are available
 if ! declare -f pathmunge > /dev/null ; then source "$CONFIG_ROOT/pathmunge.sh" ; fi
+if ! declare -f promptcmdmunge > /dev/null ; then source "$CONFIG_ROOT/promptcmdmunge.sh" ; fi
 
 # any completions you add in ~/.bash_completion are sourced last
 if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion ;
@@ -58,19 +59,22 @@ if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
 fi
 
 # immediately update the .bash_history file
-PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND} ; }history -a"
-# if using ssh-agent helper, add it to the prompt command
-if declare -f agent > /dev/null ; then
-    PROMPT_COMMAND="${PROMPT_COMMAND} ; agent verify"
-fi
+promptcmdmunge 'history -a'
 # if using git stuff, add eval for git info
 if declare -f __git_ps1 > /dev/null ; then
-    PROMPT_COMMAND="${PROMPT_COMMAND}"' ; MY_GIT_PS1="$(__git_ps1)"'
+    promptcmdmunge 'MY_GIT_PS1="$(__git_ps1)"'
+fi
+promptcmdmunge '__jobs="$(jobs -p)"'
+
+# TODO `agent verify` creates a background job, somehow, that is alive through a `jobs -p` test and then finishes before the prompt is displayed, so we have to put the __jobs setup before that
+# if using ssh-agent helper, add it to the prompt command
+if declare -f agent > /dev/null ; then
+    promptcmdmunge 'agent verify'
 fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
 userhost='\u@\h'
 if [[ "x$(git --git-dir="$CONFIG_ROOT/.git" config --get common-config.bash_ps1.userhost)" = xuseronly ]] ; then userhost='\u' ; fi
-PS1='\[\e]0;\w$_MY_VIRTUAL_ENV$MY_GIT_PS1\007\e[0;1;34m\]'"$userhost"' \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\e[0;35m\]$_MY_VIRTUAL_ENV\[\e[1;32m\]$MY_GIT_PS1 `[[ $? -eq 0 ]]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0;31m\] \$\[\e[0m\] '
+PS1='\[\e]0;\w$_MY_VIRTUAL_ENV$MY_GIT_PS1\007\e[0;1;34m\]'"$userhost"' \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\e[0;35m\]$_MY_VIRTUAL_ENV\[\e[1;32m\]$MY_GIT_PS1 `[[ $? -eq 0 ]]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0m\] ${__jobs:+\[\e[33m\]>}\[\e[31m\]\$\[\e[0m\] '
 
 # load various version/environment managers
 if [[ -r "$HOME/.rvm/scripts/rvm"     ]] ; then source "$HOME/.rvm/scripts/rvm"     ; fi
