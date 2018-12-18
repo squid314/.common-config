@@ -26,6 +26,7 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'hashivim/vim-vagrant'
 Plugin 'avakhov/vim-yaml'
+Plugin 'chr4/nginx.vim'
 " scala stuff
 Plugin 'derekwyatt/vim-scala'
 "Plugin 'ktvoelker/sbt-vim'
