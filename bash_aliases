@@ -25,6 +25,9 @@ alias grep="grep --color=auto"
 alias ls='ls --color=auto'
 alias li='ls -lashi'
 
+# let alias substitution occur after sudo(8)
+alias sudo='sudo '
+
 # rebuild and install git (from the latest release tag)
 alias makegit='bash -c "cd ~/.bin/git && git fetch --verbose && git checkout \$(git log --simplify-by-decoration --decorate --oneline origin/master | sed -n \"/tag: v[0-9.]*[),]/{s/.*tag: \\(v[^),]*\\).*/\\1/;p;q}\") && make clean && make PROFILE=BUILD NO_EXPAT=YesPlease NO_TCLTK=YesPlease install || echo -e \\\\e[1\;31mum...problems?"'
 
