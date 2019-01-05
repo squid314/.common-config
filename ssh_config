@@ -1,0 +1,20 @@
+# .ssh/config examples
+
+# Sometimes you can't ssh directly somewhere you need to get to. When this
+# occurs, you normally ssh to one host and then to the destination, called
+# "jumping." However, it is annoying to write `ssh -t host1 ssh host2` since
+# you have to remember the `-t` for every host which has an explicit command
+# (normally all except the last one). SSH actually has a few tools to help you
+# do this more easily. This is important when you need to use an alternate
+# command that sits on top of ssh (like git).
+# Simple jump host config (if supported):
+Host destination
+ProxyJump jump-host
+# Older ssh's:
+Host destination
+ProxyCommand ssh -q -W %h:%p jump-host
+# If policy prevents port forwarding or stdio forwarding, we can break it open with bash:
+Host destination
+ProxyCommand ssh -q jump-host "exec 22<>/dev/tcp/%h/%p ; cat <&22 & cat >&22"
+
+# If you need to jump through multiple hosts, you can use combinations of the above.
