@@ -10,9 +10,13 @@ Default config files exist here (.vimrc, .tmux.conf, etc.) which source in file(
 
 If you don't want a `bashrc.d` script to run, just add a config setting to the common-config's git config. For example,
 
-    git --git-dir=.common-config/.git config --add common-config.bashrc.ssh-agent-share.sh disabled
+    echo 'bashrc.d.ssh-agent-share.sh=disabled' >>~/.bashrc.conf
+
+If you want the ps1 prompt to only display the user name and not include the hostname, add this config setting:
+
+    echo 'bashrc.ps1.userhost=useronly' >>~/.bashrc.conf
 
 ## TODOs
 
 * add script to copy everything from this repo to the user's home directory and replace any mandatory absolute paths with correct ones
-* change configuration to not rely on the presence of git
+* ~change configuration to not rely on the presence of git~

@@ -31,8 +31,10 @@ if which stty >/dev/null ; then stty -ixon -ixoff ; fi
 if [[ -f "$CONFIG_ROOT/bash_aliases" ]] ; then source "$CONFIG_ROOT/bash_aliases" ; fi
 
 # git stuff
-if [[ -f ~/.git-completion.bash ]] ; then . ~/.git-completion.bash ; fi
-if [[ -f ~/.git-prompt.sh ]] ; then . ~/.git-prompt.sh ; fi
+if type git &>/dev/null ; then
+    if [[ -f ~/.git-completion.bash ]] ; then . ~/.git-completion.bash ; fi
+    if [[ -f ~/.git-prompt.sh ]] ; then . ~/.git-prompt.sh ; fi
+fi
 GIT_PS1_SHOWDIRTYSTATE=true GIT_PS1_SHOWSTASHSTATE=true GIT_PS1_SHOWUNTRACKEDFILES=true GIT_PS1_SHOWUPSTREAM="auto git"
 # spring boot
 if [[ -f ~/.gvm/springboot/current/shell-completion/bash/spring ]] ; then source ~/.gvm/springboot/current/shell-completion/bash/spring ; fi
@@ -48,9 +50,8 @@ LC_COLLATE=C
 if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
     for scr in "$CONFIG_ROOT"/bashrc.d/*.sh ; do
         # check if the script has been disabled in the git config before sourcing it
-        if [[ -r "$scr" ]] && \
-            type git &>/dev/null && \
-            [[ "x$(git --git-dir="${CONFIG_ROOT}/.git" config --get common-config.bashrc."$(basename ${scr})")" != "xdisabled" ]]
+        if [[ -r "$scr" ]] &&
+            ! grep -E "^bashrc.d.$scr=disabled$" ~/.bashrc.conf
         then
             source "$scr"
         fi
@@ -73,7 +74,7 @@ if declare -f agent > /dev/null ; then
 fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
 userhost='\u@\h'
-if [[ "x$(git --git-dir="$CONFIG_ROOT/.git" config --get common-config.bash_ps1.userhost)" = xuseronly ]] ; then userhost='\u' ; fi
+if grep -E '^bashrc.ps1.userhost=useronly$' ~/.bashrc.conf ; then userhost='\u' ; fi
 PS1='\[\e]0;\w$_MY_VIRTUAL_ENV$MY_GIT_PS1\007\e[0;1;34m\]'"$userhost"' \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\e[0;35m\]$_MY_VIRTUAL_ENV\[\e[1;32m\]$MY_GIT_PS1 `[[ $? -eq 0 ]]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0m\] ${__jobs:+\[\e[33m\]>}\[\e[31m\]\$\[\e[0m\] '
 
 # load various version/environment managers
