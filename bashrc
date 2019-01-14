@@ -15,6 +15,12 @@ if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion ;
 elif [[ -d /etc/bash_completion.d ]] ; then for s in /etc/bash_completion.d/* ; do source "$s" ; done ; fi
 if [[ -f /usr/local/share/bash-completion/bash_completion ]] ; then source /usr/local/share/bash-completion/bash_completion ; fi
 
+# function to enable easy config testing
+bconf() {
+    test -e ~/.bashrc.conf &&
+        grep -E "^$1$" ~/.bashrc.conf
+}
+
 # don't put spaced or duped lines in the history
 HISTCONTROL=ignoreboth
 # store a lot of history because disk space is cheap
@@ -51,7 +57,7 @@ if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
     for scr in "$CONFIG_ROOT"/bashrc.d/*.sh ; do
         # check if the script has been disabled in the git config before sourcing it
         if [[ -r "$scr" ]] &&
-            ! grep -E "^bashrc.d.$scr=disabled$" ~/.bashrc.conf
+            ! bconf "bashrc.d.$scr=disabled"
         then
             source "$scr"
         fi
@@ -74,7 +80,7 @@ if declare -f agent > /dev/null ; then
 fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
 userhost='\u@\h'
-if grep -E '^bashrc.ps1.userhost=useronly$' ~/.bashrc.conf ; then userhost='\u' ; fi
+if bconf 'bashrc.ps1.userhost=useronly' ; then userhost='\u' ; fi
 PS1='\[\e]0;\w$_MY_VIRTUAL_ENV$MY_GIT_PS1\007\e[0;1;34m\]'"$userhost"' \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\e[0;35m\]$_MY_VIRTUAL_ENV\[\e[1;32m\]$MY_GIT_PS1 `[[ $? -eq 0 ]]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0m\] ${__jobs:+\[\e[33m\]>}\[\e[31m\]\$\[\e[0m\] '
 
 # load various version/environment managers
