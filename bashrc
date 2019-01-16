@@ -19,7 +19,7 @@ if [[ -f /usr/local/share/bash-completion/bash_completion ]] ; then source /usr/
 bconf() {
     test -e ~/.bashrc.conf &&
         grep -E "^$1$" ~/.bashrc.conf
-}
+} &>/dev/null
 
 # don't put spaced or duped lines in the history
 HISTCONTROL=ignoreboth
