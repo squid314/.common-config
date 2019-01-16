@@ -57,7 +57,7 @@ if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
     for scr in "$CONFIG_ROOT"/bashrc.d/*.sh ; do
         # check if the script has been disabled in the git config before sourcing it
         if [[ -r "$scr" ]] &&
-            ! bconf "bashrc.d.$scr=disabled"
+            ! bconf "bashrc.d.$(basename $scr)=disabled"
         then
             source "$scr"
         fi
