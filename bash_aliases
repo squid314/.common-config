@@ -75,6 +75,7 @@ alias gr='node node_modules/.bin/grunt'
 
 # vagrant stuff
 alias v='vagrant'
+if complete | grep -qE vagrant$ ; then eval $(complete | grep -E vagrant$ | head -n 1 | sed 's/agrant$//') ; fi
 alias vst='v global-status'
 alias vs='if [[ ! -f Vagrantfile ]] ; then if [[ -f vagrant/Vagrantfile ]] ; then cd vagrant ; elif [[ -f */vagrant/Vagrantfile ]] ; then cd $(dirname */vagrant/Vagrantfile) ; fi ; fi ; v ssh'
 
