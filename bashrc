@@ -6,9 +6,8 @@
 # set up the config root directory since lots of files are based there
 CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 
-# make sure pathmunge, promptcmdmunge are available
-if ! declare -f pathmunge > /dev/null ; then source "$CONFIG_ROOT/pathmunge.sh" ; fi
-if ! declare -f promptcmdmunge > /dev/null ; then source "$CONFIG_ROOT/promptcmdmunge.sh" ; fi
+# make sure important functions are available
+for f in "$CONFIG_ROOT"/bashrc.func.d/*.sh ; do source "$f" ; done
 
 # any completions you add in ~/.bash_completion are sourced last
 if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion ;
@@ -32,9 +31,6 @@ shopt -s histappend
 shopt -s checkwinsize
 # disable that silly legacy option to enable/disable flow control
 if which stty >/dev/null ; then stty -ixon -ixoff ; fi
-
-# common aliases
-if [[ -f "$CONFIG_ROOT/bash_aliases" ]] ; then source "$CONFIG_ROOT/bash_aliases" ; fi
 
 # git stuff
 if type git &>/dev/null ; then
@@ -69,7 +65,7 @@ fi
 promptcmdmunge 'history -a'
 # if using git stuff, add eval for git info
 if declare -f __git_ps1 > /dev/null ; then
-    promptcmdmunge 'MY_GIT_PS1="$(__git_ps1)"'
+    promptcmdmunge '__git_ps1_value="$(__git_ps1)"'
 fi
 promptcmdmunge '__jobs="$(jobs -p)"'
 
@@ -81,8 +77,11 @@ fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
 userhost='\u@\h'
 if bconf 'bashrc.ps1.userhost=useronly' ; then userhost='\u' ; fi
-PS1='\[\e]0;\w$_MY_VIRTUAL_ENV$MY_GIT_PS1\007\e[0;1;34m\]'"$userhost"' \[\e[32m\]\w${_MY_VIRTUAL_ENV:+ }\[\e[0;35m\]$_MY_VIRTUAL_ENV\[\e[1;32m\]$MY_GIT_PS1 `[[ $? -eq 0 ]]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0m\] ${__jobs:+\[\e[33m\]>}\[\e[31m\]\$\[\e[0m\] '
+PS1='\[\e]0;\w$__git_ps1_value\007\e[0;1;34m\]'"$userhost"' \[\e[32m\]\w\[\e[0;1;32m\]$__git_ps1_value `[[ $? -eq 0 ]]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0m\] ${__jobs:+\[\e[33m\]>}\[\e[31m\]\$\[\e[0m\] '
 
 # load various version/environment managers
 if [[ -r "$HOME/.rvm/scripts/rvm"     ]] ; then source "$HOME/.rvm/scripts/rvm"     ; fi
 if [[ -r "$HOME/.nvm/nvm.sh"          ]] ; then source "$HOME/.nvm/nvm.sh"          ; fi
+
+# common aliases
+if [[ -f "$CONFIG_ROOT/bash_aliases" ]] ; then source "$CONFIG_ROOT/bash_aliases" ; fi
