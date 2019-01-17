@@ -3,7 +3,7 @@
 # set up the config root directory since lots of files are based there
 CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 
-source "$CONFIG_ROOT/pathmunge.sh"
+source "$CONFIG_ROOT/bashrc.func.d/pathmunge.sh"
 # any PATH component which is relative to the current directory is a security risk, so remove that in case some idiot added it to the system environment
 PATH="$(echo $PATH | tr : \\n | egrep -v "^\." | tr \\n :)"
 pathmunge /opt/X11/bin
