@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -e /var/run/docker.sock && ! -w /var/run/docker.sock ]] ; then
+    docker() { sudo docker "$@" ; }
+fi
+
 set -e
 HOST_PWD="$PWD"
 cd $(dirname $0)
