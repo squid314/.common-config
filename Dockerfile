@@ -25,6 +25,10 @@ CMD ["/bin/bash", "--login" ]
 
 LABEL com.arisant.usage=development
 
+ARG DOCKERGROUPID
+ENV DOCKERGROUPID=$DOCKERGROUPID
+RUN if ! getent group $DOCKERGROUPID ; then groupadd -g $DOCKERGROUPID dockerindocker ; fi
+
 ARG USERID
 ARG USERNAME
 ARG GROUPID
@@ -35,11 +39,6 @@ ENV HOSTUSERNAME=$USERNAME HOSTUSERID=$USERID HOSTGROUPID=$GROUPID HOSTUSERHOME=
 RUN mkdir -p $USERHOME ; \
     test -e /mnt && chmod -R 755 /mnt/ ; \
     if ! getent group $GROUPID ; then groupadd -g $GROUPID $GROUPNAME ; fi && \
-    useradd -g $GROUPNAME -u $USERID -Md $USERHOME $USERNAME
+    useradd -g $GROUPNAME -G $DOCKERGROUPID -u $USERID -Md $USERHOME $USERNAME
 USER $USERNAME
 WORKDIR /mnt/root/$USERHOME
-
-ARG DOCKERGROUPID
-ENV DOCKERGROUPID=$DOCKERGROUPID
-RUN if ! getent group $DOCKERGROUPID ; then groupadd -g $DOCKERGROUPID dockerindocker ; fi && \
-    usermod -a -G $DOCKERGROUPID $USERNAME
