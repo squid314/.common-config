@@ -36,3 +36,8 @@ RUN mkdir -p $USERHOME ; \
     useradd -g $GROUPNAME -u $USERID -Md $USERHOME $USERNAME
 USER $USERNAME
 WORKDIR /mnt/root/$USERHOME
+
+ARG DOCKERGROUPID
+ENV DOCKERGROUPID=$DOCKERGROUPID
+RUN if ! getent group $DOCKERGROUPID ; then groupadd -g $DOCKERGROUPID dockerindocker ; fi && \
+    usermod -a -G $DOCKERGROUPID $USERNAME

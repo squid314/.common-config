@@ -18,12 +18,14 @@ if [[ -z "$(docker image ls | grep $USER.ide)" || "$1" == "-clean" ]]; then
     if [[ "$1" == "-clean" ]] ; then
         shift
     fi
+    DOCKERGROUPID=$(stat -c %g /var/run/docker.sock)
     docker build -t $USER.ide \
         --build-arg USERID=$(id -u $USER) \
         --build-arg USERNAME=$USER \
         --build-arg GROUPNAME=$(id -gn $USER) \
         --build-arg GROUPID=$(id -g $USER) \
         --build-arg USERHOME=$HOME \
+        --build-arg DOCKERGROUPID=$DOCKERGROUPID \
         .
 fi
 
@@ -33,6 +35,7 @@ docker run -it \
     $container_name \
     -v "/:/mnt/root" \
     -v "$homeroot:$homeroot" \
+    -v /var/run/docker.sock:/var/run/docker.sock \
     -e HOST_PWD="$HOST_PWD" \
     -w "$HOST_PWD" \
     $USER.ide \
