@@ -1,6 +1,8 @@
 FROM registry.access.redhat.com/rhel7:latest
 
+ENV http_proxy=http://deninfrap10:3128/ https_proxy=http://deninfrap10:3128/
 RUN printf '[jeppden]\nname=jeppden\nbaseurl=https://denpach02d.jeppesen.com\ngpgcheck=0\nenabled=1\nsslverify=0\n' >/etc/yum.repos.d/jeppden.repo
+RUN curl -so /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo
 RUN \
     # quality of life: install man pages, please
     yum-config-manager --setopt=tsflags= --save && \
@@ -12,7 +14,7 @@ RUN \
         vim \
         bzip2 \
         # management
-        docker-client \
+        docker-ce-cli \
         # quality of life
         unzip \
         man \
