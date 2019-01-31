@@ -1,0 +1,12 @@
+# don't need this file
+.dockerignore
+
+# temp files
+**/*.sw[po]
+**/*~
+# backup files
+**/*.bak
+**/*.bak.*
+**/*.orig
+# git files
+**/.git*
