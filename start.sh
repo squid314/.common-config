@@ -28,7 +28,7 @@ if [[ -z "$(docker image ls | grep $USER.ide)" || "$1" == "-clean" ]]; then
 fi
 
 homeroot="$(dirname $HOME)"
-exec docker run -it \
+docker run -it \
     --rm \
     $container_name \
     -v "/:/mnt/root" \
