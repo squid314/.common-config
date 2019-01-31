@@ -32,7 +32,7 @@ ENV HOSTUSERNAME=$USERNAME HOSTUSERID=$USERID HOSTGROUPID=$GROUPID HOSTUSERHOME=
 
 RUN mkdir -p $USERHOME ; \
     test -e /mnt && chmod -R 755 /mnt/ ; \
-    groupadd -g $GROUPID $GROUPNAME && \
+    if ! getent group $GROUPID ; then groupadd -g $GROUPID $GROUPNAME ; fi && \
     useradd -g $GROUPNAME -u $USERID -Md $USERHOME $USERNAME
 USER $USERNAME
 WORKDIR /mnt/root/$USERHOME
