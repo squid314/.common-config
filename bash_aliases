@@ -89,15 +89,20 @@ alias tmd="tmux new-session -As default"
 alias confup='( cd ~/.common-config && git pull --ff-only ) && . ~/.bashrc'
 alias pgrep='ps -ef | grep -i'
 
-g() {
-    if [ $# = 0 ] ; then
-        git status
-    else
-        git "$@"
+if type docker &>/dev/null ; then alias d='docker' ; fi
+if type kubectl &>/dev/null ; then alias k='kubectl' ; fi
+
+if type git &>/dev/null ; then
+    g() {
+        if [ $# = 0 ] ; then
+            git status
+        else
+            git "$@"
+        fi
+    }
+    if declare -f __git_complete &>/dev/null ; then
+        __git_complete g __git_main
     fi
-}
-if declare -f __git_complete &>/dev/null ; then
-    __git_complete g __git_main
 fi
 
 if ! type shred &>/dev/null && type srm &>/dev/null ; then
