@@ -1,6 +1,6 @@
 # docker tools
 
-if ! type docker >&/dev/null ; then
+if ! type docker &>/dev/null ; then
     return
 fi
 

@@ -9,7 +9,7 @@ tmr() {
         set "attach-session"
     fi
     # use mosh if it is available
-    if which mosh >&- 2>&- ; then
+    if type mosh &>/dev/null ; then
         echo "running \`mosh $host -- tmux $@\`"
         mosh "$host" -- tmux "$@"
     else
