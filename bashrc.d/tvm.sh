@@ -4,14 +4,14 @@
 
 tvm() {
     if [ $# != 0 ] && [ $# != 1 ] && [ $# != 2 ] ; then
-        echo "Usage: $0 [-u|--unset] | version [instance-id]" >&2
-        echo "    -u|--unset   remove the CATALINA_* variables from the environment" >&2
-        echo "    version      the [fuzzy] version of tomcat desired; or \"-\" to unset tomcat info" >&2
-        echo "    instance-id  (optional) the absolute id of a tomcat instance" >&2
-        echo "" >&2
-        echo "Updates the current environment to allow manipulation of the identified tomcat installation and instance. If the identified tomcat installation is \"-\", then all tomcat exports are removed and the environment is reset to not automatically run tomcat instances. Otherwise, the \$TOMCAT_ROOT (or ~/dev/tomcats) is searched for a directory matching the version identified. If found, the environment is configured to use that directory as the installation directory (i.e., as \$CATALINA_HOME). Additionally, if an instance identifier is specified as the second argument, then the directory \$CATALINA_HOME/insts/\$2 will be set as \$CATALINA_BASE" >&2
+        echo "Usage: $0 [-u|--unset] | version [instance-id]"
+        echo "    -u|--unset   remove the CATALINA_* variables from the environment"
+        echo "    version      the [fuzzy] version of tomcat desired; or \"-\" to unset tomcat info"
+        echo "    instance-id  (optional) the absolute id of a tomcat instance"
+        echo ""
+        echo "Updates the current environment to allow manipulation of the identified tomcat installation and instance. If the identified tomcat installation is \"-\", then all tomcat exports are removed and the environment is reset to not automatically run tomcat instances. Otherwise, the \$TOMCAT_ROOT (or ~/dev/tomcats) is searched for a directory matching the version identified. If found, the environment is configured to use that directory as the installation directory (i.e., as \$CATALINA_HOME). Additionally, if an instance identifier is specified as the second argument, then the directory \$CATALINA_HOME/insts/\$2 will be set as \$CATALINA_BASE"
         return 5
-    fi
+    fi >&2
 
     if [ $# = 0 ] || [ $# = 1 -a \( "x$1" = "x-u" -o "x$1" = "x--unset" \) ] ; then
         unset CATALINA_HOME CATALINA_BASE
