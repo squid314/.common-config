@@ -8,7 +8,7 @@ RUN set -e; \
     rm -rf /var/lib/apt/lists/*
 
 RUN set -e; \
-    useradd -mU -a /bin/bash squid; \
+    useradd -mU -s /bin/bash squid; \
     # TODO need this or not?
     echo 'squid   ALL=NOPASSWD:(ALL:ALL) ALL' >>/etc/sudoers.d/no-passwd-sudo
 
