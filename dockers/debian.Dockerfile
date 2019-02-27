@@ -17,7 +17,7 @@ WORKDIR /home/squid
 
 RUN set -e; \
     curl -so /tmp/setup.sh https://raw.githubusercontent.com/squid314/.common-config/master/bin/setup.sh; \
-    bash -x -s /tmp/setup.sh no-agent; \
+    bash -x /tmp/setup.sh no-agent; \
     rm /tmp/setup.sh
 
 CMD ["/bin/bash", "-il"]
