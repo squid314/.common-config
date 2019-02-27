@@ -3,7 +3,7 @@ FROM debian
 RUN set -e; \
     apt-get update; \
     apt-get install -y \
-        sudo git vim bzip2 \
+        sudo git vim curl bzip2 \
     ; \
     rm -rf /var/lib/apt/lists/*
 
