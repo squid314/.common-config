@@ -14,6 +14,7 @@ RUN set -e; \
 
 USER squid
 
-RUN curl -vs https://raw.githubusercontent.com/squid314/.common-config/raw/master/bin/setup.sh | bash -s - no-agent
+RUN set -eo pipefail; \
+    curl -vs https://raw.githubusercontent.com/squid314/.common-config/raw/master/bin/setup.sh | bash -s - no-agent
 
 CMD ["/bin/bash"]
