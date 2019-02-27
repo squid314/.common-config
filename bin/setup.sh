@@ -5,11 +5,17 @@ set -e
 setup() {
     DISABLE_AGENT=no
     USERONLY=no
-    case "$1" in
-        no-agent) DISABLE_AGENT=yes ;;
-        docker) DISABLE_AGENT=yes ;;
-        new-comp) USERONLY=yes ;;
-    esac
+    while [[ $# -gt 0 ]] ; do
+        case "$1" in
+            # direct actions
+            no-agent) DISABLE_AGENT=yes ;;
+            user-only) USERONLY=yes ;;
+            # environments
+            docker) DISABLE_AGENT=yes ;;
+            new-comp) USERONLY=yes ;;
+        esac
+        shift
+    done
 
 
     if [[ ! -d ~/.common-config ]] ; then
