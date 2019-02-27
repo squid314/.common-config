@@ -20,7 +20,7 @@ RUN set -e; \
 RUN set -e; \
     useradd -mU -s /bin/bash squid; \
     # TODO need this or not?
-    echo 'squid   ALL=NOPASSWD:(ALL:ALL) ALL' >>/etc/sudoers.d/no-passwd-sudo
+    echo 'squid   ALL=(ALL:ALL) NOPASSWD: ALL' >>/etc/sudoers.d/no-passwd-sudo
 
 USER squid
 WORKDIR /home/squid
