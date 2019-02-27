@@ -6,6 +6,7 @@ setup() {
     DISABLE_AGENT=no
     USERONLY=no
     case "$1" in
+        no-agent) DISABLE_AGENT=yes ;;
         docker) DISABLE_AGENT=yes ;;
         new-comp) USERONLY=yes ;;
     esac
@@ -16,7 +17,7 @@ setup() {
             git clone https://github.com/squid314/.common-config.git
             git --git-dir=.common-config/.git/ config --add remote.origin.prune true
         else
-            curl -sL https://github.com/squid314/.common-config/archive/master.tar.gz | tar x
+            curl -sL https://github.com/squid314/.common-config/archive/master.tar.gz | tar zx
             mv .common-config{-master,}
         fi
         cp -f .common-config/.{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc} .
@@ -43,7 +44,7 @@ setup() {
         if type git &>/dev/null ; then
             git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
         else
-            curl -sL https://github.com/gmarik/Vundle.vim/archive/master.tar.gz | tar x
+            curl -sL https://github.com/gmarik/Vundle.vim/archive/master.tar.gz | tar zx
             mkdir -p .vim/bundle
             mv Vundle.vim-master .vim/bundle/Vundle.vim
         fi
