@@ -13,6 +13,7 @@ RUN set -e; \
     echo 'squid   ALL=NOPASSWD:(ALL:ALL) ALL' >>/etc/sudoers.d/no-passwd-sudo
 
 USER squid
+WORKDIR /home/squid
 
 RUN set -e; \
     curl -so /tmp/setup.sh https://raw.githubusercontent.com/squid314/.common-config/master/bin/setup.sh; \
