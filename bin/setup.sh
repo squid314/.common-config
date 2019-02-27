@@ -14,7 +14,7 @@ setup() {
 
     if [[ ! -d ~/.common-config ]] ; then
         if type git &>/dev/null ; then
-            git clone https://github.com/squid314/.common-config.git
+            git clone --depth 1 https://github.com/squid314/.common-config.git
             git --git-dir=.common-config/.git/ config --add remote.origin.prune true
         else
             curl -sL https://github.com/squid314/.common-config/archive/master.tar.gz | tar zx
@@ -42,7 +42,7 @@ setup() {
     if [[ ! -d ~/.vim/bundle/Vundle.vim ]] ; then
         # initially set up vundle
         if type git &>/dev/null ; then
-            git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+            git clone --depth 1 https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
         else
             curl -sL https://github.com/gmarik/Vundle.vim/archive/master.tar.gz | tar zx
             mkdir -p .vim/bundle
