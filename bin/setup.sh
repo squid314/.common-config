@@ -12,13 +12,18 @@ setup() {
 
 
     if [[ ! -d ~/.common-config ]] ; then
-        git clone https://github.com/squid314/.common-config.git
-        git --git-dir=.common-config/.git/ config --add remote.origin.prune true
-        cp -i .common-config/.{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc} .
+        if type git &>/dev/null ; then
+            git clone https://github.com/squid314/.common-config.git
+            git --git-dir=.common-config/.git/ config --add remote.origin.prune true
+        else
+            curl -sL https://github.com/squid314/.common-config/archive/master.tar.gz | tar x
+            mv .common-config{-master,}
+        fi
+        cp -f .common-config/.{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc} .
     else
         (
             cd ~/.common-config/
-            git pff
+            git pff || :
         )
     fi
 
@@ -35,7 +40,13 @@ setup() {
 
     if [[ ! -d ~/.vim/bundle/Vundle.vim ]] ; then
         # initially set up vundle
-        git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+        if type git &>/dev/null ; then
+            git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+        else
+            curl -sL https://github.com/gmarik/Vundle.vim/archive/master.tar.gz | tar x
+            mkdir -p .vim/bundle
+            mv Vundle.vim-master .vim/bundle/Vundle.vim
+        fi
     fi
 
     if [[ $DISABLE_AGENT == yes ]] ; then
