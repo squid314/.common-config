@@ -15,8 +15,8 @@ RUN set -e; \
 USER squid
 
 RUN set -e; \
-    curl -vso /tmp/setup.sh https://raw.githubusercontent.com/squid314/.common-config/master/bin/setup.sh; \
-    bash -s /tmp/setup.sh no-agent; \
+    curl -so /tmp/setup.sh https://raw.githubusercontent.com/squid314/.common-config/master/bin/setup.sh; \
+    bash -x -s /tmp/setup.sh no-agent; \
     rm /tmp/setup.sh
 
 CMD ["/bin/bash", "-il"]
