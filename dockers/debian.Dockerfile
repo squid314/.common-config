@@ -1,0 +1,12 @@
+FROM debian
+
+RUN set -e;     apt-get update;     apt-get install -y         sudo git vim bzip2     ;     rm -rf /var/lib/apt/lists/*
+
+RUN set -e;     useradd -mU -a /bin/bash squid;     # TODO need this or not?
+    echo 'squid   ALL=NOPASSWD:(ALL:ALL) ALL' >>/etc/sudoers.d/no-passwd-sudo
+
+USER squid
+
+RUN curl -vs https://raw.githubusercontent.com/squid314/.common-config/raw/master/bin/setup.sh | bash -s - docker
+
+CMD ["/bin/bash"]
