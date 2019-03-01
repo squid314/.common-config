@@ -3,16 +3,23 @@
 # if not running interactively, don't do anything
 [[ "$-" != *i* ]] && return
 
+if [[ -r /etc/bashrc ]] ; then source /etc/bashrc ;
+elif [[ -r /etc/bash.bashrc ]] ; then source /etc/bash.bashrc ;
+fi
+
 # set up the config root directory since lots of files are based there
 CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 
 # make sure important functions are available
-for f in "$CONFIG_ROOT"/bashrc.func.d/*.sh ; do source "$f" ; done
+for s in "$CONFIG_ROOT"/bashrc.func.d/*.sh ; do source "$s" ; done ; unset s
 
 # any completions you add in ~/.bash_completion are sourced last
 if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion ;
-elif [[ -d /etc/bash_completion.d ]] ; then for s in /etc/bash_completion.d/* ; do source "$s" ; done ; fi
-if [[ -f /usr/local/share/bash-completion/bash_completion ]] ; then source /usr/local/share/bash-completion/bash_completion ; fi
+elif [[ -d /etc/bash_completion.d ]] ; then for s in /etc/bash_completion.d/* ; do source "$s" ; done ; unset s ;
+fi
+for f in /usr/share/bash{-,_}completion{,.d}{,/completions} ; do
+    if [[ -d $f ]] ; then for s in "$f"/* ; do source "$s" ; done ; unset s ; fi
+done ; unset f
 
 # function to enable easy config testing
 bconf() {
@@ -50,15 +57,15 @@ LC_COLLATE=C
 
 # pull in .sh files from bashrc.d (allowing extra support files to be present in bashrc.d if desired)
 if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
-    for scr in "$CONFIG_ROOT"/bashrc.d/*.sh ; do
+    for s in "$CONFIG_ROOT"/bashrc.d/*.sh ; do
         # check if the script has been disabled in the git config before sourcing it
-        if [[ -r "$scr" ]] &&
-            ! bconf "bashrc.d.$(basename $scr)=disabled"
+        if [[ -r "$s" ]] &&
+            ! bconf "bashrc.d.$(basename $s)=disabled"
         then
-            source "$scr"
+            source "$s"
         fi
     done
-    unset scr
+    unset s
 fi
 
 # immediately update the .bash_history file
@@ -67,7 +74,7 @@ promptcmdmunge 'history -a'
 if declare -f __git_ps1 > /dev/null ; then
     promptcmdmunge '__git_ps1_value="$(__git_ps1)"'
 fi
-promptcmdmunge '__jobs="$(jobs -p)"'
+promptcmdmunge '__jobs=($(jobs -p))'
 
 # TODO `agent verify` creates a background job, somehow, that is alive through a `jobs -p` test and then finishes before the prompt is displayed, so we have to put the __jobs setup before that
 # if using ssh-agent helper, add it to the prompt command

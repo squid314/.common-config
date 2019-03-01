@@ -1,5 +1,7 @@
 # kube-cluster.sh
 
+# TODO this was built at a specific job; does this apply outside of that one job?
+
 # script to duplicate what kube-cluster's os_shell.command script does
 if [ -d "${HOME}/kube-cluster/bin" ] && [ -f ~/bin/corectl ] ; then
 

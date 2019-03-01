@@ -3,16 +3,19 @@
 set -e
 
 setup() {
-    DISABLE_AGENT=no
-    USERONLY=no
+    # defaults to be overridden by args
+    SSH_AGENT=yes
+    USER_ONLY=no
+    SSH_KEY=yes
     while [[ $# -gt 0 ]] ; do
         case "$1" in
             # direct actions
-            no-agent) DISABLE_AGENT=yes ;;
-            user-only) USERONLY=yes ;;
+            no-agent) SSH_AGENT=no ;;
+            no-key) SSH_KEY=no ;;
+            user-only) USER_ONLY=yes ;;
             # environments
-            docker) DISABLE_AGENT=yes ;;
-            new-comp) USERONLY=yes ;;
+            docker) SSH_AGENT=no ;;
+            new-comp) USER_ONLY=yes ;;
         esac
         shift
     done
@@ -34,17 +37,6 @@ setup() {
         )
     fi
 
-    case "$(echo .ssh/id_*)" in
-        .ssh/id_\*)
-            mkdir -p .ssh
-            chmod 700 .ssh
-            ssh-keygen -q -t ed25519 -N '' -f .ssh/id_ed25519
-            echo "New public key:"
-            cat .ssh/id_ed25519.pub
-            ;;
-        *) ;; # already have key(s)
-    esac
-
     if [[ ! -d ~/.vim/bundle/Vundle.vim ]] ; then
         # initially set up vundle
         if type git &>/dev/null ; then
@@ -56,11 +48,15 @@ setup() {
         fi
     fi
 
-    if [[ $DISABLE_AGENT == yes ]] ; then
+    if [[ $SSH_AGENT == no ]] ; then
         echo 'bashrc.d.ssh-agent-share.sh=disabled' >>~/.bashrc.conf
     fi
 
-    if [[ $USERONLY == yes ]] ; then
+    if [[ $SSH_KEY == no ]] ; then
+        echo 'bashrc.d.ssh-keygen.sh=disabled' >>~/.bashrc.conf
+    fi
+
+    if [[ $USER_ONLY == yes ]] ; then
         echo 'bashrc.ps1.userhost=useronly' >>~/.bashrc.conf
     fi
 }

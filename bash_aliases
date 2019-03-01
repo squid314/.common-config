@@ -86,11 +86,7 @@ fi
 
 alias pyjs="python -m json.tool"
 alias tmd="tmux new-session -As default"
-alias confup='( cd ~/.common-config && git pull --ff-only ) && . ~/.bashrc'
 alias pgrep='ps -ef | grep -i'
-
-if type docker &>/dev/null ; then alias d='docker' ; fi
-if type kubectl &>/dev/null ; then alias k='kubectl' ; fi
 
 if type git &>/dev/null ; then
     g() {

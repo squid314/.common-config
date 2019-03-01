@@ -1,8 +1,11 @@
 # ssh-agent-share.sh
 
-# This set of commands provides a way to ensure that only one ssh-agent(1) is running at a time and to be able to clean it up when there are no more shells
-# using it. It does this by adding a special agent-info directory to a user's .ssh directory and storing required metadata there. This metadata consists of the
-# connection info of the current running agent as well as all shells which are currently connecting to it.
+# This set of commands provides a way to ensure that only one ssh-agent(1) is
+# running at a time and to be able to clean it up when there are no more shells
+# using it. It does this by adding a special agent-info directory to a user's
+# .ssh directory and storing required metadata there. This metadata consists of
+# the connection info of the current running agent as well as all shells which
+# are currently connecting to it.
 
 AGENT_INFO_DIR="${HOME}/.ssh/agent-info"
 AGENT_INFO_FILE="${AGENT_INFO_DIR}/info"
@@ -19,8 +22,9 @@ function agent {
             [ $? != 0 ] && echo Unable to create a temp file. >&2 && return 1
             ssh-agent | head -n 2 > $new_agent
 
-            # if an info file exists, then we assume that it is extraneous and due to an unclean exit of a shell (possibly during shutdown) and just clean
-            # everything up
+            # if an info file exists, then we assume that it is extraneous and
+            # due to an unclean exit of a shell (possibly during shutdown) and
+            # just clean everything up
             if [ -f $AGENT_INFO_FILE ] ; then
                 bash -c "
 # pull the old info in
@@ -36,20 +40,29 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
 
             mv $new_agent $AGENT_INFO_FILE
             ;;
-        attach) # load info into current shell, test the new connection, and add current shell to list of attached shells
+        attach)
+            # load info into current shell, test the new connection, and add
+            # current shell to list of attached shells
             source $AGENT_INFO_FILE &>/dev/null && ssh-add -l &>/dev/null
-            # ssh-add -l returns 0 if there are identities and 1 if there are none, but returns 2 if the connection fails; so we look explicitly for 2
+            # ssh-add -l returns 0 if there are identities and 1 if there are
+            # none, but returns 2 if the connection fails; so we look explicitly
+            # for 2
             [ $? != 2 ] && touch $AGENT_INFO_DIR/sh-$$
             ;;
-        detach) # remove current shell from attached shells and clean up agent if no remaining attached shells
+        detach)
+            # remove current shell from attached shells and clean up agent if no
+            # remaining attached shells
             rm $AGENT_INFO_DIR/sh-$$
-            # if we were the last shell listening, then clean up the agent and info file
+            # if we were the last shell listening, then clean up the agent and
+            # info file
             if echo $AGENT_INFO_DIR/sh-* | grep '*' &>/dev/null ; then
                 ssh-agent -k
                 rm $AGENT_INFO_FILE
             fi
             ;;
-        verify) # verify that an agent exists and the current shell is attached; if not, attach, creating if necessary
+        verify)
+            # verify that an agent exists and the current shell is attached; if
+            # not, attach, creating if necessary
             # tests:
             # - have PID data?
             # - have socket data?
@@ -81,7 +94,8 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
             fi
             ssh-add "${keys_to_add[@]}"
             ;;
-        show) # show the current agent info; primarily usefull for debugging
+        show)
+            # show the current agent info; primarily usefull for debugging
             # compare current environment to what is in the agent info file, if it exists
             if [ ! -f "${AGENT_INFO_FILE}" ] ; then
                 echo No agent info file detected at "${AGENT_INFO_FILE}".
@@ -107,14 +121,17 @@ COMPARE_ENV_STATE_SCRIPT
             echo Loaded identities:
             ssh-add -l
             ;;
-        *) # for anything else, we assume that the user meant "add" with the provided parameters
+        *)
+            # for anything else, we assume that the user meant "add" with the
+            # provided parameters
             echo Agent proessing as \"add\" for \""$*"\"
             agent add "$@"
             ;;
     esac
 }
 
-# ensure that the agent info directory exists, otherwise the rest of this stuff may fail
+# ensure that the agent info directory exists, otherwise the rest of this stuff
+# may fail
 if [ ! -d "${AGENT_INFO_DIR}" ] ; then mkdir "${AGENT_INFO_DIR}" ; fi
 # detach from agent tracking when shell exists
 trap "agent detach" EXIT

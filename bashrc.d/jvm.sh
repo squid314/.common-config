@@ -16,6 +16,9 @@ jvm() {
         8|1.8) export JAVA_HOME="`/usr/libexec/java_home -v 1.8`" ;;
         9|1.9) export JAVA_HOME="`/usr/libexec/java_home -v 1.9`" ;;
         10|1.10) export JAVA_HOME="`/usr/libexec/java_home -v 10`" ;;
+        11|1.11) export JAVA_HOME="`/usr/libexec/java_home -v 11`" ;;
+        12|1.12) export JAVA_HOME="`/usr/libexec/java_home -v 12`" ;;
+        # TODO given java's new versioning model, this could get problematic fast
         *) echo "Don't understand version '$1'" ; return 1 ;;
     esac
     # echo mirror of the export so that this could be used at the beginning of a cmd line, e.g "`jvm 6` java doIt"
