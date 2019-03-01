@@ -4,4 +4,7 @@
 
 source ~/.common-config/vimrc
 
+"""""""""""""""BEGIN SCRIPTED VALUES""""""""""""""""""""""""
+"""""""""""""""END SCRIPTED VALUES""""""""""""""""""""""""""
+
 " add any override values here
