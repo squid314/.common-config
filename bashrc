@@ -3,6 +3,7 @@
 # if not running interactively, don't do anything
 [[ "$-" != *i* ]] && return
 
+# always pull system config
 if [[ -r /etc/bashrc ]] ; then source /etc/bashrc ;
 elif [[ -r /etc/bash.bashrc ]] ; then source /etc/bash.bashrc ;
 fi
@@ -18,8 +19,16 @@ if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion ;
 elif [[ -d /etc/bash_completion.d ]] ; then for s in /etc/bash_completion.d/* ; do source "$s" ; done ; unset s ;
 fi
 for f in /usr/share/bash{-,_}completion{,.d}{,/completions} ; do
-    if [[ -d $f ]] ; then for s in "$f"/* ; do source "$s" ; done ; unset s ; fi
-done ; unset f
+    if [[ -d "$f" ]] ; then
+        for s in "$f"/* ; do
+            if [[ -f "$s" ]] ; then
+                source "$s"
+            fi
+        done
+    fi
+done
+unset s
+unset f
 
 # function to enable easy config testing
 bconf() {
@@ -39,12 +48,6 @@ shopt -s checkwinsize
 # disable that silly legacy option to enable/disable flow control
 if which stty >/dev/null ; then stty -ixon -ixoff ; fi
 
-# git stuff
-if type git &>/dev/null ; then
-    if [[ -f ~/.git-completion.bash ]] ; then . ~/.git-completion.bash ; fi
-    if [[ -f ~/.git-prompt.sh ]] ; then . ~/.git-prompt.sh ; fi
-fi
-GIT_PS1_SHOWDIRTYSTATE=true GIT_PS1_SHOWSTASHSTATE=true GIT_PS1_SHOWUNTRACKEDFILES=true GIT_PS1_SHOWUPSTREAM="auto git"
 # spring boot
 if [[ -f ~/.gvm/springboot/current/shell-completion/bash/spring ]] ; then source ~/.gvm/springboot/current/shell-completion/bash/spring ; fi
 # gradle completion (https://github.com/gradle/gradle-completion)
@@ -78,7 +81,7 @@ promptcmdmunge '__jobs=($(jobs -p))'
 
 # TODO `agent verify` creates a background job, somehow, that is alive through a `jobs -p` test and then finishes before the prompt is displayed, so we have to put the __jobs setup before that
 # if using ssh-agent helper, add it to the prompt command
-if declare -f agent > /dev/null ; then
+if declare -f agent >/dev/null ; then
     promptcmdmunge 'agent verify'
 fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
