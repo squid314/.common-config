@@ -14,10 +14,12 @@ CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
 # make sure important functions are available
 for s in "$CONFIG_ROOT"/bashrc.func.d/*.sh ; do source "$s" ; done ; unset s
 
-# any completions you add in ~/.bash_completion are sourced last
+# try to find all the possible locations of completion enhancements
 if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion ;
 elif [[ -d /etc/bash_completion.d ]] ; then for s in /etc/bash_completion.d/* ; do source "$s" ; done ; unset s ;
 fi
+if [[ -f /usr/share/bash-completion/bash_completion ]] ; then source /usr/share/bash-completion/bash_completion ; fi
+if [[ -f /usr/local/share/bash-completion/bash_completion ]] ; then source /usr/local/share/bash-completion/bash_completion ; fi
 for f in /usr/share/bash{-,_}completion{,.d}{,/completions} ; do
     if [[ -d "$f" ]] ; then
         for s in "$f"/* ; do
