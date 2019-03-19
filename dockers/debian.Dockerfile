@@ -2,9 +2,22 @@ FROM debian
 
 RUN set -e; \
     apt-get update; \
+    apt-get upgrade -y; \
     apt-get install -y \
-        sudo git vim curl bzip2 \
+        sudo \
+        git \
+        vim \
+        curl \
+        bzip2 \
+        apt-transport-https \
+        ca-certificates \
+        gnupg2 \
+        software-properties-common \
     ; \
+    curl -fsSLo /tmp/gpg https://download.docker.com/linux/debian/gpg; \
+    sudo apt-key add /tmp/gpg; \
+    rm /tmp/gpg; \
+    \
     rm -rf /var/lib/apt/lists/*
 
 RUN set -e; \
