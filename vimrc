@@ -16,7 +16,7 @@ if has('reltime')
 endif
 
 " ensure that statusline has file position indicator
-set statusline=%<%f\ %h%r%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 " setup for vundle (https://github.com/gmarik/Vundle.vim)
 filetype off
