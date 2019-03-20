@@ -18,6 +18,29 @@ RUN set -e; \
     sudo apt-key add /tmp/gpg; \
     rm /tmp/gpg; \
     \
+    # dependencies for building git
+    apt-get install -y \
+        dh-autoreconf \
+        libcurl4-gnutls-dev \
+        libexpat1-dev \
+        gettext \
+        libz-dev \
+        libssl-dev \
+        asciidoc \
+        xmlto \
+        docbook2x \
+        install-info\
+    ; \
+    git clone --depth 200 https://github.com/git/git.git /tmp/git; \
+    cd .bin/git; \
+    cd /tmp/git; \
+    git checkout $(git log --simplify-by-decoration --decorate --oneline origin/master | sed -n "/tag: v[0-9.]*[),]/{s/.*tag: \\(v[^),]*\\).*/\\1/;p;q}"); \
+    make configure; \
+    ./configure --prefix=/usr; \
+    make all doc info; \
+    sudo make install{,-doc,-html,-info}; \
+    cd /; rm -rf /tmp/git; \
+    \
     rm -rf /var/lib/apt/lists/*
 
 RUN set -e; \
