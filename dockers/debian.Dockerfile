@@ -37,7 +37,7 @@ RUN set -e; \
     make configure; \
     ./configure --prefix=/usr; \
     make all doc info; \
-    sudo make install{,-doc,-html,-info}; \
+    sudo make install install-doc install-html install-info; \
     cd /; rm -rf /tmp/git; \
     \
     rm -rf /var/lib/apt/lists/*
