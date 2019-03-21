@@ -32,7 +32,6 @@ RUN set -e; \
         install-info\
     ; \
     git clone --depth 200 https://github.com/git/git.git /tmp/git; \
-    cd .bin/git; \
     cd /tmp/git; \
     git checkout $(git log --simplify-by-decoration --decorate --oneline origin/master | sed -n "/tag: v[0-9.]*[),]/{s/.*tag: \\(v[^),]*\\).*/\\1/;p;q}"); \
     make configure; \
