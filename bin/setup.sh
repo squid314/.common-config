@@ -23,13 +23,20 @@ setup() {
         esac
         shift
     done
-    printf 'Settings for %s: agent=%-4s key=%-4s user=%-4s git-as-ssh=%-4s has-git=%-4s\n' "$(hostname)" $SSH_AGENT $SSH_KEY $USER_ONLY $REWRITE_GIT_TO_SSH $(type git &>/dev/null && echo yes || echo no)
+    printf 'Settings for %s:' $HOSTNAME
+    printf ' % 12s=%-4s' \
+        agent $SSH_AGENT \
+        key $SSH_KEY \
+        user-only $USER_ONLY \
+        git-ssh $REWRITE_GIT_TO_SSH \
+        has-git $(type git &>/dev/null && echo yes || echo no)
+    printf '\n'
 
     cd ~
 
     if [[ ! -d ~/.common-config ]] ; then
         if type git &>/dev/null ; then
-            git clone --depth 1 https://github.com/squid314/.common-config.git
+            git clone https://github.com/squid314/.common-config.git
             git --git-dir=.common-config/.git/ config --add remote.origin.prune true
 
             if [[ $REWRITE_GIT_TO_SSH == yes ]] ; then
@@ -44,6 +51,15 @@ setup() {
         if type git &>/dev/null ; then
             (
                 cd ~/.common-config/
+                if [[ ! -d .git ]] ; then
+                    git clone https://github.com/squid314/.common-config.git
+                    mv .common-config/.git .git
+                    git add .
+                    git reset --hard
+                    if [[ $REWRITE_GIT_TO_SSH == yes ]] ; then
+                        git --git-dir=.common-config/.git/ remote set-url git@github.com:squid314/.common-config.git
+                    fi
+                fi
                 git pff || :
             )
         else
@@ -73,8 +89,6 @@ let g:vundle_default_git_proto=git
         fi
     fi
 
-    echo Current .bashrc.conf:
-    cat .bashrc.conf
     if [[ $SSH_AGENT == no ]] ; then
         touch ~/.bashrc.conf
         sed -i '/^bashrc\.d\.ssh-agent-share\.sh=/d
