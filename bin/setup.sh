@@ -18,10 +18,12 @@ setup() {
             # environments
             docker) SSH_AGENT=no ;;
             new-comp) USER_ONLY=yes ;;
+            vagrant) SSH_AGENT=no ; SSH_KEY=no ;;
         esac
         shift
     done
 
+    cd ~
 
     if [[ ! -d ~/.common-config ]] ; then
         if type git &>/dev/null ; then
@@ -37,10 +39,16 @@ setup() {
         fi
         cp -f .common-config/.{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc} .
     else
-        (
-            cd ~/.common-config/
-            git pff || :
-        )
+        if type git &>/dev/null ; then
+            (
+                cd ~/.common-config/
+                git pff || :
+            )
+        else
+            curl -sL https://github.com/squid314/.common-config/archive/master.tar.gz | tar zx
+            rm -rf .common-config
+            mv .common-config{-master,}
+        fi
     fi
 
     if [[ ! -d ~/.vim/bundle/Vundle.vim ]] ; then
@@ -64,15 +72,24 @@ let g:vundle_default_git_proto=git
     fi
 
     if [[ $SSH_AGENT == no ]] ; then
-        echo 'bashrc.d.ssh-agent-share.sh=disabled' >>~/.bashrc.conf
+        touch ~/.bashrc.conf
+        sed -i '/^bashrc\.d\.ssh-agent-share\.sh=/d
+        $a\
+bashrc.d.ssh-agent-share.sh=disabled' ~/.bashrc.conf
     fi
 
     if [[ $SSH_KEY == no ]] ; then
-        echo 'bashrc.d.ssh-keygen.sh=disabled' >>~/.bashrc.conf
+        touch ~/.bashrc.conf
+        sed -i '/^bashrc\.d\.ssh-keygen\.sh=/d
+        $a\
+bashrc.d.ssh-keygen.sh=disabled' ~/.bashrc.conf
     fi
 
     if [[ $USER_ONLY == yes ]] ; then
-        echo 'bashrc.ps1.userhost=useronly' >>~/.bashrc.conf
+        touch ~/.bashrc.conf
+        sed -i '/^bashrc\.ps1\.userhost=/d
+        $a\
+bashrc.ps1.userhost=useronly' ~/.bashrc.conf
     fi
 }
 
