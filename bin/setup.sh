@@ -5,9 +5,10 @@ set -e
 setup() {
     # defaults to be overridden by args
     SSH_AGENT=yes
-    USER_ONLY=no
     SSH_KEY=yes
+    USER_ONLY=no
     REWRITE_GIT_TO_SSH=no
+    echo Args: "$@"
     while [[ $# -gt 0 ]] ; do
         case "$1" in
             # direct actions
@@ -22,6 +23,7 @@ setup() {
         esac
         shift
     done
+    printf 'Settings for %s: agent=%-4s key=%-4s user=%-4s git-as-ssh=%-4s has-git=%-4s\n' "$(hostname)" $SSH_AGENT $SSH_KEY $USER_ONLY $REWRITE_GIT_TO_SSH $(type git &>/dev/null && echo yes || echo no)
 
     cd ~
 
@@ -71,26 +73,30 @@ let g:vundle_default_git_proto=git
         fi
     fi
 
+    echo Current .bashrc.conf:
+    cat .bashrc.conf
     if [[ $SSH_AGENT == no ]] ; then
         touch ~/.bashrc.conf
         sed -i '/^bashrc\.d\.ssh-agent-share\.sh=/d
         $a\
-bashrc.d.ssh-agent-share.sh=disabled' ~/.bashrc.conf
+bashrc.d.ssh-agent-share.sh=disabled' .bashrc.conf
     fi
 
     if [[ $SSH_KEY == no ]] ; then
         touch ~/.bashrc.conf
         sed -i '/^bashrc\.d\.ssh-keygen\.sh=/d
         $a\
-bashrc.d.ssh-keygen.sh=disabled' ~/.bashrc.conf
+bashrc.d.ssh-keygen.sh=disabled' .bashrc.conf
     fi
 
     if [[ $USER_ONLY == yes ]] ; then
         touch ~/.bashrc.conf
         sed -i '/^bashrc\.ps1\.userhost=/d
         $a\
-bashrc.ps1.userhost=useronly' ~/.bashrc.conf
+bashrc.ps1.userhost=useronly' .bashrc.conf
     fi
+    echo Updated .bashrc.conf:
+    cat .bashrc.conf
 }
 
 # protect against executing a partially downloaded script
