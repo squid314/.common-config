@@ -36,8 +36,7 @@ setup() {
 
     if [[ ! -d ~/.common-config ]] ; then
         if type git &>/dev/null ; then
-            git clone https://github.com/squid314/.common-config.git
-            git --git-dir=.common-config/.git/ config --add remote.origin.prune true
+            git clone --config remote.origin.prune=true https://github.com/squid314/.common-config.git
 
             if [[ $REWRITE_GIT_TO_SSH == yes ]] ; then
                 git --git-dir=.common-config/.git/ remote set-url git@github.com:squid314/.common-config.git
@@ -90,24 +89,21 @@ let g:vundle_default_git_proto=git
     fi
 
     if [[ $SSH_AGENT == no ]] ; then
-        touch ~/.bashrc.conf
-        sed -i '/^bashrc\.d\.ssh-agent-share\.sh=/d
-        $a\
-bashrc.d.ssh-agent-share.sh=disabled' .bashrc.conf
+        touch .bashrc.conf
+        sed -i '/^bashrc\.d\.ssh-agent-share\.sh=/d' .bashrc.conf
+        echo 'bashrc.d.ssh-agent-share.sh=disabled' >>.bashrc.conf
     fi
 
     if [[ $SSH_KEY == no ]] ; then
-        touch ~/.bashrc.conf
-        sed -i '/^bashrc\.d\.ssh-keygen\.sh=/d
-        $a\
-bashrc.d.ssh-keygen.sh=disabled' .bashrc.conf
+        touch .bashrc.conf
+        sed -i '/^bashrc\.d\.ssh-keygen\.sh=/d' .bashrc.conf
+        echo 'bashrc.d.ssh-keygen.sh=disabled' >>.bashrc.conf
     fi
 
     if [[ $USER_ONLY == yes ]] ; then
         touch ~/.bashrc.conf
-        sed -i '/^bashrc\.ps1\.userhost=/d
-        $a\
-bashrc.ps1.userhost=useronly' .bashrc.conf
+        sed -i '/^bashrc\.ps1\.userhost=/d' .bashrc.conf
+        echo 'bashrc.ps1.userhost=useronly' >>.bashrc.conf
     fi
     echo Updated .bashrc.conf:
     cat .bashrc.conf
