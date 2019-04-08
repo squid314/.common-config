@@ -9,3 +9,6 @@
 
 # ignore mac shit
 *.DS_Store
+
+# ignore vagrant private files
+.vagrant/
