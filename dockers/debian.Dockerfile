@@ -15,7 +15,7 @@ RUN set -e; \
         software-properties-common \
     ; \
     curl -fsSLo /tmp/gpg https://download.docker.com/linux/debian/gpg; \
-    sudo apt-key add /tmp/gpg; \
+    apt-key add /tmp/gpg; \
     rm /tmp/gpg; \
     \
     # dependencies for building git
@@ -31,13 +31,13 @@ RUN set -e; \
         docbook2x \
         install-info\
     ; \
-    git clone --depth 200 https://github.com/git/git.git /tmp/git; \
+    git clone --depth 30 https://github.com/git/git.git /tmp/git; \
     cd /tmp/git; \
     git checkout $(git log --simplify-by-decoration --decorate --oneline origin/master | sed -n "/tag: v[0-9.]*[),]/{s/.*tag: \\(v[^),]*\\).*/\\1/;p;q}"); \
     make configure; \
     ./configure --prefix=/usr; \
     make all doc info; \
-    sudo make install install-doc install-html install-info; \
+    make install install-doc install-html install-info; \
     cd /; rm -rf /tmp/git; \
     \
     rm -rf /var/lib/apt/lists/*
