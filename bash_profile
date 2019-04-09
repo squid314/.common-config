@@ -1,7 +1,7 @@
 # .bash_profile extension
 
 # set up the config root directory since lots of files are based there
-CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
+CONFIG_ROOT="$(cd $(dirname ${BASH_ARGV[0]}) ; pwd)"
 
 source "$CONFIG_ROOT/bashrc.func.d/pathmunge.sh"
 # any PATH component which is relative to the current directory is a security risk, so remove that in case some idiot added it to the system environment

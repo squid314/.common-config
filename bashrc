@@ -9,7 +9,7 @@ elif [[ -r /etc/bash.bashrc ]] ; then source /etc/bash.bashrc ;
 fi
 
 # set up the config root directory since lots of files are based there
-CONFIG_ROOT="`dirname ${BASH_ARGV[0]}`"
+CONFIG_ROOT="$(cd $(dirname ${BASH_ARGV[0]}) ; pwd)"
 
 # make sure important functions are available
 for s in "$CONFIG_ROOT"/bashrc.func.d/*.sh ; do source "$s" ; done ; unset s
