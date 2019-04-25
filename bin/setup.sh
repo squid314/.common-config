@@ -39,7 +39,7 @@ setup() {
             git clone --config remote.origin.prune=true https://github.com/squid314/.common-config.git
 
             if [[ $REWRITE_GIT_TO_SSH == yes ]] ; then
-                git --git-dir=.common-config/.git/ remote set-url git@github.com:squid314/.common-config.git
+                git --git-dir=.common-config/.git/ remote set-url origin git@github.com:squid314/.common-config.git
             fi
         else
             curl -sL https://github.com/squid314/.common-config/archive/master.tar.gz | tar zx
@@ -55,9 +55,9 @@ setup() {
                     mv .common-config/.git .git
                     git add .
                     git reset --hard
-                    if [[ $REWRITE_GIT_TO_SSH == yes ]] ; then
-                        git --git-dir=.common-config/.git/ remote set-url git@github.com:squid314/.common-config.git
-                    fi
+                fi
+                if [[ $REWRITE_GIT_TO_SSH == yes ]] ; then
+                    git remote set-url origin git@github.com:squid314/.common-config.git
                 fi
                 git pff || :
             )
