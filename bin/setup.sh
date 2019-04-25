@@ -88,21 +88,21 @@ let g:vundle_default_git_proto=git
         fi
     fi
 
+    touch .bashrc.conf
+    sed -i '/^bashrc\.d\.ssh-agent-share\.sh=/d' .bashrc.conf
     if [[ $SSH_AGENT == no ]] ; then
-        touch .bashrc.conf
-        sed -i '/^bashrc\.d\.ssh-agent-share\.sh=/d' .bashrc.conf
         echo 'bashrc.d.ssh-agent-share.sh=disabled' >>.bashrc.conf
     fi
 
+    touch .bashrc.conf
+    sed -i '/^bashrc\.d\.ssh-keygen\.sh=/d' .bashrc.conf
     if [[ $SSH_KEY == no ]] ; then
-        touch .bashrc.conf
-        sed -i '/^bashrc\.d\.ssh-keygen\.sh=/d' .bashrc.conf
         echo 'bashrc.d.ssh-keygen.sh=disabled' >>.bashrc.conf
     fi
 
+    touch ~/.bashrc.conf
+    sed -i '/^bashrc\.ps1\.userhost=/d' .bashrc.conf
     if [[ $USER_ONLY == yes ]] ; then
-        touch ~/.bashrc.conf
-        sed -i '/^bashrc\.ps1\.userhost=/d' .bashrc.conf
         echo 'bashrc.ps1.userhost=useronly' >>.bashrc.conf
     fi
     echo Updated .bashrc.conf:
