@@ -17,6 +17,8 @@ endif
 
 " ensure that statusline has file position indicator
 set ruler
+" highlight searches by default
+set hls
 
 " setup for vundle (https://github.com/gmarik/Vundle.vim)
 filetype off
