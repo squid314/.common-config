@@ -8,6 +8,7 @@ setup() {
     SSH_KEY=yes
     USER_ONLY=no
     REWRITE_GIT_TO_SSH=no
+    BASE_DIR=$HOME
     echo Args: "$@"
     while [[ $# -gt 0 ]] ; do
         case "$1" in
@@ -16,6 +17,7 @@ setup() {
             no-key) SSH_KEY=no ;;
             user-only) USER_ONLY=yes ;;
             git-ssh) REWRITE_GIT_TO_SSH=yes ;; # don't set no-key if using this option
+            dir=*) BASE_DIR="${1##dir=}" ;;
             # environments
             docker) SSH_AGENT=no ;;
             new-comp) USER_ONLY=yes ;;
@@ -29,12 +31,18 @@ setup() {
         key $SSH_KEY \
         user-only $USER_ONLY \
         git-ssh $REWRITE_GIT_TO_SSH \
-        has-git $(type git &>/dev/null && echo yes || echo no)
+        has-git $(type git &>/dev/null && echo yes || echo no) \
+        dir "$BASE_DIR"
     printf '\n'
 
     cd ~
+    if [[ "$BASE_DIR" != "$HOME" ]] ; then
+        if [[ "${BASE_DIR[0]}" != / ]] ; then BASE_DIR="`pwd`/$BASE_DIR" ; fi
+        if [[ ! -d "$BASE_DIR" ]] ; then mkdir "$BASE_DIR" ; fi
+        cd "$BASE_DIR"
+    fi
 
-    if [[ ! -d ~/.common-config ]] ; then
+    if [[ ! -d .common-config ]] ; then
         if type git &>/dev/null ; then
             git clone --config remote.origin.prune=true https://github.com/squid314/.common-config.git
 
@@ -46,10 +54,13 @@ setup() {
             mv .common-config{-master,}
         fi
         cp -f .common-config/.{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc} .
+        if [[ "$BASE_DIR" != "$HOME" ]] ; then
+            sed -i "s;~;$BASE_DIR;g" .{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc}
+        fi
     else
         if type git &>/dev/null ; then
             (
-                cd ~/.common-config/
+                cd .common-config
                 if [[ ! -d .git ]] ; then
                     git clone https://github.com/squid314/.common-config.git
                     mv .common-config/.git .git
@@ -68,18 +79,18 @@ setup() {
         fi
     fi
 
-    if [[ ! -d ~/.vim/bundle/Vundle.vim ]] ; then
+    if [[ ! -d .vim/bundle/Vundle.vim ]] ; then
         # initially set up vundle
         if type git &>/dev/null ; then
-            git clone --depth 1 https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+            git clone --depth 1 https://github.com/gmarik/Vundle.vim.git .vim/bundle/Vundle.vim
 
             if [[ $REWRITE_GIT_TO_SSH == yes ]] ; then
-                git --git-dir=~/.vim/bundle/Vundle.vim/.git/ remote set-url origin git@github.com:gmarik/Vundle.vim.git
+                git --git-dir=.vim/bundle/Vundle.vim/.git/ remote set-url origin git@github.com:gmarik/Vundle.vim.git
                 sed -i '/"\{15}BEGIN SCRIPTED VALUES"/,/"\{15}END SCRIPED VALUES"/{
                 /g:vundle_default_git_proto/d
                 $a\
 let g:vundle_default_git_proto=git
-            }' ~/.vimrc
+            }' .vimrc
             fi
         else
             curl -sL https://github.com/gmarik/Vundle.vim/archive/master.tar.gz | tar zx
@@ -94,13 +105,11 @@ let g:vundle_default_git_proto=git
         echo 'bashrc.d.ssh-agent-share.sh=disabled' >>.bashrc.conf
     fi
 
-    touch .bashrc.conf
     sed -i '/^bashrc\.d\.ssh-keygen\.sh=/d' .bashrc.conf
     if [[ $SSH_KEY == no ]] ; then
         echo 'bashrc.d.ssh-keygen.sh=disabled' >>.bashrc.conf
     fi
 
-    touch ~/.bashrc.conf
     sed -i '/^bashrc\.ps1\.userhost=/d' .bashrc.conf
     if [[ $USER_ONLY == yes ]] ; then
         echo 'bashrc.ps1.userhost=useronly' >>.bashrc.conf

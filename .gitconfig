@@ -3,6 +3,6 @@
 # simply copy this file to your home directory
 
 [include]
-	path = .common-config/git/config
+	path = ~/.common-config/git/config
 
 # add any simple override values here
