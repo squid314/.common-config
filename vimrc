@@ -2,6 +2,11 @@
 
 " always iMproved
 set nocompatible
+
+" pull in the defaults (i wonder how much of this file i built is not needed)
+unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
+
 " enable syntax highlighting
 syntax enable
 " set colors to a good set for a black background (note that this is ugly for Mac outside of tmux)
@@ -19,6 +24,8 @@ endif
 set ruler
 " highlight searches by default
 set hls
+" scroll only when the cursor is at the edge of the screen
+set scrolloff=0
 
 " setup for vundle (https://github.com/gmarik/Vundle.vim)
 filetype off
