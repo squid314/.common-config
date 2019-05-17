@@ -37,7 +37,7 @@ setup() {
 
     cd ~
     if [[ "$BASE_DIR" != "$HOME" ]] ; then
-        if [[ "${BASE_DIR[0]}" != / ]] ; then BASE_DIR="`pwd`/$BASE_DIR" ; fi
+        if [[ "${BASE_DIR:0:1}" != / ]] ; then BASE_DIR="`pwd`/$BASE_DIR" ; fi
         if [[ ! -d "$BASE_DIR" ]] ; then mkdir "$BASE_DIR" ; fi
         cd "$BASE_DIR"
     fi
