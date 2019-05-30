@@ -5,7 +5,9 @@ set nocompatible
 
 " pull in the defaults (i wonder how much of this file i built is not needed)
 unlet! skip_defaults_vim
-source $VIMRUNTIME/defaults.vim
+if filereadable(expand("$VIMRUNTIME/defaults.vim"))
+    source $VIMRUNTIME/defaults.vim
+endif
 
 " enable syntax highlighting
 syntax enable
