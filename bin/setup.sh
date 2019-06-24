@@ -19,7 +19,7 @@ setup() {
             git-ssh) REWRITE_GIT_TO_SSH=yes ;; # don't set no-key if using this option
             dir=*) BASE_DIR="${1##dir=}" ;;
             # environments
-            docker) SSH_AGENT=no ;;
+            docker) SSH_AGENT=no ; REWRITE_GIT_TO_SSH=yes ;;
             new-comp) USER_ONLY=yes ;;
             vagrant) SSH_AGENT=no ; SSH_KEY=no ;;
         esac
@@ -92,11 +92,14 @@ setup() {
 let g:vundle_default_git_proto=git
             }' .vimrc
             fi
+
         else
             curl -sL https://github.com/gmarik/Vundle.vim/archive/master.tar.gz | tar zx
             mkdir -p .vim/bundle
             mv Vundle.vim-master .vim/bundle/Vundle.vim
         fi
+        # update all plugins
+        vim +:PluginUpdate +:qa - </dev/null
     fi
 
     touch .bashrc.conf
