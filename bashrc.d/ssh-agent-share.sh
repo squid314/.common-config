@@ -43,10 +43,16 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
         attach)
             # load info into current shell, test the new connection, and add
             # current shell to list of attached shells
-            source $AGENT_INFO_FILE &>/dev/null && ssh-add -l &>/dev/null
+            if ! source $AGENT_INFO_FILE &>/dev/null ; then
+                # if we could not source the file, then no one has a connection
+                # and we clean house
+                rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
+                return 1
+            fi
+            ssh-add -l &>/dev/null
             # ssh-add -l returns 0 if there are identities and 1 if there are
-            # none, but returns 2 if the connection fails; so we look explicitly
-            # for 2
+            # none, but returns 2 if the connection fails; so we look for that
+            # explicitly
             [ $? != 2 ] && touch $AGENT_INFO_DIR/sh-$$
             ;;
         detach)
@@ -88,11 +94,21 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
             ;;
         add) # add private keys to the agent
             shift
-            local keys_to_add=(~/.ssh/*id_*sa ~/.ssh/*id_ed25519)
+            local keys_to_add=(~/.ssh/*id_*sa ~/.ssh/*id_*ed25519)
             if [ $# != 0 ] ; then
                 keys_to_add=("$@")
             fi
-            ssh-add "${keys_to_add[@]}"
+            # GNU xargs runs the command even with no args unless you specify -r|--no-run-if-empty; BSD xargs defaults to not run the command if no args present
+            if [ "x$(xargs echo hello </dev/null)x" = xx ] ; then
+                x0="xargs -0"
+            else
+                x0="xargs -0r"
+            fi
+            for id in "${keys_to_add[@]}" ; do
+                if [ -f "$id" ] ; then
+                    printf '%s\0' "$id"
+                fi
+            done | $x0 ssh-add
             ;;
         show)
             # show the current agent info; primarily usefull for debugging
