@@ -25,9 +25,11 @@ RUN set -e; \
 USER squid
 WORKDIR /home/squid
 
+VOLUME /home/squid/dev
+
 RUN set -e; \
     curl -so /tmp/setup.sh https://raw.githubusercontent.com/squid314/.common-config/master/bin/setup.sh; \
-    bash /tmp/setup.sh no-agent; \
+    bash /tmp/setup.sh docker; \
     rm /tmp/setup.sh
 
 CMD ["/bin/bash", "-il"]
