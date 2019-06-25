@@ -86,7 +86,7 @@ setup() {
 
             if [[ $REWRITE_GIT_TO_SSH == yes ]] ; then
                 git --git-dir=.vim/bundle/Vundle.vim/.git/ remote set-url origin git@github.com:gmarik/Vundle.vim.git
-                sed -i '/"\{15}BEGIN SCRIPTED VALUES"/,/"\{15}END SCRIPED VALUES"/{
+                sed -i '/"\{15\}BEGIN SCRIPTED VALUES"/,/"\{15\}END SCRIPED VALUES"/{
                 /g:vundle_default_git_proto/d
                 $a\
 let g:vundle_default_git_proto=git
