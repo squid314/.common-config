@@ -84,17 +84,36 @@ promptcmdmunge 'history -a'
 if declare -f __git_ps1 > /dev/null ; then
     promptcmdmunge '__git_ps1_value="$(__git_ps1)"'
 fi
-promptcmdmunge '__jobs=($(jobs -p))'
+promptcmdmunge '__ps1_jobs=($(jobs -p))'
 
-# TODO `agent verify` creates a background job, somehow, that is alive through a `jobs -p` test and then finishes before the prompt is displayed, so we have to put the __jobs setup before that
+# TODO `agent verify` creates a background job, somehow, that is alive through a `jobs -p` test and then finishes before the prompt is displayed, so we have to put the __ps1_jobs setup before that
 # if using ssh-agent helper, add it to the prompt command
 if declare -f agent >/dev/null ; then
     promptcmdmunge 'agent verify'
 fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
-userhost='\u@\h'
-if bconf 'bashrc.ps1.userhost=useronly' ; then userhost='\u' ; fi
-PS1='\[\e]0;\w$__git_ps1_value\007\e[0;1;34m\]'"$userhost"' \[\e[32m\]\w\[\e[0;1;32m\]$__git_ps1_value `[[ $? -eq 0 ]]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0m\] ${__jobs:+\[\e[33m\]>}\[\e[31m\]\$\[\e[0m\] '
+__ps1_userhost='\u@\h'
+if bconf 'bashrc.ps1.userhost=useronly' ; then __ps1_userhost='\u' ; fi
+__ps1_success="$__ps1_bold_green:)$__ps1_reset"
+__ps1_failure="$__ps1_bold_red:($__ps1_reset"
+__ps1() {
+    local __ps1_last
+    # `[[ $? -eq 0 ]]&&echo ":)"||echo "\[\e[31m\]:("`\[\e[0m\]
+    if [[ $1 -eq 0 ]] ; then
+        __ps1_last=$__ps1_success
+    else
+        __ps1_last=$__ps1_failure
+    fi
+    __ps1_window_title='\[\e]0;\w$__git_ps1_value\007'
+    PS1="\
+$__ps1_window_title\
+$__ps1_bold_blue$__ps1_userhost$__ps1_reset \
+$__ps1_bold_green\w$__git_ps1_value$__ps1_reset \
+$__ps1_last \
+${__ps1_jobs:+$__ps1_yellow>}\
+$__ps1_red\$$__ps1_reset "
+}
+promptcmdmunge '__ps1 $__exit'
 
 # load various version/environment managers
 if [[ -r "$HOME/.rvm/scripts/rvm"     ]] ; then source "$HOME/.rvm/scripts/rvm"     ; fi
