@@ -20,10 +20,22 @@ __prompt_command() {
 # func to add to prompt cmd (unlike the model pathmunge, this only allows adding after)
 promptcmdmunge() {
     local pc
-    for pc in "${__prompt_commands[@]}" ; do
-        if [[ $pc = $1 ]] ; then
-            return 0
-        fi
-    done
+
+    if [[ $1 = -m || $1 = -d ]] ; then
+        for index in "${!__prompt_commands[@]}" ; do
+            if [[ $2 = ${__prompt_commands[$index]} ]] ; then
+                unset "__prompt_commands[$index]"
+                break
+            fi
+        done
+        if [[ $1 = -d ]] ; then return 0 ; fi
+        shift
+    else
+        for pc in "${__prompt_commands[@]}" ; do
+            if [[ $pc = $1 ]] ; then
+                return 0
+            fi
+        done
+    fi
     __prompt_commands=( "${__prompt_commands[@]}" "$1" )
 }
