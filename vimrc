@@ -44,6 +44,7 @@ Plugin 'hashivim/vim-vagrant'
 Plugin 'avakhov/vim-yaml'
 Plugin 'chr4/nginx.vim'
 Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'udalov/kotlin-vim'
 " scala stuff
 Plugin 'derekwyatt/vim-scala'
 "Plugin 'ktvoelker/sbt-vim'
