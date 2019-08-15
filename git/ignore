@@ -1,5 +1,7 @@
 # ignore vim temporary files
 *.sw[op]
+# ignore vim session files
+Session*.vim
 
 # ignore JetBrains project files
 *.iml
