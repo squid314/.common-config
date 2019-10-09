@@ -37,7 +37,7 @@ Plugin 'gmarik/Vundle.vim'
 " additional syntaxes
 "Plugin 'puppetlabs/puppet-syntax-vim'
 Plugin 'tfnico/vim-gradle'
-Plugin 'fatih/vim-go'
+"Plugin 'fatih/vim-go'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'hashivim/vim-vagrant'
