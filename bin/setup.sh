@@ -99,7 +99,7 @@ let g:vundle_default_git_proto=git
             mv Vundle.vim-master .vim/bundle/Vundle.vim
         fi
         # update all plugins
-        vim +:PluginUpdate +:qa - </dev/null
+        vim +PluginUpdate +qa & sleep 60 ; kill -9 $! || :
     fi
 
     touch .bashrc.conf
