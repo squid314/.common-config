@@ -24,7 +24,7 @@ g() {
             up)      cd "$(git rev-parse --show-cdup)" ;;
             *)       echo "g: error: huh?" >&2 ;;
         esac
-    elif [[ $1 = make ]] ; then
+    elif [[ $1 = make && -d ~/.bin/git ]] ; then
         # rebuild and install git (from the latest release tag)
         (
             set -e
@@ -32,6 +32,7 @@ g() {
             git fetch --verbose --depth=10
             TAG="$(git log --simplify-by-decoration --decorate --oneline origin/master | sed -n '/tag: v[0-9.]*[),]/{s/.*tag: \(v[^),]*\).*/\1/;p;q}')"
             git checkout $TAG
+            git gc --prune=now
             make clean
             make PROFILE=BUILD NO_EXPAT=YesPlease NO_TCLTK=YesPlease install
         )
