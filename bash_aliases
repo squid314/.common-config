@@ -60,13 +60,6 @@ alias bootdie='ps -ef | grep java | grep spring-boot-starter | grep -v grep | aw
 # i don't like global installs that don't need to be, so this relieves me of some of that for grunt
 alias gr='node node_modules/.bin/grunt'
 
-# vagrant stuff
-if type vagrant &>/dev/null ; then
-    alias v='vagrant'
-    alias vst='v global-status'
-    alias vs='if [[ ! -f Vagrantfile ]] ; then if [[ -f vagrant/Vagrantfile ]] ; then cd vagrant ; elif [[ -f */vagrant/Vagrantfile ]] ; then cd $(dirname */vagrant/Vagrantfile) ; fi ; fi ; v ssh'
-fi
-
 if type kubectl &>/dev/null ; then
     alias k='kubectl'
 fi

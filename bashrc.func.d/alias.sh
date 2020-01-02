@@ -1,3 +1,11 @@
+# bashrc.func.d/alias.sh
+
+recomplete() {
+    if complete -p "$2" &>/dev/null ; then
+        eval $(complete -p "$2" | sed "s;$2$;$1;")
+    fi
+}
+
 alias() {
     local ret al a b
     builtin alias "$@"
@@ -8,10 +16,10 @@ alias() {
         if [[ "$al" == *=* && "${al##*[ ;]*}" ]] ; then
             a="${al%%=*}"
             b="${al#*=}"
-            if complete -p "$b" &>/dev/null ; then
-                eval $(complete -p "$b" | sed "s;$b$;$a;")
-            fi
+            recomplete "$a" "$b"
         fi
     done
     return $ret
 }
+
+# vim: ts=4 sts=4 sw=4 et ft=sh :
