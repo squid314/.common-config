@@ -11,3 +11,34 @@ GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWUPSTREAM="auto git"
+
+
+g() {
+    if [[ $# = 0 ]] ; then
+        git status
+    elif [[ $1 = cd && $# = 2 ]] ; then
+        case $2 in
+            j|java)  cd "$(git rev-parse --show-cdup)src/main/java"   ;;
+            s|scala) cd "$(git rev-parse --show-cdup)src/main/scala"  ;;
+            a|app)   cd "$(git rev-parse --show-cdup)src/main/webapp" ;;
+            up)      cd "$(git rev-parse --show-cdup)" ;;
+            *)       echo "g: error: huh?" >&2 ;;
+        esac
+    elif [[ $1 = make ]] ; then
+        # rebuild and install git (from the latest release tag)
+        (
+            set -e
+            cd ~/.bin/git
+            git fetch --verbose --depth=10
+            TAG="$(git log --simplify-by-decoration --decorate --oneline origin/master | sed -n '/tag: v[0-9.]*[),]/{s/.*tag: \(v[^),]*\).*/\1/;p;q}')"
+            git checkout $TAG
+            make clean
+            make PROFILE=BUILD NO_EXPAT=YesPlease NO_TCLTK=YesPlease install
+        )
+    else
+        git "$@"
+    fi
+}
+if declare -f __git_complete &>/dev/null ; then
+    __git_complete g __git_main
+fi

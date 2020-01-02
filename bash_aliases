@@ -28,19 +28,6 @@ alias li='ls -lashi'
 # let alias substitution occur after sudo(8)
 alias sudo='sudo '
 
-# rebuild and install git (from the latest release tag)
-alias makegit='bash -c "cd ~/.bin/git && git fetch --verbose && git checkout \$(git log --simplify-by-decoration --decorate --oneline origin/master | sed -n \"/tag: v[0-9.]*[),]/{s/.*tag: \\(v[^),]*\\).*/\\1/;p;q}\") && make clean && make PROFILE=BUILD NO_EXPAT=YesPlease NO_TCLTK=YesPlease install || echo -e \\\\e[1\;31mum...problems?"'
-
-# navigate around a maven-like project
-alias cdjav='cd `git rev-parse --show-cdup`src/main/java'
-alias    cj='cd `git rev-parse --show-cdup`src/main/java'
-alias cdsca='cd `git rev-parse --show-cdup`src/main/scala'
-alias    cs='cd `git rev-parse --show-cdup`src/main/scala'
-alias cdapp='cd `git rev-parse --show-cdup`src/main/webapp'
-alias    ca='cd `git rev-parse --show-cdup`src/main/webapp'
-# go to the top of a git repo
-alias   gup='cd "`git rev-parse --show-cdup`"'
-
 # quick file find in pwd; prune all directories named in find-prunes
 alias ff='find . -type d \( $(sed "/^#/d;/^ *\$/d;s/.*/-name & -o/" "${CONFIG_ROOT}/find-prunes") -false \) -prune -false -o -iname'
 alias fr='find . -type d \( $(sed "/^#/d;/^ *\$/d;s/.*/-name & -o/" "${CONFIG_ROOT}/find-prunes") -false \) -prune -false -o -iregex'
@@ -88,19 +75,6 @@ alias pyjs="python -m json.tool"
 alias tmd="tmux new-session -As default"
 alias pgrep='ps -ef | grep -i'
 
-if type git &>/dev/null ; then
-    g() {
-        if [ $# = 0 ] ; then
-            git status
-        else
-            git "$@"
-        fi
-    }
-    if declare -f __git_complete &>/dev/null ; then
-        __git_complete g __git_main
-    fi
-fi
-
 if ! type shred &>/dev/null && type srm &>/dev/null ; then
     alias shred=srm
 fi
@@ -145,3 +119,5 @@ st() {
              }'
     fi
 }
+
+# vim: ts=4 sts=4 sw=4 et ft=sh :
