@@ -25,8 +25,9 @@ alias grep="grep --color=auto"
 alias ls='ls --color=auto'
 alias li='ls -lashi'
 
-# let alias substitution occur after sudo(8)
+# let alias substitution occur after commands suppliment others
 alias sudo='sudo '
+alias xargs='xargs '
 
 # quick file find in pwd; prune all directories named in find-prunes
 alias ff='find . -type d \( $(sed "/^#/d;/^ *\$/d;s/.*/-name & -o/" "${CONFIG_ROOT}/find-prunes") -false \) -prune -false -o -iname'
