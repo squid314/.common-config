@@ -29,10 +29,13 @@ g() {
         (
             set -e
             cd ~/.bin/git
-            git fetch --verbose --depth=10
-            TAG="$(git log --simplify-by-decoration --decorate --oneline origin/master | sed -n '/tag: v[0-9.]*[),]/{s/.*tag: \(v[^),]*\).*/\1/;p;q}')"
+            TAG=$(git ls-remote --tags origin | grep -oE 'v[0-9]+(\.[0-9]+){2}$' | sort -V | tail -n 1)
+            git reset --hard
+            git fetch --update-shallow --no-tags --verbose --depth=1 origin $TAG:refs/tags/$TAG
+            git tag -d $(git tag | grep -vF $TAG)
             git checkout $TAG
             git gc --prune=now
+            git clean --force
             make clean
             make PROFILE=BUILD NO_EXPAT=YesPlease NO_TCLTK=YesPlease install
         )
