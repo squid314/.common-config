@@ -57,7 +57,7 @@ filetype plugin indent on
 
 " save/restore options
 set viewoptions=cursor,folds,slash,unix
-set sessionoptions=buffers,curdir,folds,localoptions,tabpages,winsize,terminal
+set sessionoptions=buffers,curdir,folds,localoptions,tabpages,winsize
 
 " set up *.gradle files to be highlighted as groovy syntax (which they are)
 au BufNewFile,BufRead *.gradle setf groovy
