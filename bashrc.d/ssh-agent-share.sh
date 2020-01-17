@@ -110,6 +110,14 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
                 fi
             done | $x0 ssh-add
             ;;
+        list|ls) # list private keys in agent and print public keys in ~/.ssh
+            local pub_keys=(~/.ssh/*.pub)
+            ssh-add -l
+            (
+                cd ~/.ssh
+                grep -H '^' *.pub
+            )
+            ;;
         show)
             # show the current agent info; primarily usefull for debugging
             # compare current environment to what is in the agent info file, if it exists
