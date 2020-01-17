@@ -62,7 +62,7 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
             # if we were the last shell listening, then clean up the agent and
             # info file
             if echo $AGENT_INFO_DIR/sh-* | grep '*' &>/dev/null ; then
-                ssh-agent -k
+                eval $(ssh-agent -k)
                 rm $AGENT_INFO_FILE
             fi
             ;;
