@@ -23,7 +23,7 @@ promptcmd() {
         add)
             for inc in "$@" ; do
                 if ! promptcmd has "$inc" ; then
-                    __prompt_commands=( "${__prompt_commands[@]}" "$inc")
+                    __prompt_commands+=("$inc")
                 fi
             done
             ;;
@@ -49,11 +49,21 @@ promptcmd() {
                     done
                 fi
             done
-            __prompt_commands=("${__prompt_commands[@]}")
             ;;
         mv|move)
             promptcmd rm "$@"
             promptcmd add "$@"
+            ;;
+        clean)
+            local -a pc2
+            for pc in "${__prompt_commands[@]}" ; do
+                # remove any blanks
+                if [[ "$pc" ]] && ! __array_has pc2 "$pc" ; then
+                    pc2+=("$pc")
+                fi
+            done
+            # restack all commands back to the front of the array
+            __prompt_commands=("${pc2[@]}")
             ;;
         list|ls)
             for pc in "${!__prompt_commands[@]}" ; do
@@ -61,7 +71,8 @@ promptcmd() {
             done
             ;;
         *)
-            printf 'error: $0: unrecognized command "%q"\n' "$cmd"
+            printf 'error: %s: unrecognized command "%s"\n' "$0" "$cmd"
+            return 1
             ;;
     esac
 }

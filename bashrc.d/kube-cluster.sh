@@ -5,7 +5,7 @@
 # script to duplicate what kube-cluster's os_shell.command script does
 if [ -d "${HOME}/kube-cluster/bin" ] && [ -f ~/bin/corectl ] ; then
 
-pathmunge "${HOME}/kube-cluster/bin" after
+path add --tail "${HOME}/kube-cluster/bin"
 
 # get master VM's IP
 master_vm_ip="`~/bin/corectl q -i k8smaster-01`"
