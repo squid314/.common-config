@@ -17,8 +17,9 @@ RUN \
         bzip2 \
         file \
         openssl \
-        # simple ps and such
+        # base utilities not normally included in ubis, but make sense for a dev env
         procps-ng \
+        sudo \
         # management
         docker-ce-cli \
         # quality of life
