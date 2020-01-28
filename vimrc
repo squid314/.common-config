@@ -17,6 +17,10 @@ colorscheme evening
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab autoindent
 " some sh syntax files add "." to iskeyword but allow you to requrest they not
 let g:sh_noisk=1
+" tell sh.vim syntax to assume script type is bash
+let g:is_bash=1
+" sh folding all the things
+let g:sh_fold_enabled=7
 " show first search match as i type a pattern
 if has('reltime')
     set incsearch
