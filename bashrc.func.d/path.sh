@@ -49,6 +49,7 @@ path() {
         mv|move)
             path rm "$@" # if there is an option provided, it will be fine
             path add "$@"
+            return
             ;;
         clean)
             local -a p2
