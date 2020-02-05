@@ -18,6 +18,7 @@ RUN \
         bzip2 \
         file \
         openssl \
+        diffutils \
         # base utilities not normally included in ubis, but make sense for a dev env
         procps-ng \
         sudo \
