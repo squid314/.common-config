@@ -8,6 +8,7 @@ RUN set -ex ; \
     dnf config-manager --add-repo https://gist.githubusercontent.com/squid314/97f3d4d863729d5093e9ebbc00545aa6/raw/d7a95d8b663a3168aa1fadaf1fab1ab538f5fb47/kubernetes.repo ; \
     # quality of life: install man pages, please
     dnf config-manager --setopt=tsflags= --save ; \
+    dnf makecache -y ; \
     dnf reinstall -y $(dnf list installed | sed 's/\..*//') ; \
     dnf update -y ; \
     dnf install -y \
