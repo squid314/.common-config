@@ -15,7 +15,6 @@ RUN set -ex ; \
     yum install -y \
         # common/important utilities
         git \
-        emacs \
         vim-enhanced \
         bzip2 \
         file \
