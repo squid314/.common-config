@@ -3,8 +3,9 @@ FROM registry.access.redhat.com/ubi8/ubi:latest
 
 ENV http_proxy=http://deninfrap10:3128/ https_proxy=http://deninfrap10:3128/
 #RUN printf '[jeppden]\nname=jeppden\nbaseurl=https://denpach02d.jeppesen.com\ngpgcheck=0\nenabled=1\nsslverify=0\n' >/etc/yum.repos.d/jeppden.repo
-RUN curl -so /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo
 RUN \
+    dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
+    dnf config-manager --add-repo https://gist.githubusercontent.com/squid314/97f3d4d863729d5093e9ebbc00545aa6/raw/d7a95d8b663a3168aa1fadaf1fab1ab538f5fb47/kubernetes.repo && \
     # quality of life: install man pages, please
     dnf config-manager --setopt=tsflags= --save && \
     dnf reinstall -y $(dnf list installed | sed 's/\..*//') && \
@@ -22,6 +23,7 @@ RUN \
         sudo \
         # management
         docker-ce-cli \
+        kubectl \
         # quality of life
         unzip \
         man \
