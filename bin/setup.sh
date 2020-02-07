@@ -99,7 +99,17 @@ let g:vundle_default_git_proto=git
             mv Vundle.vim-master .vim/bundle/Vundle.vim
         fi
         # update all plugins
-        vim +PluginUpdate +qa & sleep 60 ; kill -9 $! || :
+        vim +PluginUpdate +qa &
+        # sleep for up to 60 seconds to let the vim plugin update finish
+        for i in {0..60} ; do
+            if [[ -z "$(jobs -p)" ]] ; then
+                break
+            fi
+            sleep 1
+        done
+        if [[ -z "$(jobs -p)" ]] ; then
+            kill -9 $! || :
+        fi
     fi
 
     touch .bashrc.conf
