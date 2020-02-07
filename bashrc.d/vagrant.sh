@@ -1,6 +1,5 @@
 # bashrc.d/vagrant.sh
 
-
 if ! type vagrant &>/dev/null ; then return ; fi
 
 v() {

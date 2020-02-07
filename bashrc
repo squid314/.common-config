@@ -53,7 +53,7 @@ shopt -s histappend
 # update the window size frequently since i use tmux and have weird windows
 shopt -s checkwinsize
 # disable that silly legacy option to enable/disable flow control
-if which stty >/dev/null ; then stty -ixon -ixoff ; fi
+if type stty &>/dev/null ; then stty -ixon -ixoff ; fi
 
 # spring boot
 if [[ -f ~/.gvm/springboot/current/shell-completion/bash/spring ]] ; then source ~/.gvm/springboot/current/shell-completion/bash/spring ; fi

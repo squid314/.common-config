@@ -1,8 +1,6 @@
 # docker tools
 
-if ! type docker &>/dev/null ; then
-    return
-fi
+if ! type docker &>/dev/null ; then return ; fi
 
 
 alias d=docker
