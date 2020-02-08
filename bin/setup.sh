@@ -83,16 +83,6 @@ setup() {
         # initially set up vundle
         if type git &>/dev/null ; then
             git clone --depth 1 https://github.com/gmarik/Vundle.vim.git .vim/bundle/Vundle.vim
-
-            if [[ $REWRITE_GIT_TO_SSH == yes ]] ; then
-                git --git-dir=.vim/bundle/Vundle.vim/.git/ remote set-url origin git@github.com:gmarik/Vundle.vim.git
-                sed -i '/"\{15\}BEGIN SCRIPTED VALUES"/,/"\{15\}END SCRIPTED VALUES"/{
-                /g:vundle_default_git_proto/d
-                $a\
-let g:vundle_default_git_proto=git
-            }' .vimrc
-            fi
-
         else
             curl -sL https://github.com/gmarik/Vundle.vim/archive/master.tar.gz | tar zx
             mkdir -p .vim/bundle
@@ -109,6 +99,18 @@ let g:vundle_default_git_proto=git
         done
         if [[ -z "$(jobs -p)" ]] ; then
             kill -9 $! || :
+        fi
+
+        if [[ $REWRITE_GIT_TO_SSH == yes ]] && type git &>/dev/null ; then
+            git --git-dir=.vim/bundle/Vundle.vim/.git/ remote set-url origin git@github.com:gmarik/Vundle.vim.git
+            sed -i '/"\{15\}BEGIN SCRIPTED VALUES"/,/"\{15\}END SCRIPTED VALUES"/{
+            /g:vundle_default_git_proto/d
+            $a\
+let g:vundle_default_git_proto=git
+        }' .vimrc
+            for g in .vim/bundle/*/.git ; do
+                git --git-dir=$g remote set-url origin $(git --git-dir=$g remote get-url origin | sed 's;https://github.com/;git@github.com:;')
+            done
         fi
     fi
 
