@@ -92,12 +92,12 @@ setup() {
         vim +PluginUpdate +qa &
         # sleep for up to 60 seconds to let the vim plugin update finish
         for i in {0..60} ; do
-            if [[ -z "$(jobs -p)" ]] ; then
+            if ! kill -0 $! 2>/dev/null ; then
                 break
             fi
             sleep 1
         done
-        if [[ -z "$(jobs -p)" ]] ; then
+        if kill -0 $! 2>/dev/null ; then
             kill -9 $! || :
         fi
 
