@@ -1,0 +1,52 @@
+#!/bin/sh
+
+
+# NOTE: This is an example that sets up SSH authorization.  To use it, you'd need to replace "ssh-rsa AA... youremail@example.com" with your SSH public.
+# You can replace this entire script with anything you'd like, there is no need to keep it
+
+
+# required applications
+if type apt-get ; then
+    apt-get install -y sudo vim git tmux mosh
+elif type dnf ; then
+    dnf install -y sudo vim git tmux 'dnf-command(config-manager)'
+else
+    yum install -y sudo vim git tmux
+fi
+
+if getent group sudo ; then
+    wheel=sudo
+elif getent group wheel ; then
+    wheel=wheel
+else
+    wheel=wheel
+    groupadd -r wheel
+fi
+
+# cancel vultr password overwrite
+rm -f /var/lib/cloud/scripts/per-once/vultr_password
+
+# root login info
+usermod -p '$6$tp3RqWlr$D8YXH8EwqBGbWliOzwmiNorYP2SspEjdXrEWWUgRhNvswB6WPu6muZyWvLdFf3IKM6pSb5DXzotlYR3szEOZQ.' root
+
+# create primary user
+useradd -m -G $wheel -s /bin/bash -p '$6$QtZr4Rjz$wVQG42lODmQ6KOu.SnjvXol3qTkHmuuH.ANNn5nQalRCswzKno6E35cfYiJX5TtOaiYKef35x77s31VectS070' squid
+install -d -o squid -g squid -m 0700 /home/squid/.ssh
+install    -o squid -g squid -m 0600 /home/squid/.ssh/authorized_keys
+echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCtuQiAccz2p0BaIWTL2tgJVxQRumLH6l8ws8VvFGBbbKaH2TRh8Oe5bnT4AFpvtmqM7PlvZiY4mIGpUcUIyXeFL797ppEjzRxbAn41qrsCCc/nIzo+DRYvxyi3hWMNZkkDSNpFzVzbMHdeiNir/wXx95Q6K6RLdbghGhm7UX6MhinOySjgDWlE5B6qRgDtM28uSPdSXKs2E0XX1T8jW/Aorl7rvFAcmsYd4w2c3K2dseH6fdOifawERoiTWJK/wcFl1PDwIVSmstZB1hDAEO74JGxLaMTQVhoHJTtnmiefKQPtjii3bIURsKKyQNpumUIKZQM4rXp+ceW8d7nGhct/WohtuNyBdSFvfXW0GFUfmGR6edIwgm3Xc4GjCaJ0EnW7xtC+sHLQRStHOdXn1c199CR5a1d5E/k1MuYkQ8vq/TEntmTJoC8+aeD3Zoho826SxoY2uyq4rHO3+dt4osZpSNsauTXV2O+rifyHK0CGIae28SKXF3S2Ee8SJNy0lyDjnNn3zUe1KVbVqmwAZug3fhMbl3mVs51q7csuGjtTuS9IaSXw9UmfPsHiHFlI7no1J43LIpiK+ecziaz+MFE+2vQy77KPPzgKU2UgY+KCii4C8E47LvyV2PK5Npq4dwxxEMVxwh8Eva1iNMhRxAqR2XaqX/9FwADkQGOffyePRw== david@bloomquist.us >>/home/squid/.ssh/authorized_keys
+echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFh3cOGx+lCtLkMwDn2uyEXapEfSRnSxUASIvHsU2Z/b david@bloomquist.us >>/home/squid/.ssh/authorized_keys
+echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMpT5/GgnSfC3MLzosqqLkTcJIoGYoaZAF6zAoxSEre1 davidbloomquist@arisant.com >>/home/squid/.ssh/authorized_keys
+
+# update sshd config
+SUDO_EDITOR="vim -E" sudo -e /etc/ssh/sshd_config << SSHD_CONFIG
+%s/PermitRootLogin yes/PermitRootLogin no/
+%s/#\?PasswordAuthentication yes/PasswordAuthentication no/
+w
+q
+SSHD_CONFIG
+
+systemctl restart sshd
+
+# config users as i want them (do this after setting up ssh so i could connect early)
+curl -sL https://a.blmq.us/setup-sh | su - squid -c 'bash -s - git-ssh'
+curl -sL https://a.blmq.us/setup-sh | bash -s - no-agent
