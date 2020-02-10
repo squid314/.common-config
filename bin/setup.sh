@@ -109,7 +109,7 @@ setup() {
 let g:vundle_default_git_proto=git
         }' .vimrc
             for g in .vim/bundle/*/.git ; do
-                git --git-dir=$g remote set-url origin $(git --git-dir=$g remote get-url origin | sed 's;https://github.com/;git@github.com:;')
+                git --git-dir=$g remote set-url origin $(git --git-dir=$g config --get --local remote.origin.url | sed 's;https://github.com/;git@github.com:;')
             done
         fi
     fi
