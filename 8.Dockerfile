@@ -1,22 +1,22 @@
-FROM registry.access.redhat.com/ubi8/ubi:latest
+FROM registry.access.redhat.com/rhel7:latest
 
 ENV HTTP_PROXY=http://deninfrap10:3128/ \
     HTTPS_PROXY=http://deninfrap10:3128/ \
     NO_PROXY=*.jeppesen.com,localhost
+RUN printf '%s\n' '[jeppden]' 'name=jeppden' 'baseurl=https://denpach02d.jeppesen.com' '        https://denpach02d' 'gpgcheck=0' 'enabled=1' 'sslverify=0' >/etc/yum.repos.d/jeppden.repo
 RUN set -ex ; \
-    dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo ; \
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo ; \
     # quality of life: install man pages, please
-    dnf config-manager --setopt=tsflags= --save ; \
-    dnf makecache -y ; \
-    dnf reinstall -y $(dnf list installed | sed 's/\..*//') ; \
-    dnf update -y ; \
-    dnf install -y \
+    yum-config-manager --setopt=tsflags= --save ; \
+    yum makecache -y ; \
+    yum reinstall -y $(yum list installed | sed 's/\..*//') ; \
+    yum update -y ; \
+    yum install -y \
         # common/important utilities
         git \
         vim-enhanced \
         bzip2 \
         file \
-        openssl \
         diffutils \
         # base utilities not normally included in ubis, but make sense for a dev env
         procps-ng \
@@ -32,8 +32,8 @@ RUN set -ex ; \
             alternatives --install /usr/local/bin/$i $i /usr/bin/$j ${#j} ; \
         done ; \
     done ; \
-    dnf clean all ; \
-    rm -rf /var/cache/dnf
+    yum clean all ; \
+    rm -rf /var/cache/yum
 
 CMD ["/bin/bash", "--login" ]
 
