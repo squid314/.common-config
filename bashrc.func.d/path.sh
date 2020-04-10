@@ -69,6 +69,10 @@ path() {
             # don't need to re-eval the PATH
             return 0
             ;;
+        '')
+            IFS=: eval printf "'export PATH=\"%s\"\n'" '"${p[*]}"'
+            return 0
+            ;;
         *)
             printf 'error: %s: unrecognized command "%s"\n' "$0" "$cmd"
             return 1
