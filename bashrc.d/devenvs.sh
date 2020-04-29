@@ -43,7 +43,11 @@ dev() {
             devs=("${devs[@]}" -v "$HOME/dev/$dev:/home/squid/dev/$dev")
         fi
     done
+    if [[ -S /var/run/docker.sock ]] ; then dock_sock=/var/run/docker.sock
+    elif [[ -S /private/var/run/docker.sock ]] ; then dock_sock=/private/var/run/docker.sock
+    fi
     __dev_cont run -it \
+        ${dock_sock+-v "$dock_sock":/var/run/docker.sock} \
         -v squid-dev:/home/squid/dev \
         "${devs[@]}" \
         quay.io/squid314/devenv:$tag \
