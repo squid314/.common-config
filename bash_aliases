@@ -114,4 +114,9 @@ st() {
     fi
 }
 
+# tools to run directly from a docker container
+if type docker &>/dev/null ; then
+    yq() { docker run --rm -iv "$PWD":/workdir mikefarah/yq yq "$@" ; }
+fi
+
 # vim: ts=4 sts=4 sw=4 et ft=sh :
