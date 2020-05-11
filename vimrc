@@ -50,6 +50,7 @@ Plugin 'chr4/nginx.vim'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'udalov/kotlin-vim'
 Plugin 'martinda/Jenkinsfile-vim-syntax'
+Plugin 'mustache/vim-mustache-handlebars'
 " scala stuff
 Plugin 'derekwyatt/vim-scala'
 "Plugin 'ktvoelker/sbt-vim'
