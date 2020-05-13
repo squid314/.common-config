@@ -50,6 +50,12 @@
 [rebase]
     autoSquash = true
 
+# add some common git hosts
+[url "git@bitbucket.com:"]
+	insteadOf = bb:
+[url "git@github.com:"]
+	insteadOf = gh:
+
 [include]
     path = config.user
 

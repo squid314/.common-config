@@ -3,6 +3,6 @@
 	email = squid314@users.noreply.github.com
 
 [url "git@bitbucket.com:squid314"]
-	insteadOf = bb:
+	insteadOf = bbme:
 [url "git@github.com:squid314"]
-	insteadOf = gh:
+	insteadOf = ghme:
