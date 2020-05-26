@@ -24,7 +24,7 @@ RUN set -ex ; \
         openssl \
         sudo \
         # management
-        docker-ce-cli \
+        docker-ce-cli-18.09.* \
         # quality of life
         unzip \
         man \

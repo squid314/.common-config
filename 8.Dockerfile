@@ -25,7 +25,7 @@ RUN set -ex ; \
         procps-ng \
         sudo \
         # management
-        docker-ce-cli \
+        docker-ce-cli-18.09.* \
         # quality of life
         unzip \
         man \
