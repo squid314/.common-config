@@ -7,15 +7,18 @@ fi
 set -e
 HOST_PWD="$PWD"
 
-if [[ $# -gt 1 && $1 = -n ]] ; then
-    shift
-    container_name="--name $1"
-    shift
+if [[ $1 = -n ]] ; then
+    container_name="--name ${2:?}"
+    shift 2
 fi
 
-if [[ -z "$(docker image ls | grep $USER.ide)" || $1 = --clean ]] ; then
+img=$USER.ide
+if [[ $1 = --image || $1 = -i ]] ; then
+    img=${2:?}
+    shift 2
+elif [[ -z "$(docker image ls | grep $img)" || $1 = --clean ]] ; then
     if [[ $1 = --clean ]] ; then shift ; fi
-    docker build -t $USER.ide \
+    docker build -t $img \
         --build-arg USERID=$(id -u) \
         --build-arg USERNAME=$(id -un) \
         --build-arg GROUPID=$(id -g) \
@@ -42,7 +45,7 @@ docker run \
     --group-add $DOCKERGROUPID \
     -e HOST_PWD="$HOST_PWD" \
     -w "$HOST_PWD" \
-    $USER.ide \
+    $img \
     "$@"
 
 # vi: set ft=sh ts=4 sts=4 sw=4 et :
