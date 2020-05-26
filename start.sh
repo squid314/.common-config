@@ -1,7 +1,8 @@
 #!/usr/bin/bash
 
+docker=docker
 if [[ -e /var/run/docker.sock && ! -w /var/run/docker.sock ]] ; then
-    docker() { sudo docker "$@" ; }
+    docker=sudo\ docker
 fi
 
 set -e
@@ -16,9 +17,9 @@ img=$USER.ide
 if [[ $1 = --image || $1 = -i ]] ; then
     img=${2:?}
     shift 2
-elif [[ -z "$(docker image ls | grep $img)" || $1 = --clean ]] ; then
+elif [[ -z "$($docker image ls | grep $img)" || $1 = --clean ]] ; then
     if [[ $1 = --clean ]] ; then shift ; fi
-    docker build -t $img \
+    $docker build -t $img \
         --pull \
         --no-cache \
         --build-arg USERID=$(id -u) \
@@ -36,7 +37,7 @@ if [[ -d $run_user_dir ]] ; then
 fi
 
 homeroot="$(dirname $HOME)"
-docker run \
+exec $docker run \
     --rm \
     -i -t \
     $container_name \
