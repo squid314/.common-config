@@ -4,10 +4,15 @@ ENV HTTP_PROXY=http://deninfrap10:3128/ \
     HTTPS_PROXY=http://deninfrap10:3128/ \
     NO_PROXY=*.jeppesen.com,localhost
 RUN set -ex ; \
+    renice -n 19 $$ ; \
+    subscription-manager register --org=3778237 --activationkey=jepppod ; \
+    subscription-manager repos --enable=rhel-7-server-rpms \
+                               --enable=rhel-7-server-extras-rpms \
+                               --enable=rhel-7-server-optional-rpms \
+                               --enable=rhel-7-server-supplementary-rpms ; \
     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo ; \
     # quality of life: install man pages, please
     yum-config-manager --setopt=tsflags= --save ; \
-    yum makecache -y ; \
     yum reinstall -y $(yum list installed | sed '/^ /d;s/\..*//') ; \
     yum update -y ; \
     yum install -y \

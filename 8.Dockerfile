@@ -1,17 +1,20 @@
-FROM registry.access.redhat.com/rhel7:latest
+FROM registry.access.redhat.com/ubi8/ubi:latest
 
 ENV HTTP_PROXY=http://deninfrap10:3128/ \
     HTTPS_PROXY=http://deninfrap10:3128/ \
     NO_PROXY=*.jeppesen.com,localhost
-RUN printf '%s\n' '[jeppden]' 'name=jeppden' 'baseurl=https://denpach02d.jeppesen.com' '        https://denpach02d' 'gpgcheck=0' 'enabled=1' 'sslverify=0' >/etc/yum.repos.d/jeppden.repo
 RUN set -ex ; \
-    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo ; \
+    renice -n 19 $$ ; \
+    subscription-manager register --org=3778237 --activationkey=jepppod ; \
+    subscription-manager repos --enable=rhel-8-for-x86_64-baseos-rpms \
+                               --enable=rhel-8-for-x86_64-appstream-rpms \
+                               --enable=rhel-8-for-x86_64-supplementary-rpms ; \
+    dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo ; \
     # quality of life: install man pages, please
-    yum-config-manager --setopt=tsflags= --save ; \
-    yum makecache -y ; \
-    yum update -y ; \
-    yum reinstall -y $(yum list -q -y installed | sed -e 1d -e '/^ /d' -e 's/\..*//') ; \
-    yum install -y \
+    dnf config-manager --setopt=tsflags= --save ; \
+    dnf update -y ; \
+    dnf reinstall -y $(dnf list -q -y installed | sed -e 1d -e '/^ /d' -e 's/\..*//') ; \
+    dnf install -y \
         # common/important utilities
         git \
         vim-enhanced \
@@ -32,8 +35,9 @@ RUN set -ex ; \
             alternatives --install /usr/local/bin/$i $i /usr/bin/$j ${#j} ; \
         done ; \
     done ; \
-    yum clean all ; \
-    rm -rf /var/cache/yum
+    dnf clean all ; \
+    rm -rf /var/cache/{yum,dnf} ; \
+    subscription-manager unregister
 
 CMD ["/bin/bash", "--login" ]
 
