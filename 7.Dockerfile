@@ -13,7 +13,7 @@ RUN set -ex ; \
     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo ; \
     # quality of life: install man pages, please
     yum-config-manager --setopt=tsflags= --save ; \
-    yum reinstall -y $(yum list installed | sed '/^ /d;s/\..*//') ; \
+    yum reinstall -y $(yum list -q -y installed | sed -e 1d -e '/^ /d' -e 's/\..*//') ; \
     yum update -y ; \
     yum install -y \
         # common/important utilities
