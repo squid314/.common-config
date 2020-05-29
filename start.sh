@@ -21,7 +21,6 @@ elif [[ -z "$($docker image ls | grep $img)" || $1 = --clean ]] ; then
     if [[ $1 = --clean ]] ; then shift ; fi
     $docker build -t $img \
         --pull \
-        --no-cache \
         --build-arg USERID=$(id -u) \
         --build-arg USERNAME=$(id -un) \
         --build-arg GROUPID=$(id -g) \
