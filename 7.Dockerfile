@@ -17,6 +17,7 @@ RUN set -ex ; \
     yum update -y ; \
     yum install -y \
         # common/important utilities
+        bash-completion \
         git \
         vim-enhanced \
         bzip2 \

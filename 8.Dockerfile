@@ -16,6 +16,7 @@ RUN set -ex ; \
     dnf reinstall -y $(dnf list -q -y installed | sed -e 1d -e '/^ /d' -e 's/\..*//') ; \
     dnf install -y \
         # common/important utilities
+        bash-completion \
         git \
         vim-enhanced \
         bzip2 \
