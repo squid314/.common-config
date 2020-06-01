@@ -3,7 +3,7 @@ FROM registry.access.redhat.com/ubi7/ubi:latest
 ENV HTTP_PROXY=http://deninfrap10:3128/ \
     HTTPS_PROXY=http://deninfrap10:3128/ \
     NO_PROXY=*.jeppesen.com,localhost
-RUN set -ex ; \
+RUN set -eux ; \
     renice -n 19 $$ ; \
     subscription-manager register --org=3778237 --activationkey=jepppod ; \
     subscription-manager repos --enable=rhel-7-server-rpms \
@@ -54,8 +54,10 @@ ENV \
     HOSTGROUPNAME=$GROUPNAME \
     HOSTUSERHOME=$USERHOME
 
-RUN mkdir -p $USERHOME ; \
-    test -e /mnt && chmod -R 755 /mnt/ ; \
+RUN set -eux ; \
+    mkdir -p $USERHOME ; \
+    mkdir -p /mnt ; \
+    chmod -R 755 /mnt/ ; \
     if ! getent group $GROUPID ; then groupadd -og $GROUPID $GROUPNAME ; fi && \
     useradd -g $GROUPID -ou $USERID -Md $USERHOME $USERNAME
 USER $USERNAME
