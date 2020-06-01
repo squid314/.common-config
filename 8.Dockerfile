@@ -18,7 +18,7 @@ ENV PACKAGES \
         docker-ce-cli-18.09.* \
         # quality of life
         unzip \
-        man
+        man-db
 RUN set -eux ; \
     renice -n 19 $$ ; \
     subscription-manager register --org=3778237 --activationkey=jepppod ; \
