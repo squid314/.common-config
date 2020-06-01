@@ -3,19 +3,7 @@ FROM registry.access.redhat.com/ubi7/ubi:latest
 ENV HTTP_PROXY=http://deninfrap10:3128/ \
     HTTPS_PROXY=http://deninfrap10:3128/ \
     NO_PROXY=*.jeppesen.com,localhost
-RUN set -eux ; \
-    renice -n 19 $$ ; \
-    subscription-manager register --org=3778237 --activationkey=jepppod ; \
-    subscription-manager repos --enable=rhel-7-server-rpms \
-                               --enable=rhel-7-server-extras-rpms \
-                               --enable=rhel-7-server-optional-rpms \
-                               --enable=rhel-7-server-supplementary-rpms ; \
-    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo ; \
-    # quality of life: install man pages, please
-    yum-config-manager --setopt=tsflags= --save ; \
-    yum reinstall -y $(yum list -q -y installed | sed -e 1d -e '/^ /d' -e 's/\..*//') ; \
-    yum update -y ; \
-    yum install -y \
+ENV PACKAGES \
         # common/important utilities
         bash-completion \
         git \
@@ -28,8 +16,23 @@ RUN set -eux ; \
         docker-ce-cli-18.09.* \
         # quality of life
         unzip \
-        man \
-    ; \
+        man
+RUN set -eux ; \
+    renice -n 19 $$ ; \
+    subscription-manager register --org=3778237 --activationkey=jepppod ; \
+    subscription-manager repos --enable=rhel-7-server-rpms \
+                               --enable=rhel-7-server-extras-rpms \
+                               --enable=rhel-7-server-optional-rpms \
+                               --enable=rhel-7-server-supplementary-rpms ; \
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo ; \
+    # quality of life: install man pages, please
+    yum-config-manager --setopt=tsflags= --save ; \
+    yum reinstall -y $(yum list -q -y installed | sed -e 1d -e '/^ /d' -e 's/\..*//') ; \
+    yum update -y ; \
+    yum install -y $PACKAGES ; \
+    for pkg in $PACKAGES ; do \
+        rpm -q $pkg ; \
+    done ; \
     for i in ex {,r}vi{,ew} ; do \
         for j in vi vim ; do \
             alternatives --install /usr/local/bin/$i $i /usr/bin/$j ${#j} ; \
