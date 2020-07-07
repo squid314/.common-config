@@ -2,7 +2,10 @@ FROM registry.access.redhat.com/ubi7/ubi:latest
 
 ENV HTTP_PROXY=http://deninfrap10:3128/ \
     HTTPS_PROXY=http://deninfrap10:3128/ \
-    NO_PROXY=jeppesen.com,localhost
+    NO_PROXY=jeppesen.com,localhost,127.0.0.1,localhost6,::1 \
+    http_proxy=http://deninfrap10:3128/ \
+    https_proxy=http://deninfrap10:3128/ \
+    no_proxy=jeppesen.com,localhost,127.0.0.1,localhost6,::1
 ENV PACKAGES \
         # common/important utilities
         bash-completion \
