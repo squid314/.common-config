@@ -2,13 +2,13 @@
 
 docker=docker
 if [[ -e /var/run/docker.sock && ! -w /var/run/docker.sock ]] ; then
-    docker=sudo\ docker
+    docker='sudo docker'
 fi
 
 set -e
 HOST_PWD="$PWD"
 
-if [[ $1 = -n ]] ; then
+if [[ $1 = --name || $1 = -n ]] ; then
     container_name="--name ${2:?}"
     shift 2
 fi
