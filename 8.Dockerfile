@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi:latest
+FROM registry.access.redhat.com/ubi8/ubi:latest AS builder
 
 ENV HTTP_PROXY=http://deninfrap10:3128/ \
     HTTPS_PROXY=http://deninfrap10:3128/ \
@@ -47,6 +47,9 @@ RUN set -eux ; \
     dnf clean all ; \
     rm -rf /var/cache/{yum,dnf} ; \
     subscription-manager unregister
+
+FROM scratch
+COPY --from=builder / /
 
 CMD ["/bin/bash", "--login" ]
 
