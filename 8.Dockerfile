@@ -14,6 +14,7 @@ ENV PACKAGES \
         bzip2 \
         file \
         diffutils \
+        python38 \
         # base utilities not normally included in ubis, but make sense for a dev env
         procps-ng \
         sudo \
@@ -42,6 +43,7 @@ RUN set -eux ; \
             alternatives --install /usr/local/bin/$i $i /usr/bin/$j ${#j} ; \
         done ; \
     done ; \
+    alternatives --remove python /usr/libexec/no-python ; \
     dnf clean all ; \
     rm -rf /var/cache/{yum,dnf} ; \
     subscription-manager unregister
