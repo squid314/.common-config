@@ -61,18 +61,11 @@ ARG USERNAME
 ARG GROUPID
 ARG GROUPNAME
 ARG USERHOME
-ENV \
-    HOSTUSERID=$USERID \
-    HOSTUSERNAME=$USERNAME \
-    HOSTGROUPID=$GROUPID \
-    HOSTGROUPNAME=$GROUPNAME \
-    HOSTUSERHOME=$USERHOME
 
 RUN set -eux ; \
     mkdir -p $USERHOME ; \
     mkdir -p /mnt ; \
-    chmod -R 755 /mnt/ ; \
+    chmod -R 755 /mnt ; \
     if ! getent group $GROUPID ; then groupadd -og $GROUPID $GROUPNAME ; fi && \
     useradd -g $GROUPID -ou $USERID -Md $USERHOME $USERNAME
 USER $USERNAME
-WORKDIR /mnt/root/$USERHOME

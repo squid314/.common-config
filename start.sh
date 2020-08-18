@@ -8,18 +8,10 @@ fi
 set -e
 HOST_PWD="$PWD"
 
-if [[ $1 = --name || $1 = -n ]] ; then
-    container_name="--name ${2:?}"
-    shift 2
-fi
-
-img=$USER.ide
-if [[ $1 = --image || $1 = -i ]] ; then
-    img=${2:?}
-    shift 2
-elif [[ -z "$($docker image ls | grep $img)" || $1 = --clean ]] ; then
+img="$(whoami).ide"
+if [[ -z "$($docker image ls -q $img)" || $1 = --clean ]] ; then
     if [[ $1 = --clean ]] ; then shift ; fi
-    $docker build -t $img \
+    $docker build --tag $img \
         --pull \
         --build-arg USERID=$(id -u) \
         --build-arg USERNAME=$(id -un) \
@@ -29,25 +21,55 @@ elif [[ -z "$($docker image ls | grep $img)" || $1 = --clean ]] ; then
         - <"$(dirname "$0")/Dockerfile"
 fi
 
-DOCKERGROUPID=$(stat -c %g /var/run/docker.sock)
-run_user_dir="/run/user/`id -u`"
-if [[ -d $run_user_dir ]] ; then
-    mount_run_user_dir=-v\ "$run_user_dir:$run_user_dir"
+container_id="$($docker container ls -q --filter=ancestor=$img | head -n 1)"
+if [[ $1 = --name ]] ; then
+    container_name="$2"
+    shift 2
+    container_id="$($docker container ls -q --filter=name=$container_name"$")"
 fi
 
-homeroot="$(dirname $HOME)"
-exec $docker run \
-    --rm \
-    -i -t \
-    $container_name \
-    -v "/:/mnt/root" \
-    -v "$homeroot:$homeroot" \
-    $mount_run_user_dir \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    --group-add $DOCKERGROUPID \
-    -e HOST_PWD="$HOST_PWD" \
-    -w "$HOST_PWD" \
-    $img \
-    "$@"
+if [[ $1 = --down ]] ; then
+    if [[ -n "$container_id" ]] ; then
+        pids=$($docker exec "$container_id" ps h -ef | wc -l)
+        if [[ $pids -le 2 || $2 = -f || $2 = --force ]] ; then
+            $docker kill "$container_id" >/dev/null
+        else
+            exit 1
+        fi
+    fi
+    exit
+elif [[ -z "$container_id" ]] ; then
+    DOCKERGROUPID="$(stat -c %g /var/run/docker.sock)"
+    run_user_dir="/run/user/$(id -u)"
+    if [[ -d $run_user_dir ]] ; then
+        mount_run_user_dir=--mount\ "type=bind,src=$run_user_dir,dst=$run_user_dir"
+    fi
+
+    homeroot="$(dirname $HOME)"
+    container_id="$(
+    $docker run \
+        --rm \
+        --detach \
+        --interactive --tty \
+        ${container_name:+--name $container_name} \
+        --mount "type=bind,src=/,dst=/mnt/root" \
+        --mount "type=bind,src=$homeroot,dst=$homeroot" \
+        $mount_run_user_dir \
+        --mount "type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock" \
+        --group-add $DOCKERGROUPID \
+        --workdir "$HOME" \
+        $img
+    )"
+fi
+
+if [[ $# -eq 0 ]] ; then
+    eval set -- $($docker image inspect $img --format '{{range $i,$e := .Config.Cmd}}{{if $i}} {{end}}"{{$e}}"{{end}}')
+fi
+exec $docker exec \
+    --interactive --tty \
+    --env HOST_PWD="$HOST_PWD" \
+    --workdir "$HOST_PWD" \
+    "$container_id" \
+    "${@}"
 
 # vi: set ft=sh ts=4 sts=4 sw=4 et :
