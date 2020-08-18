@@ -14,6 +14,7 @@ ENV PACKAGES \
         bzip2 \
         file \
         diffutils \
+        python2 \
         python38 \
         # base utilities not normally included in ubis, but make sense for a dev env
         procps-ng \

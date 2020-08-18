@@ -14,6 +14,9 @@ ENV PACKAGES \
         bzip2 \
         file \
         openssl \
+        python \
+        python27 \
+        python3 \
         sudo \
         # management
         docker-ce-cli-18.09.* \
@@ -41,6 +44,10 @@ RUN set -eux ; \
             alternatives --install /usr/local/bin/$i $i /usr/bin/$j ${#j} ; \
         done ; \
     done ; \
+    alternatives --install /usr/bin/python2 python2 /usr/bin/python2.7 2 ; \
+    alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 3 ; \
+    alternatives --install /usr/bin/python python /usr/bin/python2 2 ; \
+    alternatives --install /usr/bin/python python /usr/bin/python3 3 ; \
     yum clean all ; \
     rm -rf /var/cache/yum
 
