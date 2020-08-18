@@ -14,3 +14,6 @@ Session*.vim
 
 # ignore vagrant private files
 .vagrant/
+
+# ignore stupid NFS temp files
+.nfs*
