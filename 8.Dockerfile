@@ -10,6 +10,7 @@ ENV PACKAGES \
         # common/important utilities
         bash-completion \
         git \
+        rsync \
         vim-enhanced \
         bzip2 \
         file \
