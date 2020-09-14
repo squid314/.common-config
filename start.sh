@@ -1,5 +1,23 @@
 #!/usr/bin/bash
 
+if [[ $1 = --help ]] ; then
+    printf '%s\n' \
+        "$0 --help | --down [-f|--force] [--name name] | [--clean] [--name name] [cmd args...]" \
+        "" \
+        "    --help      show help" \
+        "    --down      shut down the live dev container" \
+        "    --force|-f  shut down forcing existing processes to exit" \
+        "    --clean     request a new build and tag of the image. useful to ensure up-to-date packages" \
+        "    --name      provide a specific container name. can be used to manage multiple independent containers" \
+        "" \
+        "    cmd args... If provided, will be executed as the entry command inside the" \
+        "                container, using the current directory as the workdir of the" \
+        "                command. If no command is provided, the default command of the" \
+        "                image is used (probably a shell)." \
+        >&2
+    exit
+fi
+
 docker=docker
 if [[ -e /var/run/docker.sock && ! -w /var/run/docker.sock ]] ; then
     docker='sudo docker'
@@ -10,6 +28,7 @@ HOST_PWD="$PWD"
 
 img="$(whoami).ide"
 if [[ -z "$($docker image ls -q $img)" || $1 = --clean ]] ; then
+    # TODO if doing --clean, should we run "$0 --down"? else we could leave undownable container running
     if [[ $1 = --clean ]] ; then shift ; fi
     $docker build --tag $img \
         --pull \
