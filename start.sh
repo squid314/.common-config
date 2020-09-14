@@ -28,8 +28,15 @@ HOST_PWD="$PWD"
 
 img="$(whoami).ide"
 if [[ -z "$($docker image ls -q $img)" || $1 = --clean ]] ; then
-    # TODO if doing --clean, should we run "$0 --down"? else we could leave undownable container running
-    if [[ $1 = --clean ]] ; then shift ; fi
+    if [[ $1 = --clean ]] ; then
+        shift
+        container_id="$($docker container ls -q --filter=ancestor=$img | head -n 1)"
+        if [[ -n "$container_id" ]] ; then
+            printf '%s\n' \
+                "\e[0;1;31m##### Warning: leaving dangling container: $container_id\e[0m"
+                >&2
+        fi
+    fi
     $docker build --tag $img \
         --pull \
         --build-arg USERID=$(id -u) \
