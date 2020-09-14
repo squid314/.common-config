@@ -53,6 +53,7 @@ if [[ $1 = --down ]] ; then
         if [[ $pids -le 2 || $2 = -f || $2 = --force ]] ; then
             $docker kill "$container_id" >/dev/null
         else
+            echo "$0: error: cannot shut down, running processes exist" >&2
             exit 1
         fi
     fi
