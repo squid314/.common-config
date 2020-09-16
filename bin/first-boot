@@ -33,8 +33,8 @@ usermod -p '$6$tp3RqWlr$D8YXH8EwqBGbWliOzwmiNorYP2SspEjdXrEWWUgRhNvswB6WPu6muZyW
 
 # create primary user
 useradd -m -G $wheel -s /bin/bash -p '$6$QtZr4Rjz$wVQG42lODmQ6KOu.SnjvXol3qTkHmuuH.ANNn5nQalRCswzKno6E35cfYiJX5TtOaiYKef35x77s31VectS070' squid
-install -d -o squid -g squid -m 0700 /home/squid/.ssh
-install    -o squid -g squid -m 0600 /home/squid/.ssh/authorized_keys
+install -d -o squid -g squid -m 0700           /home/squid/.ssh
+install    -o squid -g squid -m 0600 /dev/null /home/squid/.ssh/authorized_keys
 # install isn't working in some cases  :(
 chown -R squid: /home/squid/.ssh
 chmod -R go-rwx /home/squid/.ssh
