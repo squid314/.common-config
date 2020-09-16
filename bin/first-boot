@@ -33,6 +33,9 @@ usermod -p '$6$tp3RqWlr$D8YXH8EwqBGbWliOzwmiNorYP2SspEjdXrEWWUgRhNvswB6WPu6muZyW
 useradd -m -G $wheel -s /bin/bash -p '$6$QtZr4Rjz$wVQG42lODmQ6KOu.SnjvXol3qTkHmuuH.ANNn5nQalRCswzKno6E35cfYiJX5TtOaiYKef35x77s31VectS070' squid
 install -d -o squid -g squid -m 0700 /home/squid/.ssh
 install    -o squid -g squid -m 0600 /home/squid/.ssh/authorized_keys
+# install isn't working in some cases  :(
+chown -R squid: /home/squid/.ssh
+chmod -R go-rwx /home/squid/.ssh
 echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCtuQiAccz2p0BaIWTL2tgJVxQRumLH6l8ws8VvFGBbbKaH2TRh8Oe5bnT4AFpvtmqM7PlvZiY4mIGpUcUIyXeFL797ppEjzRxbAn41qrsCCc/nIzo+DRYvxyi3hWMNZkkDSNpFzVzbMHdeiNir/wXx95Q6K6RLdbghGhm7UX6MhinOySjgDWlE5B6qRgDtM28uSPdSXKs2E0XX1T8jW/Aorl7rvFAcmsYd4w2c3K2dseH6fdOifawERoiTWJK/wcFl1PDwIVSmstZB1hDAEO74JGxLaMTQVhoHJTtnmiefKQPtjii3bIURsKKyQNpumUIKZQM4rXp+ceW8d7nGhct/WohtuNyBdSFvfXW0GFUfmGR6edIwgm3Xc4GjCaJ0EnW7xtC+sHLQRStHOdXn1c199CR5a1d5E/k1MuYkQ8vq/TEntmTJoC8+aeD3Zoho826SxoY2uyq4rHO3+dt4osZpSNsauTXV2O+rifyHK0CGIae28SKXF3S2Ee8SJNy0lyDjnNn3zUe1KVbVqmwAZug3fhMbl3mVs51q7csuGjtTuS9IaSXw9UmfPsHiHFlI7no1J43LIpiK+ecziaz+MFE+2vQy77KPPzgKU2UgY+KCii4C8E47LvyV2PK5Npq4dwxxEMVxwh8Eva1iNMhRxAqR2XaqX/9FwADkQGOffyePRw== david@bloomquist.us >>/home/squid/.ssh/authorized_keys
 echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFh3cOGx+lCtLkMwDn2uyEXapEfSRnSxUASIvHsU2Z/b david@bloomquist.us >>/home/squid/.ssh/authorized_keys
 echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMpT5/GgnSfC3MLzosqqLkTcJIoGYoaZAF6zAoxSEre1 davidbloomquist@arisant.com >>/home/squid/.ssh/authorized_keys
