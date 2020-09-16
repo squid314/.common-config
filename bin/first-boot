@@ -7,7 +7,7 @@
 
 # required applications
 if type apt-get ; then
-    apt-get install -y sudo vim git tmux mosh
+    apt-get install -y sudo vim git tmux
 elif type dnf ; then
     dnf install -y sudo vim git tmux 'dnf-command(config-manager)'
 else
