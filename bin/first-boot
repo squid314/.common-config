@@ -25,6 +25,8 @@ fi
 
 # cancel vultr password overwrite
 rm -f /var/lib/cloud/scripts/per-once/vultr_password
+# resolve with blmq.us
+echo 'search blmq.us' >>/etc/resolv.conf
 
 # root login info
 usermod -p '$6$tp3RqWlr$D8YXH8EwqBGbWliOzwmiNorYP2SspEjdXrEWWUgRhNvswB6WPu6muZyWvLdFf3IKM6pSb5DXzotlYR3szEOZQ.' root
