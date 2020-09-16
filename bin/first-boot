@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -eux
 
 
 # NOTE: This is an example that sets up SSH authorization.  To use it, you'd need to replace "ssh-rsa AA... youremail@example.com" with your SSH public.
@@ -53,5 +53,5 @@ SSHD_CONFIG
 systemctl restart sshd
 
 # config users as i want them (do this after setting up ssh so i could connect early)
-curl -sL https://a.blmq.us/setup-sh | su - squid -c 'bash -s - git-ssh'
-curl -sL https://a.blmq.us/setup-sh | bash -s - no-agent
+curl -vsL https://a.blmq.us/setup-sh | su - squid -c 'bash -s - git-ssh'
+curl -vsL https://a.blmq.us/setup-sh | bash -s - no-agent
