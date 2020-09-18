@@ -3,13 +3,15 @@
 if ! type docker &>/dev/null && ! type podman &>/dev/null ; then return ; fi
 
 
-__dev_cont() {
-    if type podman &>/dev/null ; then
+if type podman &>/dev/null ; then
+    __dev_cont() {
         podman "$@"
-    else
+    }
+else
+    __dev_cont() {
         docker "$@"
-    fi
-}
+    }
+fi
 
 dev() {
     local family=centos8
