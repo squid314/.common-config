@@ -1,4 +1,8 @@
-# python virtualenv and virtualenvwrapper stuff
+# python stuff
+
+# pip completion
+if type pip  &>/dev/null ; then eval "$(pip  completion --bash)" 2>/dev/null ; fi
+if type pip3 &>/dev/null ; then eval "$(pip3 completion --bash)" 2>/dev/null ; fi
 
 # allow explicit configuration of where the script is but fallback to searching the path
 _virtualenvwrapper_script="${_VIRTUALENVWRAPPER_SCRIPT:-`which virtualenvwrapper.sh 2>&-`}"

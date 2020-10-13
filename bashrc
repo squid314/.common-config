@@ -105,13 +105,16 @@ __ps1() {
         __ps1_last=$__ps1_failure
     fi
     __ps1_window_title='\[\e]0;\w$__git_ps1_value\007'
+    # TODO this is clearly a list. maybe build a bash array of executables to allow easy addition/removal?
     PS1="\
 $__ps1_window_title\
 $__ps1_bold_blue$__ps1_userhost$__ps1_reset \
 $__ps1_bold_green\w$__git_ps1_value$__ps1_reset \
 $__ps1_last \
-${__ps1_jobs:+$__ps1_yellow>}\
-$__ps1_red\$$__ps1_reset "
+${VIRTUAL_ENV+$__ps1_yellow#}\
+${__ps1_jobs+$__ps1_yellow&}\
+$__ps1_red\$$__ps1_reset \
+"
 }
 promptcmd add '__ps1 $__exit'
 
