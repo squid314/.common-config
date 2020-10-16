@@ -27,6 +27,15 @@ prompt() {
                 fi
             done
             ;;
+        insert|ins)
+            inc="$1"
+            pc="$2"
+            if ! [[ $inc -eq $inc ]] 2>&- ; then
+                printf 'error: %s: non-numeric index "%s"\n' "$0" "$cmd"
+                return 1
+            fi
+            __prompt_commands=("${__prompt_commands[@]:0:$inc}" "$pc" "${__prompt_commands[@]:$inc}")
+            ;;
         has|contains)
             inc="$1"
             for pc in "${__prompt_commands[@]}" ; do
@@ -57,7 +66,7 @@ prompt() {
         clean)
             local -a pc2
             for pc in "${__prompt_commands[@]}" ; do
-                # remove any blanks
+                # remove any blanks or dups
                 if [[ "$pc" ]] && ! __array_has pc2 "$pc" ; then
                     pc2+=("$pc")
                 fi
