@@ -79,17 +79,17 @@ if [[ -d "$CONFIG_ROOT/bashrc.d" ]] ; then
 fi
 
 # immediately update the .bash_history file
-promptcmd add 'history -a'
+prompt add 'history -a'
 # if using git stuff, add eval for git info
 if declare -f __git_ps1 > /dev/null ; then
-    promptcmd add '__git_ps1_value="$(__git_ps1)"'
+    prompt add '__git_ps1_value="$(__git_ps1)"'
 fi
-promptcmd add '__ps1_jobs=($(jobs -p))'
+prompt add '__ps1_jobs=($(jobs -p))'
 
 # TODO `agent verify` creates a background job, somehow, that is alive through a `jobs -p` test and then finishes before the prompt is displayed, so we have to put the __ps1_jobs setup before that
 # if using ssh-agent helper, add it to the prompt command
 if declare -f agent >/dev/null ; then
-    promptcmd add 'agent verify'
+    prompt add 'agent verify'
 fi
 # better prompt (window title gets git info, nice colors, last cmd status indicator)
 __ps1_userhost='\u@\h'
@@ -116,7 +116,7 @@ ${__ps1_jobs+$__ps1_yellow&}\
 $__ps1_red\$$__ps1_reset \
 "
 }
-promptcmd add '__ps1 $__exit'
+prompt add '__ps1 $__exit'
 
 # load various version/environment managers
 if [[ -r "$HOME/.rvm/scripts/rvm"     ]] ; then source "$HOME/.rvm/scripts/rvm"     ; fi

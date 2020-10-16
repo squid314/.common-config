@@ -1,10 +1,10 @@
-# promptcmd.sh
+# prompt.sh
 
-PROMPT_COMMAND=promptcmd\ run
+PROMPT_COMMAND=prompt\ run
 __prompt_commands=()
 
 # function to manage commands run before prompt display
-promptcmd() {
+prompt() {
     local __exit=$? # must occur first for `run`; everything else is gravy
 
     local pc inc
@@ -22,7 +22,7 @@ promptcmd() {
             ;;
         add)
             for inc in "$@" ; do
-                if ! promptcmd has "$inc" ; then
+                if ! prompt has "$inc" ; then
                     __prompt_commands+=("$inc")
                 fi
             done
@@ -51,8 +51,8 @@ promptcmd() {
             done
             ;;
         mv|move)
-            promptcmd rm "$@"
-            promptcmd add "$@"
+            prompt rm "$@"
+            prompt add "$@"
             ;;
         clean)
             local -a pc2
