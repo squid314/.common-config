@@ -37,12 +37,6 @@ __set_up_completions() {
 # completions seem oddly broken on various systems, so by default ignore all output
 __set_up_completions &>/dev/null
 
-# function to enable easy config testing
-bconf() {
-    test -e $CONFIG_ROOT/../.bashrc.conf &&
-        grep -qE "^$1$" $CONFIG_ROOT/../.bashrc.conf
-} &>/dev/null
-
 # don't put spaced or duped lines in the history
 HISTCONTROL=ignoreboth
 # store a lot of history because disk space is cheap
