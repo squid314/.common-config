@@ -91,6 +91,7 @@ prompt add 'ps1 run $__exit'
 # load various version/environment managers
 if [[ -r "$HOME/.rvm/scripts/rvm"     ]] ; then source "$HOME/.rvm/scripts/rvm"     ; fi
 if [[ -r "$HOME/.nvm/nvm.sh"          ]] ; then source "$HOME/.nvm/nvm.sh"          ; fi
+if [[ -r "$HOME/.nvm/bash_completion" ]] ; then source "$HOME/.nvm/bash_completion" ; fi
 
 # common aliases
 if [[ -f "$CONFIG_ROOT/bash_aliases" ]] ; then source "$CONFIG_ROOT/bash_aliases" ; fi
