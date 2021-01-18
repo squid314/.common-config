@@ -15,26 +15,27 @@
     cis = commit --squash squash
     amend = commit --amend --no-edit
     # diffs (always colored) ignoring whitespace
-    dwc = diff -w -M --color
-    stag = diff -w -M --color --staged
+    dwc  =       diff -w -M --color
+    stag =       diff -w -M --color --staged
+    swc  =       show -w -M --color
+    sswc = stash show -w -M --color
     # logs
     last = log -1
     lg = log --oneline --decorate --graph
-    so = log --oneline --decorate @{u}..
-    smo = log --oneline --decorate origin/master..
-    sdo = log --oneline --decorate origin/develop..
-    mine = !git log --author=`git config --get user.email`
+    so = log --oneline --decorate --graph @{u}..
+    sm = log --oneline --decorate --graph origin/master..
+    sd = log --oneline --decorate --graph origin/develop..
+    mine = !git log --decorate --author=`git config --get user.email`
     # rebases
     ri = rebase --interactive
     ra = rebase --abort
     rc = rebase --continue
-
-    rh = reset --hard
-    swc = show -w -M --color
-    sswc = stash show -w -M --color
+    # fetch/merge
     fap = fetch --all --prune
     ff = merge --ff-only
     pff = pull --ff-only
+    # index state manipulation
+    rh = reset --hard
     ap = add --patch
 
     # less common but useful aliases
