@@ -22,9 +22,9 @@
     # logs
     last = log -1
     lg = log --oneline --decorate --graph
-    so = log --oneline --decorate --graph @{u}..
-    sm = log --oneline --decorate --graph origin/master..
-    sd = log --oneline --decorate --graph origin/develop..
+    so = log --oneline --decorate --graph @{u}^..
+    sm = log --oneline --decorate --graph origin/master^..
+    sd = log --oneline --decorate --graph origin/develop^..
     mine = !git log --decorate --author=`git config --get user.email`
     # rebases
     ri = rebase --interactive
