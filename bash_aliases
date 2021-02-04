@@ -29,6 +29,15 @@ alias li='ls -lashi'
 alias sudo='sudo '
 alias xargs='xargs '
 
+# prefer vim over vi in all the things
+if type vim &>/dev/null ; then
+    alias  vi='vim'     \
+          rvi='vim -Z'  \
+         view='vim -R'  \
+        rview='vim -ZR' \
+           ex='vim -e'
+fi
+
 # quick file find in pwd; prune all directories named in find-prunes
 alias ff='find . -type d \( $(sed "/^#/d;/^ *\$/d;s/.*/-name & -o/" "${CONFIG_ROOT}/find-prunes") -false \) -prune -false -o -iname'
 alias fr='find . -type d \( $(sed "/^#/d;/^ *\$/d;s/.*/-name & -o/" "${CONFIG_ROOT}/find-prunes") -false \) -prune -false -o -iregex'
