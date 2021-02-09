@@ -7,6 +7,7 @@ if ! type docker &>/dev/null && !type podman &>/dev/null ; then return ; fi
 commands=(
     jq="--entrypoint=/bin/jq     realguess/jq"
     yq="--entrypoint=/usr/bin/yq mikefarah/yq"
+    bat="-t quay.io/squid314/devenv:bat"
 )
 
 for c in "${!commands[@]}" ; do
