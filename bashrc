@@ -37,6 +37,9 @@ __set_up_completions() {
 # completions seem oddly broken on various systems, so by default ignore all output
 __set_up_completions &>/dev/null
 
+# prefer umask with no group write (some systems default to allow it)
+umask 0022
+
 # don't put spaced or duped lines in the history
 HISTCONTROL=ignoreboth
 # store a lot of history because disk space is cheap
