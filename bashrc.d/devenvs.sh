@@ -46,9 +46,9 @@ dev() {
             return 1
         elif [[ "$(__dev_cont container ls -aqf name=devenv-$tag | wc -l)" -eq 1 ]] ; then
             # restart stopped devenv
-            __dev_cont start devenv-$tag
+            __dev_cont start devenv-$tag &>/dev/null
         else
-            # create new container
+            # create new devenv
             local devs=()
             for dev in $(cd $HOME/dev 2>/dev/null && find * -type d -prune) ; do
                 if bconf "bashrc.d.devenvs.sh.devs.$dev=mount" ; then
