@@ -35,19 +35,29 @@ dev() {
         echo "Checking for newer image..."
         __dev_cont pull quay.io/squid314/devenv:$tag
     fi
-    local devs=()
-    for dev in $(cd $HOME/dev 2>/dev/null && find * -type d -prune) ; do
-        if bconf "bashrc.d.devenvs.sh.devs.$dev=mount" ; then
-            devs=("${devs[@]}" -v "$HOME/dev/$dev:/home/squid/dev/$dev")
+    if [[ -z "$(__dev_cont container ls -qf name=devenv-$tag)" ]] ; then
+        local devs=()
+        for dev in $(cd $HOME/dev 2>/dev/null && find * -type d -prune) ; do
+            if bconf "bashrc.d.devenvs.sh.devs.$dev=mount" ; then
+                devs=("${devs[@]}" -v "$HOME/dev/$dev:/home/squid/dev/$dev")
+            fi
+        done
+        if   [[ -S /var/run/docker.sock         ]] ; then dock_sock="-v         /var/run/docker.sock:/var/run/docker.sock"
+        elif [[ -S /private/var/run/docker.sock ]] ; then dock_sock="-v /private/var/run/docker.sock:/var/run/docker.sock"
         fi
-    done
-    if   [[ -S /var/run/docker.sock         ]] ; then dock_sock="-v         /var/run/docker.sock:/var/run/docker.sock"
-    elif [[ -S /private/var/run/docker.sock ]] ; then dock_sock="-v /private/var/run/docker.sock:/var/run/docker.sock"
+        __dev_cont run -d --init \
+            --name devenv-$tag \
+            ${dock_sock} \
+            -v squid-dev:/home/squid/dev \
+            "${devs[@]}" \
+            quay.io/squid314/devenv:$tag \
+            tail -f /dev/null &>/dev/null
     fi
-    __dev_cont run -it \
-        ${dock_sock} \
-        -v squid-dev:/home/squid/dev \
-        "${devs[@]}" \
-        quay.io/squid314/devenv:$tag \
+    if [[ $# -eq 0 ]] ; then
+        # pull in the default cmd for the image
+        set - $(__dev_cont image inspect --format '{{join .Config.Cmd " "}}' quay.io/squid314/devenv:$tag)
+    fi
+    __dev_cont exec -it \
+        devenv-$tag \
         "$@"
 }
