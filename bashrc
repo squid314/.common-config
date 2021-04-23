@@ -15,8 +15,7 @@ CONFIG_ROOT="$(cd $(dirname ${BASH_ARGV[0]}) ; pwd)"
 for s in "$CONFIG_ROOT"/bashrc.func.d/*.sh ; do source "$s" ; done ; unset s
 
 __set_up_completions() {
-    local s=
-    local f=
+    local s f
 
     # try to find all the possible locations of completion enhancements
     if [[ -f /etc/bash_completion ]] ; then source /etc/bash_completion
