@@ -2,6 +2,16 @@
 # function to enable easy config testing
 
 bconf() {
-    test -e $CONFIG_ROOT/../.bashrc.conf &&
-        grep -qE "^$1$" $CONFIG_ROOT/../.bashrc.conf
+    grep -qE "^$1$" "$HOME/.bashrc.conf"
 } &>/dev/null
+
+bget() {
+    sed -n "s/^$1=\(.*\)$/\1/p" "$HOME/.bashrc.conf"
+}
+bset() {
+    sed -i '' \
+        -e "/^$1=.*$/d" \
+        -e "$""a\\
+$1=$2" \
+        "$HOME/.bashrc.conf"
+}
