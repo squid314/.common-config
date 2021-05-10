@@ -26,7 +26,7 @@ dev() {
             ;;
         check) __dev_cont pull quay.io/squid314/devenv:$tag ;;
         start)
-            if [[ "$(__dev_cont container ls -qf name=devenv-$tag | wc -l)" -eq 1 ]] ; then
+            if [[ "$(__dev_cont container ls -aqf name=devenv-$tag | wc -l)" -eq 1 ]] ; then
                 __dev_cont start devenv-$tag &>/dev/null
             else
                 local dev devs=()
