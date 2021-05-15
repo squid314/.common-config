@@ -11,6 +11,8 @@ bget() {
 bset() {
     sed -i '' \
         -e "/^$1=.*$/d" \
+        "$HOME/.bashrc.conf"
+    sed -i '' \
         -e "$""a\\
 $1=$2" \
         "$HOME/.bashrc.conf"
