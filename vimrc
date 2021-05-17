@@ -15,7 +15,7 @@ syntax enable
 colorscheme evening
 " set tabs to expand default and at 4 chars
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab autoindent
-" some sh syntax files add "." to iskeyword but allow you to requrest they not
+" some sh syntax files add "." to iskeyword but allow you to request they not
 let g:sh_noisk=1
 " tell sh.vim syntax to assume script type is bash
 let g:is_bash=1
