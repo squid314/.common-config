@@ -62,16 +62,13 @@ call vundle#end()
 filetype plugin indent on
 
 " save/restore options
-set viewoptions=cursor,folds,slash,unix
-set sessionoptions=buffers,curdir,folds,localoptions,tabpages,winsize
+set viewoptions-=options,curdir
+set viewoptions+=slash,unix
+set sessionoptions-=blank,help,options,terminal
+set sessionoptions+=localoptions
 
 " set up *.gradle files to be highlighted as groovy syntax (which they are)
 au BufNewFile,BufRead *.gradle setf groovy
-
-" if ~/.vim-tmp is present, place the backup and swap files there instead of
-" next to the file being edited; if not present, do the default
-set backupdir=~/.vim-tmp,.
-set directory=~/.vim-tmp,.
 
 " map 'jj','jk' to <Esc> to keep hands on the home row more
 imap jj <Esc>
