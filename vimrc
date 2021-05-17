@@ -62,9 +62,14 @@ call vundle#end()
 filetype plugin indent on
 
 " save/restore options
-set viewoptions-=options,curdir
-set viewoptions+=slash,unix
-set sessionoptions-=blank,help,options,terminal
+set viewoptions-=options
+set viewoptions-=curdir
+set viewoptions+=slash
+set viewoptions+=unix
+set sessionoptions-=blank
+set sessionoptions-=help
+set sessionoptions-=options
+set sessionoptions-=terminal
 set sessionoptions+=localoptions
 
 " set up *.gradle files to be highlighted as groovy syntax (which they are)
