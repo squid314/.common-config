@@ -9,6 +9,14 @@ if filereadable(expand("$VIMRUNTIME/defaults.vim"))
     source $VIMRUNTIME/defaults.vim
 endif
 
+" redhat does some annoying things if autocmd is available
+" so we just disable it all
+if exists("#redhat")
+    augroup redhat
+        autocmd!
+    augroup END
+endif
+
 " enable syntax highlighting
 syntax enable
 " set colors to a good set for a black background (note that this is ugly for Mac outside of tmux)
