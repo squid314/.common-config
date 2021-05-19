@@ -2,6 +2,9 @@
 " Maintainer:	Bram Moolenaar <Bram@vim.org>
 " Last Change:	2016 Oct 10
 
+" This color scheme is based on the packaged "evening" scheme.
+" I have not modified it yet, but I may.
+
 " This color scheme uses a dark grey background.
 
 " First remove all existing highlighting.

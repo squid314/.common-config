@@ -23,7 +23,7 @@ endif
 " enable syntax highlighting
 syntax enable
 " set colors to a good set for a black background (note that this is ugly for Mac outside of tmux)
-colorscheme evening
+colorscheme mine
 " set tabs to expand default and at 4 chars
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab autoindent
 " some sh syntax files add "." to iskeyword but allow you to request they not
