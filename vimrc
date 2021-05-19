@@ -45,27 +45,29 @@ set scrolloff=0
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin 'gmarik/Vundle.vim'
-" additional syntaxes
-"Plugin 'puppetlabs/puppet-syntax-vim'
-Plugin 'tfnico/vim-gradle'
-"Plugin 'fatih/vim-go'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'hashivim/vim-vagrant'
-Plugin 'avakhov/vim-yaml'
-Plugin 'chr4/nginx.vim'
-Plugin 'ekalinin/Dockerfile.vim'
-Plugin 'udalov/kotlin-vim'
-Plugin 'martinda/Jenkinsfile-vim-syntax'
-Plugin 'mustache/vim-mustache-handlebars'
-" scala stuff
-Plugin 'derekwyatt/vim-scala'
-"Plugin 'ktvoelker/sbt-vim'
-" git
-Plugin 'tpope/vim-fugitive'
+if exists(':Plugin')
+    Plugin 'gmarik/Vundle.vim'
+    " additional syntaxes
+    "Plugin 'puppetlabs/puppet-syntax-vim'
+    Plugin 'tfnico/vim-gradle'
+    "Plugin 'fatih/vim-go'
+    Plugin 'leafgarland/typescript-vim'
+    Plugin 'pangloss/vim-javascript'
+    Plugin 'hashivim/vim-vagrant'
+    Plugin 'avakhov/vim-yaml'
+    Plugin 'chr4/nginx.vim'
+    Plugin 'ekalinin/Dockerfile.vim'
+    Plugin 'udalov/kotlin-vim'
+    Plugin 'martinda/Jenkinsfile-vim-syntax'
+    Plugin 'mustache/vim-mustache-handlebars'
+    " scala stuff
+    Plugin 'derekwyatt/vim-scala'
+    "Plugin 'ktvoelker/sbt-vim'
+    " git
+    Plugin 'tpope/vim-fugitive'
 
-Plugin 'restore_view.vim'
+    Plugin 'restore_view.vim'
+endif
 call vundle#end()
 filetype plugin indent on
 
