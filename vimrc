@@ -9,6 +9,9 @@ if filereadable(expand("$VIMRUNTIME/defaults.vim"))
     source $VIMRUNTIME/defaults.vim
 endif
 
+" add .common-config/vim in case system doesn't provide thing(s) i want
+set rtp+=~/.common-config/vim
+
 " redhat does some annoying things if autocmd is available
 " so we just disable it all
 if exists("#redhat")
