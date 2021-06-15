@@ -1,55 +1,55 @@
 [alias]
-    # really simple shortenings
-    br = branch
-    co = checkout
-    ci = commit
-    st = status
-    cp = cherry-pick
+	# really simple shortenings
+	br = branch
+	co = checkout
+	ci = commit
+	st = status
+	cp = cherry-pick
 
-    # commonly used aliases
-    # new branch
-    branchto = checkout -b
-    bt = checkout -b
-    # common commits
-    cif = commit --fixup squash
-    cis = commit --squash squash
-    amend = commit --amend --no-edit
-    # diffs (always colored) ignoring whitespace
-    dwc  =       diff -w -M --color
-    stag =       diff -w -M --color --staged
-    swc  =       show -w -M --color
-    sswc = stash show -w -M --color
-    # logs
-    last = log -1
-    lg = log --oneline --decorate --graph
-    so = log --oneline --decorate --graph @{u}^..
-    sm = log --oneline --decorate --graph origin/master^..
-    sd = log --oneline --decorate --graph origin/develop^..
-    mine = !git log --decorate --author=`git config --get user.email`
-    # rebases
-    ri = rebase --interactive
-    ra = rebase --abort
-    rc = rebase --continue
-    # fetch/merge
-    fap = fetch --all --prune
-    ff = merge --ff-only
-    pff = pull --ff-only
-    # index state manipulation
-    rh = reset --hard
-    ap = add --patch
+	# commonly used aliases
+	# new branch
+	branchto = checkout -b
+	bt = checkout -b
+	# common commits
+	cif = commit --fixup squash
+	cis = commit --squash squash
+	amend = commit --amend --no-edit
+	# diffs (always colored) ignoring whitespace
+	dwc  =       diff -w -M --color
+	stag =       diff -w -M --color --staged
+	swc  =       show -w -M --color
+	sswc = stash show -w -M --color
+	# logs
+	last = log -1
+	lg = log --oneline --decorate --graph
+	so = log --oneline --decorate --graph @{u}^..
+	sm = log --oneline --decorate --graph origin/master^..
+	sd = log --oneline --decorate --graph origin/develop^..
+	mine = !git log --decorate --author=`git config --get user.email`
+	# rebases
+	ri = rebase --interactive
+	ra = rebase --abort
+	rc = rebase --continue
+	# fetch/merge
+	fap = fetch --all --prune
+	ff = merge --ff-only
+	pff = pull --ff-only
+	# index state manipulation
+	rh = reset --hard
+	ap = add --patch
 
-    # less common but useful aliases
-    diverge-point = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
-    oldest-ancestor = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
+	# less common but useful aliases
+	diverge-point = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
+	oldest-ancestor = !bash -c 'diff --old-line-format= --new-line-format= "<(git rev-list --first-parent "${1:-master}")" "<(git rev-list --first-parent "${2:-HEAD}")" | head -1' -
 [core]
-    pager = less -RS
+	pager = less -RS
 [merge]
-    defaultToUpstream = true
-    ff = true
+	defaultToUpstream = true
+	ff = true
 [push]
-    default = upstream
+	default = upstream
 [rebase]
-    autoSquash = true
+	autoSquash = true
 
 # add some common git hosts
 [url "git@bitbucket.com:"]
@@ -58,8 +58,10 @@
 	insteadOf = gh:
 
 [include]
-    path = config.user
+	path = config.user
 
 # this path is not relative to the current config file and therefore must be absolute. that is annoying.
 [core]
-    excludesfile = ~/.common-config/git/ignore
+	excludesfile = ~/.common-config/git/ignore
+
+# vi: set ts=4 sts=4 sw=4 noet ft=gitconfig :

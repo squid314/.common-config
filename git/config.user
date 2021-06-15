@@ -6,3 +6,5 @@
 	insteadOf = bbme:
 [url "git@github.com:squid314"]
 	insteadOf = ghme:
+
+# vi: set ts=4 sts=4 sw=4 noet ft=gitconfig :

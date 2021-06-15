@@ -17,3 +17,5 @@ Session*.vim
 
 # ignore stupid NFS temp files
 .nfs*
+
+# vi: set ts=4 sts=4 sw=4 ft=conf :
