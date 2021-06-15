@@ -2,9 +2,11 @@
 	name = squid314
 	email = squid314@users.noreply.github.com
 
-[url "git@bitbucket.com:squid314"]
+[url "git@bitbucket.com:squid314/"]
 	insteadOf = bbme:
-[url "git@github.com:squid314"]
+[url "git@github.com:squid314/"]
 	insteadOf = ghme:
+[url "git@gitlab.com:squid314/"]
+	insteadOf = glme:
 
 # vi: set ts=4 sts=4 sw=4 noet ft=gitconfig :

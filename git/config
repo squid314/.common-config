@@ -58,6 +58,8 @@
 	insteadOf = bb:
 [url "git@github.com:"]
 	insteadOf = gh:
+[url "git@gitlab.com:"]
+	insteadOf = gl:
 
 [include]
 	path = config.user
