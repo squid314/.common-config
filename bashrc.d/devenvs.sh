@@ -53,7 +53,7 @@ dev() {
             fi
             ;;
         rm)
-            if [[ "$(__dev_cont container ls -qf name=devenv-$tag | wc -l)" -eq 1 ]] ; then
+            if [[ "$(__dev_cont container ls -aqf name=devenv-$tag | wc -l)" -eq 1 ]] ; then
                 __dev_cont container rm -f devenv-$tag &>/dev/null
             fi
             ;;
