@@ -33,16 +33,33 @@ let g:is_bash=1
 " sh folding all the things
 let g:sh_fold_enabled=7
 " show first search match as i type a pattern
-if has('reltime')
-    set incsearch
-endif
+if has('reltime') | set incsearch | endif
 
 " ensure that statusline has file position indicator
 set ruler
-" highlight searches by default
-set hls
+" highlight searches by default, but do so quickly
+set hlsearch
+set redrawtime=200
 " scroll only when the cursor is at the edge of the screen
 set scrolloff=0
+
+" save/restore options
+set viewoptions-=options
+set viewoptions-=curdir
+set viewoptions+=slash
+set viewoptions+=unix
+set sessionoptions-=blank
+set sessionoptions-=help
+set sessionoptions-=options
+set sessionoptions-=terminal
+set sessionoptions+=localoptions
+
+" diff options
+set diffopt+=context:3
+
+" map 'jj','jk' to <Esc> to keep hands on the home row more
+imap jj <Esc>
+imap jk <Esc>
 
 " setup for vundle (https://github.com/gmarik/Vundle.vim)
 filetype off
@@ -74,20 +91,5 @@ endif
 call vundle#end()
 filetype plugin indent on
 
-" save/restore options
-set viewoptions-=options
-set viewoptions-=curdir
-set viewoptions+=slash
-set viewoptions+=unix
-set sessionoptions-=blank
-set sessionoptions-=help
-set sessionoptions-=options
-set sessionoptions-=terminal
-set sessionoptions+=localoptions
-
 " set up *.gradle files to be highlighted as groovy syntax (which they are)
-au BufNewFile,BufRead *.gradle setf groovy
-
-" map 'jj','jk' to <Esc> to keep hands on the home row more
-imap jj <Esc>
-imap jk <Esc>
+autocmd BufNewFile,BufRead *.gradle setfiletype groovy
