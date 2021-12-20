@@ -64,7 +64,7 @@
 [include]
 	path = config.user
 
-# this path is not relative to the current config file and therefore must be absolute. that is annoying.
+# this path is not relative to the current config file and therefore must be absolute. that is annoying. also annoying, only can use one file; if you override this, you're on your own.
 [core]
 	excludesfile = ~/.common-config/git/ignore
 
