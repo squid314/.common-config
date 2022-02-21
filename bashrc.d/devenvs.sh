@@ -3,10 +3,12 @@
 if ! type docker &>/dev/null && ! type podman &>/dev/null ; then return ; fi
 
 
-if type podman &>/dev/null ; then
-    __dev_cont() { podman "$@"; }
-else
+# default to using docker if it is present
+if type docker &>/dev/null ; then
     __dev_cont() { docker "$@"; }
+else
+    # TODO realistically, need to validate that devenv works in podman
+    __dev_cont() { podman "$@"; }
 fi
 
 dev() {
