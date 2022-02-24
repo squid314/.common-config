@@ -16,14 +16,16 @@ GIT_PS1_SHOWUPSTREAM="auto git"
 g() {
     if [[ $# = 0 ]] ; then
         git status
-    elif [[ $1 = cd && $# = 2 ]] ; then
-        case $2 in
-            j|java)  cd "$(git rev-parse --show-cdup)src/main/java"   ;;
-            s|scala) cd "$(git rev-parse --show-cdup)src/main/scala"  ;;
-            a|app)   cd "$(git rev-parse --show-cdup)src/main/webapp" ;;
-            up)      cd "$(git rev-parse --show-cdup)" ;;
-            *)       echo "g: error: huh?" >&2 ;;
-        esac
+    elif [[ $# = 1 && -d "$1" ]] ; then
+        git status "$@"
+#    elif [[ $1 = cd && $# = 2 ]] ; then
+#        case $2 in
+#            j|java)  cd "$(git rev-parse --show-cdup)src/main/java"   ;;
+#            s|scala) cd "$(git rev-parse --show-cdup)src/main/scala"  ;;
+#            a|app)   cd "$(git rev-parse --show-cdup)src/main/webapp" ;;
+#            up)      cd "$(git rev-parse --show-cdup)" ;;
+#            *)       echo "g: error: huh?" >&2 ;;
+#        esac
     elif [[ $1 = make && -d ~/.bin/git ]] ; then
         # rebuild and install git (from the latest release tag)
         (
