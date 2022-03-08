@@ -39,6 +39,7 @@ g() {
             git gc --prune=now
             git clean --force
             make clean
+            make profile
             make PROFILE=BUILD NO_EXPAT=YesPlease NO_TCLTK=YesPlease install
         )
     else
