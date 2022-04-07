@@ -1,7 +1,7 @@
 # .bash_aliases
 
 # add grep colors option
-alias grep="grep --color=auto"
+alias grep='grep --color=auto'
 
 # better ls(1)
 alias ls='ls --color=auto'
@@ -56,8 +56,8 @@ if type kubectl &>/dev/null ; then
     alias k='kubectl'
 fi
 
-alias pyjs="python -m json.tool"
-alias tmd="tmux new-session -As default"
+alias pyjs='python -m json.tool'
+alias tmd='tmux new-session -As default'
 alias pgrep='ps -ef | grep -i'
 
 if ! type shred &>/dev/null && type srm &>/dev/null ; then
@@ -66,7 +66,7 @@ fi
 
 # function for math stats
 st() {
-    if [[ "x$1" = "x--no-name" ]] ; then
+    if [[ $1 = --no-name ]] ; then
         awk '{
                  for(i=1;i<=NF;i++) {
                      sum[i] += $i;
