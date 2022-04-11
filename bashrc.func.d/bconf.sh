@@ -9,11 +9,9 @@ bget() {
     sed -n "s/^$1=\(.*\)$/\1/p" "$HOME/.bashrc.conf"
 }
 bset() {
-    sed -i '' \
-        -e "/^$1=.*$/d" \
-        "$HOME/.bashrc.conf"
-    sed -i '' \
+    local conf="$(< "$HOME/.bashrc.conf")"
+    sed -e "/^$1=.*$/d" \
         -e "$""a\\
 $1=$2" \
-        "$HOME/.bashrc.conf"
+        <<<"$conf" >"$HOME/.bashrc.conf"
 }
