@@ -74,6 +74,7 @@ if exists(':Plugin')
     Plugin 'leafgarland/typescript-vim'
     Plugin 'pangloss/vim-javascript'
     Plugin 'hashivim/vim-vagrant'
+    Plugin 'hashivim/vim-terraform'
     Plugin 'avakhov/vim-yaml'
     Plugin 'chr4/nginx.vim'
     Plugin 'ekalinin/Dockerfile.vim'
