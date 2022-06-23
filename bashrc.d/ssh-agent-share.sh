@@ -87,7 +87,7 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
             # TODO since we now check if we can connect to the agent (ssh-add -l), do we need to check anything before that?
             if [ -z "$SSH_AGENT_PID" ] || \
                     [ -z "$SSH_AUTH_SOCK" ] || \
-                    [ ! -S $SSH_AUTH_SOCK ] || \
+                    [ ! -S "$SSH_AUTH_SOCK" ] || \
                     bash -c "source $AGENT_INFO_FILE"' && [[ "$SSH_AGENT_PID" != "$1" || "$SSH_AUTH_SOCK" != "$2" ]]' - "$SSH_AGENT_PID" "$SSH_AUTH_SOCK" || \
                     ! ps -ef | awk '{print $2}' | grep "$SSH_AGENT_PID" &>/dev/null || \
                     ! bash -c "ssh-add -l ; [ \$? = 2 ] && exit 1 || exit 0" &>/dev/null || \
