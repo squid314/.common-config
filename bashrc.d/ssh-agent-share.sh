@@ -102,6 +102,7 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
         add) # add private keys to the agent
             shift
             local keys_to_add=(~/.ssh/*id_*)
+            local -a keys_resolved
             if [ $# != 0 ] ; then
                 keys_to_add=("$@")
             fi
@@ -113,9 +114,10 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
             fi
             for id in "${keys_to_add[@]}" ; do
                 if [ -f "$id" ] && [ "${id%%.pub}" = "$id" ] ; then
-                    printf '%s\0' "$id"
+                    keys_resolved+=("$id")
                 fi
-            done | $x0 ssh-add
+            done
+            ssh-add "${keys_resolved[@]}"
             ;;
         list|ls) # list private keys in agent and print public keys in ~/.ssh
             local pub_keys=(~/.ssh/*.pub)
