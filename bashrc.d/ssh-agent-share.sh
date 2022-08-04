@@ -32,7 +32,7 @@ source $AGENT_INFO_FILE
 # ask the agent to quit
 ssh-agent -k
 # if it is still alive, force kill it
-ps -ef | awk '{print \$2}' | grep \"\$SSH_AGENT_PID\" &>/dev/null && ( sleep 2 ; kill -9 \"\$SSH_AGENT_PID\" )
+ps -p \$SSH_AGENT_PID &>/dev/null && ( sleep 2 ; kill -9 \"\$SSH_AGENT_PID\" )
 # clean up any shell registrations
 rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
 " &>/dev/null
@@ -77,20 +77,20 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
             # verify that an agent exists and the current shell is attached; if
             # not, attach, creating if necessary
             # tests:
-            # - have PID data?
-            # - have socket data?
-            # - current data matches data in info file?
-            # - socket is valid?
-            # - PID is alive? (note that we don't check if it is the right process)
-            # - can connect to agent?
-            # - current shell is registered?
             # TODO since we now check if we can connect to the agent (ssh-add -l), do we need to check anything before that?
+            # - have PID data?
             if [ -z "$SSH_AGENT_PID" ] || \
+                    # - have socket data?
                     [ -z "$SSH_AUTH_SOCK" ] || \
+                    # - socket is valid?
                     [ ! -S "$SSH_AUTH_SOCK" ] || \
+                    # - current data matches data in info file?
                     bash -c "source $AGENT_INFO_FILE"' && [[ "$SSH_AGENT_PID" != "$1" || "$SSH_AUTH_SOCK" != "$2" ]]' - "$SSH_AGENT_PID" "$SSH_AUTH_SOCK" || \
-                    ! ps -ef | awk '{print $2}' | grep "$SSH_AGENT_PID" &>/dev/null || \
-                    ! bash -c "ssh-add -l ; [ \$? = 2 ] && exit 1 || exit 0" &>/dev/null || \
+                    # - PID is alive? (note that we don't check if it is the right process)
+                    ! ps -p "$SSH_AGENT_PID" &>/dev/null || \
+                    # - can connect to agent?
+                    bash -c 'ssh-add -l ; [ $? = 2 ]' &>/dev/null || \
+                    # - current shell is registered?
                     [ ! -f "$AGENT_INFO_DIR/sh-$$" ]
             then
                 # first, attempt to just attach. failing that, create and then attach
@@ -106,14 +106,8 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
             if [ $# != 0 ] ; then
                 keys_to_add=("$@")
             fi
-            # GNU xargs runs the command even with no args unless you specify -r|--no-run-if-empty; BSD xargs defaults to not run the command if no args present
-            if [ "x$(xargs echo hello </dev/null)x" = xx ] ; then
-                x0="xargs -0"
-            else
-                x0="xargs -0r"
-            fi
             for id in "${keys_to_add[@]}" ; do
-                if [ -f "$id" ] && [ "${id%%.pub}" = "$id" ] ; then
+                if [[ -f "$id" && "${id%%.pub}" = "$id" ]] ; then
                     keys_resolved+=("$id")
                 fi
             done
