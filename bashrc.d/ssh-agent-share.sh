@@ -53,7 +53,9 @@ rm -f $AGENT_INFO_FILE $AGENT_INFO_DIR/sh-*
             # ssh-add -l returns 0 if there are identities and 1 if there are
             # none, but returns 2 if the connection fails; so we look for that
             # explicitly
-            if [[ $? != 2 ]] ; then touch $AGENT_INFO_DIR/sh-$$ ; fi
+            if [[ $? = 2 ]] ; then return 1 ; fi
+            # note that we are connected
+            touch $AGENT_INFO_DIR/sh-$$
             # if inside a tmux session, setenv in tmux so new/restarted panes have access
             if [[ $TMUX ]] && type tmux &>/dev/null ; then
                 tmux set-environment    SSH_AGENT_PID "$SSH_AGENT_PID" \; \
