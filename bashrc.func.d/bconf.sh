@@ -10,8 +10,11 @@ bget() {
 }
 bset() {
     local conf="$(< "$HOME/.bashrc.conf")"
-    sed -e "/^$1=.*$/d" \
-        -e "$""a\\
-$1=$2" \
-        <<<"$conf" >"$HOME/.bashrc.conf"
+    sed -e "/^$1=.*$/d" <<<"$conf" |
+    if [[ $# -eq 2 ]] ; then
+        sed -e "$""a\\
+$1=$2"
+    else
+        cat
+    fi >"$HOME/.bashrc.conf"
 }
