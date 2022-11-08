@@ -14,27 +14,20 @@ else
     yum install -y sudo vim git tmux
 fi
 
-if getent group sudo ; then
-    wheel=sudo
-elif getent group wheel ; then
-    wheel=wheel
-else
-    wheel=wheel
-    groupadd -r wheel
-fi
-
 # cancel vultr password overwrite
 rm -f /var/lib/cloud/scripts/per-once/vultr_password
 # resolve with blmq.us
 echo 'search blmq.us' >>/etc/resolv.conf
 
-# root login info
-usermod -p '$6$tp3RqWlr$D8YXH8EwqBGbWliOzwmiNorYP2SspEjdXrEWWUgRhNvswB6WPu6muZyWvLdFf3IKM6pSb5DXzotlYR3szEOZQ.' root
-
 # create primary user
-useradd -m -G $wheel -s /bin/bash -p '$6$QtZr4Rjz$wVQG42lODmQ6KOu.SnjvXol3qTkHmuuH.ANNn5nQalRCswzKno6E35cfYiJX5TtOaiYKef35x77s31VectS070' squid
+useradd -m -s /bin/bash squid
 install -d -o squid -g squid -m 0700           /home/squid/.ssh
 install    -o squid -g squid -m 0600 /dev/null /home/squid/.ssh/authorized_keys
+if [[ -d /etc/sudoers.d ]] ; then
+    printf '%s\n' "# created by squid's first-boot script (not using cloud-init yet)" '' '# rules for squid: allow all' 'squid ALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/99-user-squid
+else
+    printf '%s\n' '' '' '#######################' "# added by squid's first-boot script (not using cloud-init yet)" '# rules for squid: allow all' 'squid ALL=(ALL) NOPASSWD:ALL' >/etc/sudoers
+fi
 # install isn't working in some cases  :(
 chown -R squid: /home/squid/.ssh
 chmod -R go-rwx /home/squid/.ssh
