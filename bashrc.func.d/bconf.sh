@@ -6,7 +6,11 @@ bconf() {
 } &>/dev/null
 
 bget() {
-    sed -n "s/^$1=\(.*\)$/\1/p" "$HOME/.bashrc.conf"
+    if [[ $# = 0 ]] ; then
+        cat "$HOME/.bashrc.conf"
+    else
+        sed -n "s/^$1=\(.*\)$/\1/p" "$HOME/.bashrc.conf"
+    fi
 }
 bset() {
     local conf="$(< "$HOME/.bashrc.conf")"
