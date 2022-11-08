@@ -20,4 +20,5 @@ If you want the ps1 prompt to only display the user name and not include the hos
 * [x] ~add script to copy everything from this repo to the user's home directory and replace any mandatory absolute paths with correct ones~
 * [x] ~change configuration to not rely on the presence of git~
 * [x] ~add devenv setup for simple containers to house used development tools~
+* [ ] update `setup.sh` to support specific hash cloning. this would allow better `Containerfile`s
 * [ ] devenv to support podman
