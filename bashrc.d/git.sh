@@ -35,22 +35,26 @@ g() {
         else
             echo "g: cd: error: project does not have target \"$d\"" >&2
         fi
-    elif [[ $1 = make && -d ~/.bin/git ]] ; then
-        # rebuild and install git (from the latest release tag)
-        (
-            set -e
-            cd ~/.bin/git
-            TAG=$(git ls-remote --tags origin | grep -oE 'v[0-9]+(\.[0-9]+){2}$' | sort -V | tail -n 1)
-            git reset --hard
-            git fetch --update-shallow --no-tags --verbose --depth=1 origin $TAG:refs/tags/$TAG
-            git tag -d $(git tag | grep -vF $TAG)
-            git checkout $TAG
-            git gc --prune=now
-            git clean --force
-            make clean
-            make profile
-            make PROFILE=BUILD NO_EXPAT=YesPlease NO_TCLTK=YesPlease install
-        )
+    elif [[ $1 = make ]] ; then
+        if [[ -d ~/.bin/git ]] ; then
+            # rebuild and install git (from the latest release tag)
+            (
+                set -e
+                cd ~/.bin/git
+                TAG=$(git ls-remote --tags origin | grep -oE 'v[0-9]+(\.[0-9]+){2}$' | sort -V | tail -n 1)
+                git reset --hard
+                git fetch --update-shallow --no-tags --verbose --depth=1 origin $TAG:refs/tags/$TAG
+                git tag -d $(git tag | grep -vF $TAG)
+                git checkout $TAG
+                git gc --prune=now
+                git clean --force
+                make clean
+                make profile
+                make PROFILE=BUILD NO_EXPAT=YesPlease NO_TCLTK=YesPlease install
+            )
+        else
+            echo "g: make: error: directory ~/.bin/git not found" >&2
+        fi
     else
         git "$@"
     fi
