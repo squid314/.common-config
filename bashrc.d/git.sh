@@ -55,6 +55,23 @@ g() {
         else
             echo "g: make: error: directory ~/.bin/git not found" >&2
         fi
+    elif [[ $1 = clone ]] ; then
+        git "$@" || return
+
+        # if style is "g clone git://github.com/squid314/coolthing.git", extract automatic directory from URL
+        if [[ $# = 2 ]] ; then
+            local path="${2#*:}"
+            local repo="$(basename "$path")"
+            # in case you are cloning locally in the same directory as the source repo.git, check first for the workdir that should have been created
+            if [[ -d "${repo%%.git}" ]] ; then
+                cd "${repo%%.git}"
+            elif [[ -d "$repo" ]] ; then
+                cd "$repo"
+            fi
+        # guess that style is "g clone git://gituhb.com/squid314/coolthing.git new-dir", cd to second argument if it exists
+        elif [[ $# = 3 && -d "$3" ]] ; then
+            cd "$3"
+        fi
     else
         git "$@"
     fi
