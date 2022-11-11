@@ -18,14 +18,23 @@ g() {
         git status
     elif [[ $# = 1 && -d "$1" ]] ; then
         git status "$@"
-#    elif [[ $1 = cd && $# = 2 ]] ; then
-#        case $2 in
-#            j|java)  cd "$(git rev-parse --show-cdup)src/main/java"   ;;
-#            s|scala) cd "$(git rev-parse --show-cdup)src/main/scala"  ;;
-#            a|app)   cd "$(git rev-parse --show-cdup)src/main/webapp" ;;
-#            up)      cd "$(git rev-parse --show-cdup)" ;;
-#            *)       echo "g: error: huh?" >&2 ;;
-#        esac
+    elif [[ $1 = cd && $# = 2 ]] ; then
+        local d g
+        g="$(git rev-parse --show-cdup)"
+        ret=$?
+        if [[ $ret != 0 ]] ; then return $ret ; fi
+        case $2 in
+            j|java)  d="src/main/java"   ;;
+            s|scala) d="src/main/scala"  ;;
+            a|app)   d="src/main/webapp" ;;
+            up)      d="" ;;
+            *)       echo "g: cd: error: cd target not recognized" >&2 ; return ;;
+        esac
+        if [[ -d "$g$d" ]] ; then
+            cd "$g$d"
+        else
+            echo "g: cd: error: project does not have target \"$d\"" >&2
+        fi
     elif [[ $1 = make && -d ~/.bin/git ]] ; then
         # rebuild and install git (from the latest release tag)
         (
