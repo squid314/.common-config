@@ -6,9 +6,8 @@ if ! type docker &>/dev/null && !type podman &>/dev/null ; then return ; fi
 # make sure to add all aspects of the command which are needed, like entrypoint overriding
 declare -A __contained_commands
 __contained_commands=(
-    [jq]="--entrypoint=/bin/jq     realguess/jq"
-    [yq]="--entrypoint=/usr/bin/yq mikefarah/yq"
-    [bat]="-t quay.io/squid314/devenv:bat"
+    [jq]="--entrypoint=/bin/jq realguess/jq"
+    [yq]="mikefarah/yq"
 )
 
 for c in "${!__contained_commands[@]}" ; do
