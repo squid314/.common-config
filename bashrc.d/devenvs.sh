@@ -17,11 +17,15 @@ dev() {
     case "$1" in
         f|fam|family)
             case "$2" in
-                c7|cent7|centos7)                      family=centos7 ;;
-                c|cent|centos|c8|cent8|centos8)        family=centos8 ;;
-                r7|rh7|rhel7|redhat7)                  family=redhat7 ;;
-                r|rh|rhel|redhat|r8|rh8|rhel8|redhat8) family=redhat8 ;;
-                d|deb|debian)                          family=debian ;;
+                c7|cent7|centos7)     family=centos7 ;;
+                c8|cent8|centos8)     family=centos8 ;;
+                c9|cent9|centos9)     family=centos9 ;;
+                c|cent|centos)        family=centos9 ;;
+                r7|rh7|rhel7|redhat7) family=redhat7 ;;
+                r8|rh8|rhel8|redhat8) family=redhat8 ;;
+                r9|rh9|rhel9|redhat9) family=redhat9 ;;
+                r|rh|rhel|redhat)     family=redhat9 ;;
+                d|deb|debian)         family=debian ;;
                 *) echo "Invalid family '$2'." ; return 1 ;;
             esac
             bset bashrc.d.devenvs.sh.family $family
