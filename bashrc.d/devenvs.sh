@@ -26,6 +26,7 @@ dev() {
                 r9|rh9|rhel9|redhat9) family=redhat9 ;;
                 r|rh|rhel|redhat)     family=redhat9 ;;
                 d|deb|debian)         family=debian ;;
+                "") echo "Current family: $(bget bashrc.d.devenvs.sh.family)" ; return 0 ;;
                 *) echo "Invalid family '$2'." ; return 1 ;;
             esac
             bset bashrc.d.devenvs.sh.family $family
