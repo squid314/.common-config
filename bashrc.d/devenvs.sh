@@ -31,11 +31,14 @@ dev() {
             esac
             bset bashrc.d.devenvs.sh.family $family
             ;;
-        check) __dev_cont pull quay.io/squid314/devenv:$tag ;;
+        pull) __dev_cont pull quay.io/squid314/devenv:$tag ;;
         start)
             if [[ "$(__dev_cont container ls -aqf name=devenv-$tag | wc -l)" -eq 1 ]] ; then
                 __dev_cont start devenv-$tag &>/dev/null
             else
+                if [[ -z "$(__dev_cont image ls -q quay.io/squid314/devenv:$tag)" ]] ; then
+                    __dev_cont image pull quay.io/squid314/devenv:$tag
+                fi
                 local dev devs=()
                 for dev in $(cd $HOME/dev 2>/dev/null && find * -type d -prune) ; do
                     if bconf "bashrc.d.devenvs.sh.devs.$dev=mount" ; then
