@@ -2,7 +2,6 @@
 
 if ! type docker &>/dev/null && ! type podman &>/dev/null ; then return ; fi
 
-
 # default to using docker if it is present
 if type docker &>/dev/null ; then
     __dev_cont() { docker "$@"; }
@@ -37,7 +36,7 @@ dev() {
                 __dev_cont start devenv-$tag &>/dev/null
             else
                 if [[ -z "$(__dev_cont image ls -q quay.io/squid314/devenv:$tag)" ]] ; then
-                    __dev_cont image pull quay.io/squid314/devenv:$tag
+                    __dev_cont image pull quay.io/squid314/devenv:$tag || return 1
                 fi
                 local dev devs=()
                 for dev in $(cd $HOME/dev 2>/dev/null && find * -type d -prune) ; do
@@ -67,10 +66,7 @@ dev() {
                 __dev_cont container rm -f devenv-$tag &>/dev/null
             fi
             ;;
-        clean)
-            dev stop
-            dev rm
-            ;;
+        clean) dev stop && dev rm ;;
         run)
             shift
             if [[ $# -eq 0 ]] ; then
@@ -81,9 +77,6 @@ dev() {
                 devenv-$tag \
                 "$@"
             ;;
-        *)
-            dev start
-            dev run "$@"
-            ;;
+        *) dev start && dev run "$@" ;;
     esac
 }
