@@ -6,7 +6,7 @@ confup() {
         git --work-tree="${CONFIG_ROOT}" \
             --git-dir="${CONFIG_ROOT}/.git" \
             reset --hard
-    fi
+    fi && \
     git --work-tree="${CONFIG_ROOT}" \
         --git-dir="${CONFIG_ROOT}/.git" \
         pull --ff-only \
