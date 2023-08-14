@@ -5,7 +5,7 @@ confup() {
     if [[ $* = -f ]] ; then
         git --work-tree="${CONFIG_ROOT}" \
             --git-dir="${CONFIG_ROOT}/.git" \
-            reset --hard
+            reset --hard @{upstream} # technically this may not always work, but if you run it a second time, it should
     fi && \
     git --work-tree="${CONFIG_ROOT}" \
         --git-dir="${CONFIG_ROOT}/.git" \
