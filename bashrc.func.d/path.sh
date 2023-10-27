@@ -35,7 +35,7 @@ path() {
         rm|remove|delete)
             for inc in "$@" ; do
                 # allow numeric values (would anyone use just a number as a path component?)
-                if [[ $inc -eq $inc ]] 2>&- ; then
+                if [ "$inc" -eq "$inc" ] 2>/dev/null ; then
                     unset p[$inc]
                 else
                     for pc in "${!p[@]}" ; do

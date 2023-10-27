@@ -6,7 +6,7 @@ __ps1_parts=(
     'PS1="$PS1$__ps1_bold_blue$__ps1_userhost$__ps1_reset "'
     # could separate these
     'PS1="$PS1$__ps1_bold_green\w$__git_ps1_value$__ps1_reset "'
-    'if [[ $__exit -eq 0 ]] ; then PS1="$PS1$__ps1_face_success " ; else PS1="$PS1$__ps1_face_failure " ; fi'
+    'if [ "$__exit" -eq 0 ] ; then PS1="$PS1$__ps1_face_success " ; else PS1="$PS1$__ps1_face_failure " ; fi'
     'PS1="$PS1${VIRTUAL_ENV+$__ps1_yellow#}"'
     'PS1="$PS1${__ps1_jobs+$__ps1_yellow&}"'
     'PS1="$PS1$__ps1_red\$$__ps1_reset "'
@@ -36,7 +36,7 @@ ps1() {
         insert|ins)
             inc="$1"
             pc="$2"
-            if ! [[ $inc -eq $inc ]] 2>&- ; then
+            if ! [ "$inc" -eq "$inc" ] 2>/dev/null ; then
                 printf 'error: %s: non-numeric index "%s"\n' "$0" "$cmd"
                 return 1
             fi
@@ -54,7 +54,7 @@ ps1() {
         rm|remove|delete)
             for inc in "$@" ; do
                 # allow numeric values
-                if [[ $inc -eq $inc ]] 2>&- ; then
+                if [ "$inc" -eq "$inc" ] 2>/dev/null ; then
                     unset __ps1_parts[$inc]
                 else
                     for pc in "${!__ps1_parts[@]}" ; do

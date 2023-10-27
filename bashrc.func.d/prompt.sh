@@ -30,7 +30,7 @@ prompt() {
         insert|ins)
             inc="$1"
             pc="$2"
-            if ! [[ $inc -eq $inc ]] 2>&- ; then
+            if ! [ "$inc" -eq "$inc" ] 2>/dev/null ; then
                 printf 'error: %s: non-numeric index "%s"\n' "$0" "$cmd"
                 return 1
             fi
@@ -48,7 +48,7 @@ prompt() {
         rm|remove|delete)
             for inc in "$@" ; do
                 # allow numeric values (would anyone use just a number as the command itself?)
-                if [[ $inc -eq $inc ]] 2>&- ; then
+                if [ "$inc" -eq "$inc" ] 2>/dev/null ; then
                     unset __prompt_commands[$inc]
                 else
                     for pc in "${!__prompt_commands[@]}" ; do
