@@ -10,6 +10,7 @@ alias li='ls -lashi'
 # let alias substitution occur after commands suppliment others
 alias sudo='sudo '
 alias xargs='xargs '
+alias caffeinate='caffeinate '
 
 # prefer vim over vi in all the things
 if type vim &>/dev/null ; then
