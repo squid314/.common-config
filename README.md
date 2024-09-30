@@ -15,6 +15,13 @@ If you want the ps1 prompt to only display the user name and not include the hos
 
     echo 'bashrc.ps1.userhost=useronly' >>~/.bashrc.conf
 
+# Things in this config dir
+
+* `bashrc.func.d`: directory of sourced scripts which create functions used for configuring bash itself (e.g., alias, ps1)
+* `bashrc.d`: directory of sourced scripts intended to create functions or configure setup based on if certain tools exist (e.g., tmux, java_home, git)
+* `zshrc.d`: *NEW* directory of autoload functions similar to `bashrc.d`
+* `bzshrc.d`: *NEW* directory of sourced scripts similar to `bashrc.d` which should be capable of being sourced into either `bash` or `zsh` and providing the desired functionality
+
 ## TODOs
 
 * [x] ~add script to copy everything from this repo to the user's home directory and replace any mandatory absolute paths with correct ones~
@@ -22,3 +29,7 @@ If you want the ps1 prompt to only display the user name and not include the hos
 * [x] ~add devenv setup for simple containers to house used development tools~
 * [ ] update `setup.sh` to support specific hash cloning. this would allow better `Containerfile`s
 * [ ] devenv to support podman
+* [ ] support zsh for all the things
+  * [ ] aliases
+  * [ ] functions
+  * [ ] config
