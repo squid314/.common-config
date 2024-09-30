@@ -53,7 +53,7 @@ setup() {
             curl -sL https://github.com/squid314/.common-config/archive/master.tar.gz | tar zx
             mv .common-config{-master,}
         fi
-        cp -f .common-config/.{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc} .
+        cp -f .common-config/.{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc,zshrc} .
         if [[ "$BASE_DIR" != "$HOME" ]] ; then
             sed -i "s;~;$BASE_DIR;g" .{bash{_profile,rc},git{config,ignore},inputrc,tmux.conf,vimrc}
         fi
